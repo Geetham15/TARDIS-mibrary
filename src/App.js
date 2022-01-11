@@ -1,7 +1,22 @@
 import "./App.css";
+import { useState, useEffect } from "react";
 
 function App() {
-  return <div className="App"></div>;
+  const [testMessage, setTestMessage] = useState();
+  const testing = async () => {
+    let response = await fetch("/api/bookList");
+    response = await response.json();
+    console.log(response);
+    setTestMessage(response);
+  };
+  useEffect(() => {
+    testing();
+  }, []);
+  return (
+    <div className="App">
+      <p>{testMessage}</p>
+    </div>
+  );
 }
 
 export default App;

@@ -3,6 +3,7 @@ import { useState } from "react";
 const AddBooks = () => {
   const [bookData, setBookData] = useState({
     comments: "",
+    condition: "",
   });
   const searchIsbn = async (e) => {
     e.preventDefault();
@@ -51,6 +52,7 @@ const AddBooks = () => {
     setBookData({
       comments: "",
       isbn: "",
+      condition: "",
     });
   };
   return (
@@ -117,7 +119,7 @@ const AddBooks = () => {
             type="text"
             id="subjects"
             name="subjects"
-            value={bookData.subjects.join(", ")}
+            value={bookData.subjects?.join(", ")}
             onChange={handleChange}
           />
           <label htmlFor="comments">Comments</label>
@@ -126,6 +128,14 @@ const AddBooks = () => {
             id="comments"
             name="comments"
             value={bookData.comments}
+            onChange={handleChange}
+          />
+          <label htmlFor="condition">Condition</label>
+          <input
+            type="text"
+            id="condition"
+            name="condition"
+            value={bookData.condition}
             onChange={handleChange}
           />
           <button type="submit" className="btn btn-block">

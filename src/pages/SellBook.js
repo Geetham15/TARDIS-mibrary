@@ -1,9 +1,11 @@
 import React from 'react'
-
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 function SellBook() {
     return (
         <div>
-            <h2>Sell-A-Book</h2>
+            <Header/>
+            <Footer/>
         </div>
     )
 }

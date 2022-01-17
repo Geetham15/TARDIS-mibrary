@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import LendBook from "./pages/LendBook";
 import TradeBook from "./pages/TradeBook";
 import SellBook from "./pages/SellBook";
+import NotFound from './pages/NotFound'
 import "./index.css";
 import App from "./App";
 
@@ -16,6 +17,7 @@ ReactDOM.render(
       <Route exact path='/lend-a-book' element={<LendBook/>}/>
       <Route exact path='/trade-a-book' element={<TradeBook/>}/>
       <Route exact path='/sell-a-book' element={<SellBook/>}/>
+      <Route path='*' element={<NotFound/>}/>
     </Routes>
       <App />
     </BrowserRouter>

@@ -12,7 +12,7 @@ const BookList = () => {
     const [books, setBooks ] = useState([])
     useEffect(()=>{
         async function getBooks (){
-            let fetchBook = await fetch('/api/bookList')
+            let fetchBook = await fetch('/api/bookLis')
             let bookList = await fetchBook.json()
             setBooks(bookList)
         }

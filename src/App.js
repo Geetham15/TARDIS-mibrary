@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CardList from "./components/CardList"
+import BookList from "./components/BookList";
 
 function App() {
   const [data, loadData] = useState();
@@ -14,9 +15,9 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <p>testMessage</p>
      <Header/>
      <CardList/>
+     <BookList />
      <Footer/>
 
 

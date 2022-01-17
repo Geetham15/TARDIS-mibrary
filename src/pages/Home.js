@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
+import AddBooks from '../components/AddBooks'
 function Home() {
     return (
         <div>
@@ -15,7 +16,7 @@ function Home() {
           <div className="border"><h6>Blog</h6> Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci facere accusamus obcaecati odit alias. Blanditiis iusto molestiae fugiat molestias odio neque, excepturi reiciendis error alias nihil in nemo odit eos?</div>
         </div>
       </section>
-      
+     <AddBooks/>
       <Footer/>
         </div>
     )

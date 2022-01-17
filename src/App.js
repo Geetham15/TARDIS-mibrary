@@ -1,6 +1,9 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import Layout from "./components/Layout";
+import Header from './components/Header'
+import Footer from './components/Footer'
+import CardList from "./components/CardList"
+
 function App() {
   const [data, loadData] = useState();
   const fetchData = async () => {
@@ -12,10 +15,15 @@ function App() {
   return (
     <div className="App">
       <p>testMessage</p>
-      <Layout>
-        
-      </Layout>
+     <Header/>
+     <CardList/>
+     <Footer/>
+
+
+
+
     </div>
+
   );
 }
 

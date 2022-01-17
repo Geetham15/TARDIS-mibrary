@@ -3,7 +3,7 @@ import { useState } from "react";
 const AddBooks = () => {
   const [bookData, setBookData] = useState({
     comments: "",
-    condition: "",
+    condition: "gently used",
   });
   const searchIsbn = async (e) => {
     e.preventDefault();
@@ -46,14 +46,35 @@ const AddBooks = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     let value = e.target.value;
+    if (name === "subjects") {
+      value = value.split(", ");
+    }
     setBookData({ ...bookData, [name]: value });
+  };
+  const handleRadioChange = (e) => {
+    setBookData({ ...bookData, condition: e.target.value });
   };
   const clearContents = () => {
     setBookData({
       comments: "",
       isbn: "",
-      condition: "",
+      condition: "gently used",
     });
+  };
+  const addToLibrary = async (e) => {
+    e.preventDefault();
+    // this will connect to user's database
+    console.log("added to database", bookData);
+    let response = await fetch("/api/addBook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...bookData,
+        authors: bookData.authors.name,
+        description: bookData.description.value,
+      }),
+    });
+    response = await response.json();
   };
   return (
     <div className="container">
@@ -73,7 +94,7 @@ const AddBooks = () => {
         </button>
       </form>
       {bookData.title && (
-        <form className="form-control">
+        <form className="form-control" onSubmit={addToLibrary}>
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -81,20 +102,22 @@ const AddBooks = () => {
             name="title"
             value={bookData.title}
             onChange={handleChange}
+            disabled
           />
           <label htmlFor="author">Author</label>
           <input
             type="text"
             id="author"
-            name="author"
+            name="authors"
             value={bookData.authors.name}
             onChange={handleChange}
+            required
           />
           <label htmlFor="pages">Pages</label>
           <input
             type="text"
             id="pages"
-            name="pages"
+            name="number_of_pages"
             value={bookData.number_of_pages}
             onChange={handleChange}
           />
@@ -114,7 +137,9 @@ const AddBooks = () => {
             value={bookData.physical_format}
             onChange={handleChange}
           />
-          <label htmlFor="subjects">Subjects</label>
+          <label htmlFor="subjects">
+            Subjects (separated by comma + space)
+          </label>
           <input
             type="text"
             id="subjects"
@@ -130,14 +155,36 @@ const AddBooks = () => {
             value={bookData.comments}
             onChange={handleChange}
           />
-          <label htmlFor="condition">Condition</label>
-          <input
-            type="text"
-            id="condition"
-            name="condition"
-            value={bookData.condition}
-            onChange={handleChange}
-          />
+          <label>Condition</label>
+          <div className="form-control-check">
+            <label htmlFor="new">new</label>
+            <input
+              type="radio"
+              id="new"
+              name="condition"
+              value="new"
+              checked={bookData.condition === "new" ? true : false}
+              onChange={handleRadioChange}
+            />
+            <label htmlFor="gently_used">gently used</label>
+            <input
+              type="radio"
+              id="gently_used"
+              name="condition"
+              value="gently used"
+              checked={bookData.condition === "gently used" ? true : false}
+              onChange={handleRadioChange}
+            />
+            <label htmlFor="old">old</label>
+            <input
+              type="radio"
+              id="old"
+              name="condition"
+              value="old"
+              checked={bookData.condition === "old" ? true : false}
+              onChange={handleRadioChange}
+            />
+          </div>
           <button type="submit" className="btn btn-block">
             Add to personal library
           </button>

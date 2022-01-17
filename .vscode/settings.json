@@ -24,7 +24,6 @@
   ],
   "editor.semanticHighlighting.enabled": true,
   "workbench.colorCustomizations": {
-    "activityBar.background": "#8d03038c",
     "terminal.background": "#000000",
     "terminal.foreground": "#CDD3DE",
     "terminalCursor.background": "#CDD3DE",

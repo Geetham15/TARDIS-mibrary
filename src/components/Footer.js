@@ -4,8 +4,7 @@ function Footer() {
   return (
     <div>
       <header
-        className="bg-gray-200 text-3xl font-bold  text-purple-400  p-2 flex  justify-between items-center w-full   text-center
-      bottom-0  "
+        className="bg-blue-400  p-2 items-center flex justify-around  "
       >
         <h1>Footer</h1>
       </header>

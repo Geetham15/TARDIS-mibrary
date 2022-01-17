@@ -1,12 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './pages/Home'
+import LendBook from "./pages/LendBook";
+import TradeBook from "./pages/TradeBook";
+import SellBook from "./pages/SellBook";
 import "./index.css";
 import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+    <Routes>
+      <Route exact path='/' element={<Home/>}/>
+      <Route exact path='/lend-a-book' element={<LendBook/>}/>
+      <Route exact path='/trade-a-book' element={<TradeBook/>}/>
+      <Route exact path='/sell-a-book' element={<SellBook/>}/>
+    </Routes>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

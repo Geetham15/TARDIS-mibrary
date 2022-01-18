@@ -1,5 +1,11 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+
+import Home from "./pages/Home";
+import LendBook from "./pages/LendBook";
+import TradeBook from "./pages/TradeBook";
+import SellBook from "./pages/SellBook";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CardList from "./components/CardList";
@@ -7,6 +13,7 @@ import Title from "./components/Title";
 import BookList from "./components/BookList";
 //import AddBooks from "./components/AddBooks";
 //import Search from "./components/Search";
+
 
 // import { Routes, Route,  } from "react-router-dom";
 // import LendBook from "./routes/LendBook";
@@ -23,6 +30,12 @@ function App() {
   }, []);
   return (
     <div className="App">
+
+      
+     
+     
+      
+
       <Header />
       <Title name="MiBrary" />
       <CardList />
@@ -38,6 +51,7 @@ function App() {
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes> */}
+
     </div>
   );
 }

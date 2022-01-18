@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import CardList from "./components/CardList";
 import Title from "./components/Title";
 import BookList from "./components/BookList";
+import AddBooks from "./components/AddBooks";
 
 // import { Routes, Route,  } from "react-router-dom";
 // import LendBook from "./routes/LendBook";
@@ -21,9 +22,8 @@ function App() {
   }, []);
   return (
     <div className="App">
-      
       <Header />
-      <Title name = "MiBrary"/>
+      <Title name="MiBrary" />
       <CardList />
       <BookList />
       <Footer />

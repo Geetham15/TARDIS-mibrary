@@ -18,12 +18,17 @@ const AddBooks = () => {
       setBookData({ ...bookData, isbn: "" });
       return;
     }
-    let author = await fetch(
-      `https://openlibrary.org${response.authors[0].key}.json`
-    );
-    author = await author.json();
-    response.authors = author;
-    console.log(author);
+    if (response.authors) {
+      let author = await fetch(
+        `https://openlibrary.org${response.authors[0].key}.json`
+      );
+      author = await author.json();
+      response.authors = author;
+      console.log(author);
+    } else {
+      response.authors = { name: "" };
+    }
+
     console.log(response);
     const {
       authors,
@@ -71,10 +76,12 @@ const AddBooks = () => {
       body: JSON.stringify({
         ...bookData,
         authors: bookData.authors.name,
-        description: bookData.description.value,
+        description: bookData.description?.value,
       }),
     });
     response = await response.json();
+    clearContents();
+    alert(response.title + " added to library");
   };
   return (
     <div className="container">

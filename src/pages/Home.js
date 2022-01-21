@@ -5,6 +5,7 @@ import CardList from '../components/CardList'
 import BookList from '../components/BookList'
 import AddBooks from '../components/AddBooks'
 import Title from '../components/Title'
+import Map from '../components/Map'
 
 function Home() {
     return (
@@ -15,6 +16,7 @@ function Home() {
       <CardList />
       <BookList />
       <AddBooks/>
+      <Map />
       <Footer />
         </div>
     )

@@ -38,8 +38,7 @@ function App() {
 
       <Header />
       <Title name="MiBrary" />
-      <CardList />
-      <BookList />
+
       <Footer />
 
       {/* <Routes>

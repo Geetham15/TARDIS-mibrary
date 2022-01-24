@@ -12,7 +12,9 @@ const BookList = () => {
   useEffect(() => {
     async function getBooks() {
       let fetchBook = await fetch("/api/bookList");
+      console.log(fetchBook);
       let bookList = await fetchBook.json();
+      console.log(bookList);
       setBooks(bookList);
     }
     getBooks();
@@ -26,7 +28,7 @@ const BookList = () => {
           <tr>
             <th>Book Title</th>
             <th>Author</th>
-            <th>Description</th>
+            <th>User id</th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +38,7 @@ const BookList = () => {
                 key={index}
                 title={book.title}
                 author={book.authors}
-                description={book.description ? book.description : ""}
+                user_id={book.user_id}
               />
             );
           })}

@@ -23,29 +23,25 @@ const AddBooks = () => {
         `https://openlibrary.org${response.authors[0].key}.json`
       );
       author = await author.json();
-      response.authors = author;
+      console.log(author);
+      response.authors = author.name;
+      if (!author.name) {
+        response.authors = author.personal_name;
+      }
       console.log(author);
     } else {
-      response.authors = { name: "" };
+      response.authors = "";
     }
 
     console.log(response);
-    const {
-      authors,
-      title,
-      number_of_pages,
-      description,
-      physical_format,
-      subjects,
-    } = response;
+    const { authors, title, physical_format, isbn_13, isbn_10 } = response;
     setBookData({
       ...bookData,
       authors,
       title,
-      number_of_pages,
-      description,
       physical_format,
-      subjects,
+      isbn_13: isbn_13 ? isbn_13[0] : null,
+      isbn_10: isbn_10 ? isbn_10[0] : null,
     });
   };
   const handleChange = (e) => {
@@ -75,8 +71,7 @@ const AddBooks = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...bookData,
-        authors: bookData.authors.name,
-        description: bookData.description?.value,
+        authors: bookData.authors,
       }),
     });
     response = await response.json();
@@ -116,26 +111,26 @@ const AddBooks = () => {
             type="text"
             id="author"
             name="authors"
-            value={bookData.authors.name}
+            value={bookData.authors}
             onChange={handleChange}
             required
           />
-          <label htmlFor="pages">Pages</label>
+          {/* <label htmlFor="pages">Pages</label>
           <input
             type="text"
             id="pages"
             name="number_of_pages"
             value={bookData.number_of_pages}
             onChange={handleChange}
-          />
-          <label htmlFor="description">Description</label>
+          /> */}
+          {/* <label htmlFor="description">Description</label>
           <textarea
             type="text"
             id="description"
             name="description"
             value={bookData.description?.value}
             onChange={handleChange}
-          />
+          /> */}
           <label htmlFor="binding">Binding</label>
           <input
             type="text"
@@ -144,7 +139,7 @@ const AddBooks = () => {
             value={bookData.physical_format}
             onChange={handleChange}
           />
-          <label htmlFor="subjects">
+          {/* <label htmlFor="subjects">
             Subjects (separated by comma + space)
           </label>
           <input
@@ -153,7 +148,7 @@ const AddBooks = () => {
             name="subjects"
             value={bookData.subjects?.join(", ")}
             onChange={handleChange}
-          />
+          /> */}
           <label htmlFor="comments">Comments</label>
           <input
             type="text"

@@ -26,10 +26,9 @@ const Search = () => {
     e.preventDefault();
     let response = await fetch(`/api/search/${entry}`);
     response = await response.json();
-    if (response) {
+    console.log(response);
+    if (response.length > 0) {
       setBookData(response);
-      let distance = Math.round(calculateHaversine(response.location));
-      setBookData({ ...bookData, distance: distance });
     } else {
       setBookData(null);
       alert("nothing found");
@@ -49,9 +48,16 @@ const Search = () => {
           Search
         </button>
       </form>
-      {bookData && (
-        <p className="task">{`${bookData.title} by ${bookData.authors} is ${bookData.distance}km away`}</p>
-      )}
+      {bookData &&
+        bookData.map((book, index) => {
+          return (
+            <p className="task">{`${book[1].value} by ${
+              book[2].value
+            } is ${Math.round(
+              calculateHaversine([book[10].value, book[11].value])
+            )} km away`}</p>
+          );
+        })}
     </div>
   );
 };

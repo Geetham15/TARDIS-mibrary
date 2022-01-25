@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-const BookRow = ({ title, author, description }) => (
+const BookRow = ({ title, author, user_id, condition, comments }) => (
   <tr>
     <td>{title}</td>
     <td>{author}</td>
-    <td>{description}</td>
+    <td>{user_id}</td>
+    <td>{condition}</td>
+    <td>{comments}</td>
   </tr>
 );
 const BookList = () => {
@@ -12,7 +14,6 @@ const BookList = () => {
   useEffect(() => {
     async function getBooks() {
       let fetchBook = await fetch("/api/bookList");
-      console.log(fetchBook);
       let bookList = await fetchBook.json();
       console.log(bookList);
       setBooks(bookList);
@@ -29,16 +30,20 @@ const BookList = () => {
             <th>Book Title</th>
             <th>Author</th>
             <th>User id</th>
+            <th>Condition</th>
+            <th>Comments</th>
           </tr>
         </thead>
         <tbody>
           {books.map((book, index) => {
             return (
               <BookRow
-                key={index}
-                title={book.title}
-                author={book.authors}
-                user_id={book.user_id}
+                key={book[0].value}
+                title={book[1].value}
+                author={book[2].value}
+                condition={book[6].value}
+                comments={book[7].value}
+                user_id={book[8].value}
               />
             );
           })}

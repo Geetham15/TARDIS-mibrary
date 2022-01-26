@@ -9,12 +9,15 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import "./index.css";
 import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/lend-a-book" element={<LendBook />} />
@@ -26,6 +29,7 @@ ReactDOM.render(
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
+    <Footer />
   </React.StrictMode>,
   document.getElementById("root")
 );

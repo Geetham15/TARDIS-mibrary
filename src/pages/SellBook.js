@@ -1,13 +1,6 @@
-import React from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import React from "react";
 function SellBook() {
-    return (
-        <div>
-            <Header/>
-            <Footer/>
-        </div>
-    )
+  return <div></div>;
 }
 
-export default SellBook
+export default SellBook;

@@ -5,26 +5,45 @@ import { NavLink } from "react-router-dom";
 import * as Yup from "yup";
 function SignUp() {
   const initialValues = {
-    name: "",
+    username: "",
     email: "",
+    postalCode: "",
     password: "",
     confirmPass: "",
   };
 
-  const onSubmit = (values) => {};
+  const onSubmit = async (values) => {
+    await new Promise((r) => setTimeout(r, 500));
+    //let formData = JSON.stringify(values, null, 2);
+    let locationData = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${values.postalCode}&key=AIzaSyARJm7VsKguXUUC7lE2ZhKc6Nr64L7zbxI`
+    );
+    locationData = await locationData.json();
+    locationData = locationData.results[0].geometry.location;
+    let response = await fetch("/api/createUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...values,
+        latitude: locationData.lat,
+        longitude: locationData.lng,
+      }),
+    });
+    response = await response.json();
+    console.log(response);
+  };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Please enter your name"),
+    username: Yup.string().required("Please enter your name"),
     email: Yup.string()
       .email("invalid email format")
       .required("Please enter a valid email address"),
+    postalCode: Yup.string().required("please enter a valid postal code"),
     password: Yup.string().required(
       "Please enter a password between 5 and 15 characters"
     ),
     confirmPass: Yup.string().required("password does not match"),
   });
-
-  console.log("Form Data", initialValues);
 
   return (
     <Formik
@@ -37,14 +56,34 @@ function SignUp() {
           <h1>Sign Up</h1>
         </div>
         <div className="">
-          <label htmlFor="name">Name</label>
-          <Field type="text" id="name" name="name" />
-          <ErrorMessage name="name" component={TextError} />
+          <label htmlFor="username">Username</label>
+          <Field
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Bob_Smith"
+          />
+          <ErrorMessage name="username" component={TextError} />
         </div>
         <div className="">
           <label htmlFor="email">Email</label>
-          <Field type="email" id="email" name="email" />
+          <Field
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your_email@gmail.com"
+          />
           <ErrorMessage name="email" component={TextError} />
+        </div>
+        <div className="">
+          <label htmlFor="postalCode">Postal Code</label>
+          <Field
+            type="postalCode"
+            id="postalCode"
+            name="postalCode"
+            placeholder="A1A 1A1"
+          />
+          <ErrorMessage name="postalCode" component={TextError} />
         </div>
         <div className="">
           <label htmlFor="password">Password</label>
@@ -70,17 +109,17 @@ function SignUp() {
         <div>
           <Field as="button" type="submit" value="Sign Up" />
           <button
-            type="button"
+            type="submit"
             className="bg-blue-500 rounded  flex flex-col justify-center items-center w-full my-5 px-20 float-right "
           >
-            <h1>Sign In</h1>
+            <h1>Sign up</h1>
           </button>
         </div>
         <div>
           <p className="float-left">Already have an account?</p>
           <Field as="button">
             <NavLink exact to="/login" className="bg-blue-500 rounded">
-              Login
+              Log in
             </NavLink>
           </Field>
         </div>

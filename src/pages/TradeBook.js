@@ -1,13 +1,10 @@
-import React from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import React from "react";
 function TradeBook() {
-    return (
-        <div>
-            <Header/>
-            <Footer/>
-        </div>
-    )
+  return (
+    <div>
+      <p>Insert somerthing here</p>
+    </div>
+  );
 }
 
-export default TradeBook
+export default TradeBook;

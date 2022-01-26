@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextError from "./TextError";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 function SignUp() {
   const initialValues = {
@@ -12,9 +12,15 @@ function SignUp() {
     confirmPass: "",
   };
 
+  const navigate = useNavigate();
+
   const onSubmit = async (values) => {
     await new Promise((r) => setTimeout(r, 500));
-    //let formData = JSON.stringify(values, null, 2);
+    let postalCode = values.postalCode.replace(" ", "");
+    if (!postalCode.match(/[A-Z][0-9][A-Z][0-9][A-Z][0-9]/)) {
+      alert("please enter a valid postal code");
+      return;
+    }
     let locationData = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${values.postalCode}&key=AIzaSyARJm7VsKguXUUC7lE2ZhKc6Nr64L7zbxI`
     );
@@ -30,7 +36,12 @@ function SignUp() {
       }),
     });
     response = await response.json();
-    console.log(response);
+    alert(response.message);
+    if (response.success) {
+      navigate("/login");
+    } else {
+      navigate("/signup");
+    }
   };
 
   const validationSchema = Yup.object({

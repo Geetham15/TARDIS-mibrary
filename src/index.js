@@ -5,6 +5,9 @@ import Home from "./pages/Home";
 import LendBook from "./pages/LendBook";
 import TradeBook from "./pages/TradeBook";
 import SellBook from "./pages/SellBook";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import "./index.css";
 import App from "./App";
@@ -17,9 +20,11 @@ ReactDOM.render(
         <Route exact path="/lend-a-book" element={<LendBook />} />
         <Route exact path="/trade-a-book" element={<TradeBook />} />
         <Route exact path="/sell-a-book" element={<SellBook />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<SignUp />} />
+        <Route exact path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {/* <App /> */}
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

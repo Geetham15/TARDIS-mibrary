@@ -10,7 +10,15 @@ function LoginForm() {
     password: "",
   };
 
-  const onSubmit = (values) => {};
+  const onSubmit = async (values) => {
+    await new Promise((r) => setTimeout(r, 500));
+    let response = await fetch("/api/logIn", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    response = await response.json();
+  };
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -57,7 +65,7 @@ function LoginForm() {
         <div>
           <Field as="button" type="submit" value="Login" />
           <button
-            type="button"
+            type="submit"
             className="bg-blue-500 rounded  m-10 w-full flex flex-col justify-center items-center "
           >
             <h1>Sign In</h1>

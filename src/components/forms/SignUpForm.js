@@ -119,20 +119,15 @@ function SignUp() {
 
         <div>
           <Field as="button" type="submit" value="Sign Up" />
-          <button
-            type="submit"
-            className="bg-blue-500 rounded  flex flex-col justify-center items-center w-full my-5 px-20 float-right "
-          >
+          <button type="submit" className="btn btn-block">
             <h1>Sign up</h1>
           </button>
         </div>
         <div>
           <p className="float-left">Already have an account?</p>
-          <Field as="button">
-            <NavLink exact to="/login" className="bg-blue-500 rounded">
-              Log in
-            </NavLink>
-          </Field>
+          <NavLink exact to="/login" className="bg-blue-500 rounded">
+            <button>Log in</button>
+          </NavLink>
         </div>
       </Form>
     </Formik>

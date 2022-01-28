@@ -13,7 +13,7 @@ function Home() {
       <CardList />
       {/* <BookList /> */}
       {/* <Map /> */}
-      <Search />
+      {/* <Search /> */}
     </div>
   );
 }

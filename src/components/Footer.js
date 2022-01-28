@@ -5,6 +5,7 @@ function Footer() {
     <div>
       <header
         className="bg-blue-400  p-2 items-center flex justify-around  "
+        style={{ position: "fixed", bottom: "0", width: "100%" }}
       >
         <h1>Footer</h1>
       </header>

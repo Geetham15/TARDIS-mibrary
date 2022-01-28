@@ -64,19 +64,13 @@ function LoginForm() {
         </div>
         <div>
           <Field as="button" type="submit" value="Login" />
-          <button
-            type="submit"
-            className="bg-blue-500 rounded  m-10 w-full flex flex-col justify-center items-center "
-          >
-            <h1>Sign In</h1>
+          <button type="submit" className="btn btn-block">
+            <h1>Log in</h1>
           </button>
-
+          <p>Don't have an account?</p>
           <NavLink exact to="/signup">
-            <button
-              type="button"
-              className="bg-blue-500 rounded w-full  m-10 flex flex-col justify-center items-center"
-            >
-              <h1>Get Started</h1>
+            <button type="button" className="btn btn-block">
+              <h1>Sign up</h1>
             </button>
           </NavLink>
         </div>

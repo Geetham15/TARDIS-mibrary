@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHome, faBars } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import AuthenticationContext from "../AuthenticationContext";
+import MustBeLoggedIn from "./MustBeLoggedIn";
 
 function Header() {
+  const authContext = useContext(AuthenticationContext)
   return (
     <>
       <div style={{ marginBottom: 50 }}>
@@ -39,12 +42,24 @@ function Header() {
           </NavLink> */}
 
           <div>
+          {authContext.username && <p> Hello {authContext.username}!</p>}
+          
+          <MustBeLoggedIn>
+              <NavLink exact to="/logout">
+              <button className="hover:bg-white rounded p-2 m-2" onClick={authContext.logOut}>LogOut</button>
+              </NavLink>
+            </MustBeLoggedIn>
+          {!authContext.username && (
             <NavLink exact to="/login">
               <button className="hover:bg-white rounded p-2 m-2">Login</button>
             </NavLink>
+          )}
+
+            {!authContext.username && (
             <NavLink exact to="./signup">
               <button className="hover:bg-white rounded p-2 m-2">SignUp</button>
             </NavLink>
+            )}
             <NavLink exact to="./userDashboard">
               <FontAwesomeIcon
                 icon={faUser}

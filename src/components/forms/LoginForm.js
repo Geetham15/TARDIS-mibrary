@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useContext, useState} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import TextError from "./TextError";
 import * as Yup from "yup";
 import "./LoginForm.css";
+import AuthenticationContext from "../../AuthenticationContext";
+
 function LoginForm() {
+
   const initialValues = {
     email: "",
     password: "",
   };
+  const [loginError, setLoginError] = useState('')
+  const authContext = useContext(AuthenticationContext)
+  const navigate = useNavigate()
 
   const onSubmit = async (values) => {
     await new Promise((r) => setTimeout(r, 500));
@@ -18,6 +24,18 @@ function LoginForm() {
       body: JSON.stringify(values),
     });
     response = await response.json();
+    console.log(`${response.userId} - ${response.username} is logged in user`)
+
+    if (response.message === 'success'){
+
+      authContext.logIn(response.username, response.userId)
+      window.sessionStorage.setItem('user_id', response.userId)
+      window.sessionStorage.setItem('username',response.username)
+      setLoginError('')
+      navigate('/addBooks')
+    }else{
+      setLoginError('Login Failed!')
+    }
   };
 
   const validationSchema = Yup.object({

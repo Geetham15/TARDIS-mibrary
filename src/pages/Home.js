@@ -7,15 +7,15 @@ import Map from "../components/Map";
 import Search from "../components/Search.js";
 
 function Home() {
-  return (
-    <div>
-      <Title name="MiBrary" />
-      <CardList />
-      {/* <BookList /> */}
-      {/* <Map /> */}
-      {/* <Search /> */}
-    </div>
-  );
+    return (
+        <div>
+            <Title name="MiBrary" />
+            <CardList />
+            {/* <BookList /> */}
+            {/* <Map /> */}
+            {/* <Search /> */}
+        </div>
+    );
 }
 
 export default Home;

@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 
 const AddBooks = () => {
-  const authContext = useContext(AuthenticationContext)
+  const authContext = useContext(AuthenticationContext);
   const [bookData, setBookData] = useState({
     comments: "",
     condition: "gently used",
@@ -74,7 +74,7 @@ const AddBooks = () => {
       body: JSON.stringify({
         ...bookData,
         authors: bookData.authors,
-        user_id: authContext.userId
+        user_id: authContext.userId,
       }),
     });
     response = await response.json();
@@ -107,7 +107,6 @@ const AddBooks = () => {
             name="title"
             value={bookData.title}
             onChange={handleChange}
-            disabled
           />
           <label htmlFor="author">Author</label>
           <input

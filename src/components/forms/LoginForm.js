@@ -26,9 +26,16 @@ function LoginForm() {
     console.log(`${response.userId} - ${response.username} is logged in user`);
 
     if (response.message === "success") {
-      authContext.logIn(response.username, response.userId);
+      authContext.logIn(
+        response.username,
+        response.userId,
+        response.latitude,
+        response.longitude
+      );
       window.sessionStorage.setItem("user_id", response.userId);
       window.sessionStorage.setItem("username", response.username);
+      window.sessionStorage.setItem("latitude", response.latitude);
+      window.sessionStorage.setItem("longitude", response.longitude);
       setLoginError("");
       navigate("/userDashboard");
     } else {

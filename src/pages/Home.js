@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import CardList from "../components/CardList";
 import BookList from "../components/BookList";
 import AddBooks from "../components/AddBooks";
@@ -7,10 +7,19 @@ import Map from "../components/Map";
 import Search from "../components/Search.js";
 
 function Home() {
+  const [entry, setEntry] = useState("");
+  const [bookData, setBookData] = useState(null);
   return (
-    <div>
+    <div className="container">
       <Title name="MiBrary" />
-      <CardList />
+      <Search
+        entry={entry}
+        setEntry={setEntry}
+        bookData={bookData}
+        setBookData={setBookData}
+      />
+      <Map bookData={bookData} />
+      {/* <CardList /> */}
       {/* <BookList /> */}
       {/* <Map /> */}
       {/* <Search /> */}

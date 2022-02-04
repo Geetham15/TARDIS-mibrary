@@ -14,13 +14,12 @@ const BookRow = ({ id, title, author, condition, comments, deleteBook }) => (
     </td>
   </tr>
 );
-const UserBooks = () => {
+const UserBooks = ({ books, setBooks }) => {
   const authContext = useContext(AuthenticationContext);
-  const [books, setBooks] = useState([]);
   async function deleteBook(id) {
     setBooks(() => {
       let newBooks = books.filter((book) => {
-        return book[0].value !== id;
+        return book.id !== id;
       });
       return newBooks;
     });
@@ -62,12 +61,12 @@ const UserBooks = () => {
           {books.map((book) => {
             return (
               <BookRow
-                key={book[0].value}
-                id={book[0].value}
-                title={book[1].value}
-                author={book[2].value}
-                condition={book[6].value}
-                comments={book[7].value}
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                author={book.author}
+                condition={book.condition}
+                comments={book.comments}
                 deleteBook={deleteBook}
               />
             );

@@ -1,12 +1,8 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 
-const AddBooks = () => {
+const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
   const authContext = useContext(AuthenticationContext);
-  const [bookData, setBookData] = useState({
-    comments: "",
-    condition: "gently used",
-  });
   const searchIsbn = async (e) => {
     e.preventDefault();
     let response = await fetch(
@@ -78,6 +74,8 @@ const AddBooks = () => {
       }),
     });
     response = await response.json();
+    setBookData({ ...bookData, id: response.id });
+    setBooks([...books, bookData]);
     clearContents();
     alert(response.title + " added to library");
   };

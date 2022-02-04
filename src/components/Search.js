@@ -1,8 +1,9 @@
-import { useState } from "react";
-const Search = () => {
-  const [entry, setEntry] = useState("");
-  const [bookData, setBookData] = useState(null);
-  const currentLocation = [50.89936444465098, -114.02898163766635];
+import { useContext } from "react";
+import AuthenticationContext from "../AuthenticationContext";
+const Search = ({ entry, setEntry, bookData, setBookData }) => {
+  const authContext = useContext(AuthenticationContext);
+
+  const currentLocation = [authContext.latitude, authContext.longitude];
   const calculateHaversine = (coordinates) => {
     let lat2 = (coordinates[0] * Math.PI) / 180;
     let lat1 = (currentLocation[0] * Math.PI) / 180;
@@ -35,7 +36,7 @@ const Search = () => {
     }
   };
   return (
-    <div className="container">
+    <div>
       <form className="form-control" onSubmit={onSearch}>
         <input
           type="text"
@@ -51,10 +52,10 @@ const Search = () => {
       {bookData &&
         bookData.map((book, index) => {
           return (
-            <p className="task">{`${book[1].value} by ${
-              book[2].value
+            <p className="task">{`${book.title} by ${
+              book.authors
             } is ${Math.round(
-              calculateHaversine([book[10].value, book[11].value])
+              calculateHaversine([book.latitude, book.longitude])
             )} km away`}</p>
           );
         })}

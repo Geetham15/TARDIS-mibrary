@@ -49,7 +49,7 @@ const Search = ({ entry, setEntry, bookData, setBookData }) => {
           Search
         </button>
       </form>
-      {bookData &&
+      {/* {bookData &&
         bookData.map((book, index) => {
           return (
             <p className="task">{`${book.title} by ${
@@ -58,7 +58,7 @@ const Search = ({ entry, setEntry, bookData, setBookData }) => {
               calculateHaversine([book.latitude, book.longitude])
             )} km away`}</p>
           );
-        })}
+        })} */}
     </div>
   );
 };

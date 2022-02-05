@@ -7,6 +7,7 @@ import Map from "../components/Map";
 import Search from "../components/Search.js";
 
 function Home() {
+
   const [entry, setEntry] = useState("");
   const [bookData, setBookData] = useState(null);
   return (
@@ -25,6 +26,7 @@ function Home() {
       {/* <Search /> */}
     </div>
   );
+
 }
 
 export default Home;

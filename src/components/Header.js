@@ -6,12 +6,13 @@ import AuthenticationContext from "../AuthenticationContext";
 import MustBeLoggedIn from "./MustBeLoggedIn";
 
 function Header() {
-    const authContext = useContext(AuthenticationContext);
-    return (
-        <>
-            <div style={{ marginBottom: 50 }}>
-                <header className="bg-blue-400  p-2 items-center flex justify-around  ">
-                    {/* <h1 className="text-center">MiBrary Book Exchange App</h1> */}
+  const authContext = useContext(AuthenticationContext);
+  return (
+    <>
+      <div style={{ marginBottom: 50 }}>
+        <header className="bg-blue-400  p-2 items-center flex justify-around  ">
+          {/* <h1 className="text-center">MiBrary Book Exchange App</h1> */}
+
 
                     {/* Logo goes here link to home */}
                     <FontAwesomeIcon
@@ -50,48 +51,48 @@ function Header() {
             Buy/Sell-A-Book
           </NavLink> */}
 
-                    <div>
-                        {authContext.username && (
-                            <p> Hello {authContext.username}!</p>
-                        )}
 
-                        <MustBeLoggedIn>
-                            <NavLink exact to="/logout">
-                                <button
-                                    className="hover:bg-white rounded p-2 m-2"
-                                    onClick={authContext.logOut}
-                                >
-                                    LogOut
-                                </button>
-                            </NavLink>
-                        </MustBeLoggedIn>
-                        {!authContext.username && (
-                            <NavLink exact to="/login">
-                                <button className="hover:bg-white rounded p-2 m-2">
-                                    Login
-                                </button>
-                            </NavLink>
-                        )}
+          <div>
+            <MustBeLoggedIn>
+              <NavLink exact to="/logout">
+                <button
+                  className="hover:bg-white rounded p-2 m-2"
+                  onClick={authContext.logOut}
+                >
+                  LogOut
+                </button>
+              </NavLink>
+            </MustBeLoggedIn>
+            {!authContext.username ? (
+              <NavLink exact to="/login">
+                <button className="hover:bg-white rounded p-2 m-2">
+                  Login
+                </button>
+              </NavLink>
+            ) : (
+              <p> Hello {authContext.username}!</p>
+            )}
 
-                        {!authContext.username && (
-                            <NavLink exact to="./signup">
-                                <button className="hover:bg-white rounded p-2 m-2">
-                                    SignUp
-                                </button>
-                            </NavLink>
-                        )}
-                        <NavLink exact to="./userDashboard">
-                            <FontAwesomeIcon
-                                icon={faUser}
-                                className="  flex absolute top-2 right-10 mb-3 mt-1  text-5xl items-center "
-                                cursor="pointer"
-                            />
-                        </NavLink>
-                    </div>
-                </header>
-            </div>
-        </>
-    );
+            {!authContext.username && (
+              <NavLink exact to="./signup">
+                <button className="hover:bg-white rounded p-2 m-2">
+                  SignUp
+                </button>
+              </NavLink>
+            )}
+            <NavLink exact to="./userDashboard">
+              <FontAwesomeIcon
+                icon={faUser}
+                className="  flex absolute top-2 right-10 mb-3 mt-1  text-5xl items-center "
+                cursor="pointer"
+              />
+            </NavLink>
+          </div>
+        </header>
+      </div>
+    </>
+  );
+
 }
 
 export default Header;

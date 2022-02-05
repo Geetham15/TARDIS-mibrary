@@ -1,12 +1,8 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 
-const AddBooks = () => {
-  const authContext = useContext(AuthenticationContext)
-  const [bookData, setBookData] = useState({
-    comments: "",
-    condition: "gently used",
-  });
+const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
+  const authContext = useContext(AuthenticationContext);
   const searchIsbn = async (e) => {
     e.preventDefault();
     let response = await fetch(
@@ -74,10 +70,12 @@ const AddBooks = () => {
       body: JSON.stringify({
         ...bookData,
         authors: bookData.authors,
-        user_id: authContext.userId
+        user_id: authContext.userId,
       }),
     });
     response = await response.json();
+    setBookData({ ...bookData, id: response.id });
+    setBooks([...books, bookData]);
     clearContents();
     alert(response.title + " added to library");
   };
@@ -107,7 +105,6 @@ const AddBooks = () => {
             name="title"
             value={bookData.title}
             onChange={handleChange}
-            disabled
           />
           <label htmlFor="author">Author</label>
           <input

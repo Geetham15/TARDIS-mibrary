@@ -1,9 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import ReactMapGL, { Marker, Popup, NavigationControl } from "react-map-gl";
-import {
-  faArrowAltCircleDown,
-  faHome,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBook, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthenticationContext from "../AuthenticationContext";
 
@@ -12,15 +9,15 @@ const navControlStyle = {
   top: 10,
 };
 const Map = ({ bookData }) => {
+  const authContext = useContext(AuthenticationContext);
+
   const [viewport, setViewport] = useState({
-    latitude: 51.101948,
-    longitude: -114.138359,
+    latitude: authContext.latitude,
+    longitude: authContext.longitude,
     width: "50vw",
     height: "50vh",
     zoom: 10,
   });
-
-  const authContext = useContext(AuthenticationContext);
 
   const [selectedBook, setSelectedBook] = useState(null);
 
@@ -62,7 +59,7 @@ const Map = ({ bookData }) => {
                   setSelectedBook(book);
                 }}
               >
-                <FontAwesomeIcon icon={faArrowAltCircleDown} cursor="pointer" />
+                <FontAwesomeIcon icon={faBook} cursor="pointer" />
                 {/* <img
                   src="/images/book2.jpeg"
                   style={{ height: "20px", width: "20px" }}
@@ -71,7 +68,7 @@ const Map = ({ bookData }) => {
               </button>
             </Marker>
           ))}
-        {/* <Marker
+        <Marker
           latitude={authContext.latitude}
           longitude={authContext.longitude}
         >
@@ -80,9 +77,9 @@ const Map = ({ bookData }) => {
               e.preventDefault();
             }}
           >
-            <FontAwesomeIcon icon={faArrowAltCircleDown} cursor="pointer" />
+            <FontAwesomeIcon icon={faHome} cursor="pointer" />
           </button>
-        </Marker> */}
+        </Marker>
 
         {selectedBook ? (
           <Popup
@@ -93,7 +90,8 @@ const Map = ({ bookData }) => {
             }}
           >
             <div>
-              <h4>{selectedBook.title}</h4>
+              <p>{selectedBook.title}</p>
+              <p>{selectedBook.authors}</p>
             </div>
           </Popup>
         ) : null}

@@ -33,6 +33,7 @@ const Map = ({ bookData }) => {
       window.removeEventListener("keydown", listener);
     };
   }, []);
+
   return (
     <div>
       <ReactMapGL

@@ -13,35 +13,34 @@ function Header() {
         <header className="bg-blue-400  p-2 items-center flex justify-around  ">
           {/* <h1 className="text-center">MiBrary Book Exchange App</h1> */}
 
+          {/* Logo goes here link to home */}
+          <FontAwesomeIcon
+            icon={faBars}
+            className="  flex absolute top-2 mb-3 mt-1 left-10 text-5xl items-center "
+            cursor="pointer"
+          />
+          <NavLink exact to="/">
+            <FontAwesomeIcon
+              icon={faHome}
+              className="  flex absolute top-2 mb-3 mt-1 left-21 text-5xl items-center "
+            />
+          </NavLink>
 
-                    {/* Logo goes here link to home */}
-                    <FontAwesomeIcon
-                        icon={faBars}
-                        className="  flex absolute top-2 mb-3 mt-1 left-10 text-5xl items-center "
-                        cursor="pointer"
-                    />
-                    <NavLink exact to="/">
-                        <FontAwesomeIcon
-                            icon={faHome}
-                            className="  flex absolute top-2 mb-3 mt-1 left-21 text-5xl items-center "
-                        />
-                    </NavLink>
+          <NavLink exact to="/about">
+            <button className="flex absolute top-2 mb-3 mt-1 right-20  hover:bg-white rounded p-2 m-2">
+              About
+            </button>
 
-                    <NavLink exact to="/about">
-                        <button className="flex absolute top-2 mb-3 mt-1 right-20  hover:bg-white rounded p-2 m-2">
-                            About
-                        </button>
+            {/* className="  flex absolute top-2 mb-3 mt-1 left-30 text-5xl items-center " */}
+          </NavLink>
 
-                        {/* className="  flex absolute top-2 mb-3 mt-1 left-30 text-5xl items-center " */}
-                    </NavLink>
-
-                    <h1
-                        className="flex absolute top-2 mb-3 mt-1 left-50 text-5xl items-center"
-                        style={{ fontSize: 40 }}
-                    >
-                        Mibrary
-                    </h1>
-                    {/* <NavLink exact to="/lend-a-book">
+          <h1
+            className="flex absolute top-2 mb-3 mt-1 left-50 text-5xl items-center"
+            style={{ fontSize: 40 }}
+          >
+            Mibrary
+          </h1>
+          {/* <NavLink exact to="/lend-a-book">
             Lend-A-Book
           </NavLink>
           <NavLink exact to="/trade-a-book">
@@ -50,7 +49,6 @@ function Header() {
           <NavLink exact to="/sell-a-book">
             Buy/Sell-A-Book
           </NavLink> */}
-
 
           <div>
             <MustBeLoggedIn>
@@ -80,19 +78,20 @@ function Header() {
                 </button>
               </NavLink>
             )}
-            <NavLink exact to="./userDashboard">
-              <FontAwesomeIcon
-                icon={faUser}
-                className="  flex absolute top-2 right-10 mb-3 mt-1  text-5xl items-center "
-                cursor="pointer"
-              />
-            </NavLink>
+            <MustBeLoggedIn>
+              <NavLink exact to="./userDashboard">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="  flex absolute top-2 right-10 mb-3 mt-1  text-5xl items-center "
+                  cursor="pointer"
+                />
+              </NavLink>
+            </MustBeLoggedIn>
           </div>
         </header>
       </div>
     </>
   );
-
 }
 
 export default Header;

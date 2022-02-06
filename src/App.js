@@ -1,17 +1,58 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useContext } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
+import UserDashboard from "./pages/UserDashboard";
+import AddBooks from "./components/AddBooks";
+import NotFound from "./pages/NotFound";
+import { Routes, Route } from "react-router-dom";
+import AuthenticationContext from "./AuthenticationContext";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
-  const [data, loadData] = useState();
-  const fetchData = async () => {
-    // load data here (fetch)
-  };
+  const [bookData, setBookData] = useState([]);
+  const [books, setBooks] = useState([]);
+  const authContext = useContext(AuthenticationContext);
   useEffect(() => {
-    fetchData();
+    async function getBooks() {
+      let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
+      let bookList = await fetchBook.json();
+      console.log(bookList);
+      setBooks(bookList);
+    }
+    if (authContext.userId) {
+      getBooks();
+    }
   }, []);
-  return <div className="App"></div>;
+
+  return (
+    <div>
+      <Header />
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={<Home bookData={bookData} setBookData={setBookData} />}
+        />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<SignUp />} />
+        <Route exact path="/forgotpassword" element={<ForgotPassword />} />
+        <Route
+          exact
+          path="/userDashboard"
+          element={<UserDashboard books={books} setBooks={setBooks} />}
+        />
+        <Route exact path="/addBooks" element={<AddBooks />} />
+        <Route exact path="about" element={<LandingPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
+    </div>
+  );
 }
 
 export default App;

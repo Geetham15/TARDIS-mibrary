@@ -116,9 +116,6 @@ function LandingPage() {
                     </p>
                 </p>
             </div>
-            <div class="footer">
-                <p>2022 © MiBrary</p>
-            </div>
         </div>
     );
 }

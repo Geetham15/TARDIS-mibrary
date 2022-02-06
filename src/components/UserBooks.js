@@ -1,5 +1,5 @@
-import { useEffect, useState, useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext";
+import { useContext } from "react";
 
 const BookRow = ({ id, title, author, condition, comments, deleteBook }) => (
   <tr>
@@ -26,7 +26,7 @@ const UserBooks = ({ books, setBooks }) => {
     let response = await fetch("/api/deleteBook", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ id, userId: authContext.userId }),
     });
     response = await response.json();
     if (response) {
@@ -35,16 +35,6 @@ const UserBooks = ({ books, setBooks }) => {
       alert("something went wrong");
     }
   }
-
-  useEffect(() => {
-    async function getBooks() {
-      let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
-      let bookList = await fetchBook.json();
-      console.log(bookList);
-      setBooks(bookList);
-    }
-    getBooks();
-  }, []);
 
   return (
     <div className="container">

@@ -14,7 +14,7 @@ const Map = ({ bookData }) => {
   const [viewport, setViewport] = useState({
     latitude: authContext.latitude,
     longitude: authContext.longitude,
-    width: "50vw",
+    width: "35vw",
     height: "50vh",
     zoom: 10,
   });
@@ -33,6 +33,7 @@ const Map = ({ bookData }) => {
       window.removeEventListener("keydown", listener);
     };
   }, []);
+
   return (
     <div>
       <ReactMapGL

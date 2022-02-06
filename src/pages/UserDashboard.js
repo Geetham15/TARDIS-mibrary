@@ -3,12 +3,11 @@ import { useContext, useState } from "react";
 import UserBooks from "../components/UserBooks.js";
 import AddBooks from "../components/AddBooks";
 
-const UserDashboard = () => {
+const UserDashboard = ({ books, setBooks }) => {
   const [bookData, setBookData] = useState({
     comments: "",
     condition: "gently used",
   });
-  const [books, setBooks] = useState([]);
   return (
     <div>
       <UserBooks books={books} setBooks={setBooks} />

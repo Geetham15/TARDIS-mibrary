@@ -23,23 +23,13 @@ function LoginForm() {
       body: JSON.stringify(values),
     });
     response = await response.json();
-    console.log(`${response.userId} - ${response.username} is logged in user`);
-
     if (response.message === "success") {
-      authContext.logIn(
-        response.username,
-        response.userId,
-        response.latitude,
-        response.longitude
-      );
-      window.sessionStorage.setItem("user_id", response.userId);
-      window.sessionStorage.setItem("username", response.username);
-      window.sessionStorage.setItem("latitude", response.latitude);
-      window.sessionStorage.setItem("longitude", response.longitude);
+      await authContext.setLoggedIn();
       setLoginError("");
-      navigate("/userDashboard");
+      navigate("/");
     } else {
       setLoginError("Login Failed!");
+      alert("login failed");
     }
   };
 
@@ -51,8 +41,6 @@ function LoginForm() {
       "Please enter a password between 5 and 15 characters"
     ),
   });
-
-  console.log("Form Data", initialValues);
 
   return (
     <Formik

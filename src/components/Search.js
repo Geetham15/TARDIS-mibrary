@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthenticationContext from "../AuthenticationContext";
-const Search = ({ entry, setEntry, bookData, setBookData }) => {
+const Search = ({ bookData, setBookData }) => {
   const authContext = useContext(AuthenticationContext);
-
+  const [entry, setEntry] = useState("");
   const currentLocation = [authContext.latitude, authContext.longitude];
   const calculateHaversine = (coordinates) => {
     let lat2 = (coordinates[0] * Math.PI) / 180;
@@ -40,6 +40,7 @@ const Search = ({ entry, setEntry, bookData, setBookData }) => {
       <form className="form-control" onSubmit={onSearch}>
         <input
           type="text"
+          style={{ width: "100%", fontSize: 17 }}
           placeholder="search for a book"
           value={entry}
           onChange={(e) => setEntry(e.target.value)}

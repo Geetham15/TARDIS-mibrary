@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthenticationContext from "./AuthenticationContext";
 
 const AuthenticationProvider = ({ children }) => {
@@ -6,6 +7,7 @@ const AuthenticationProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+  const navigate = useNavigate();
   const logOut = async () => {
     setUsername("");
     setUserId("");
@@ -14,6 +16,7 @@ const AuthenticationProvider = ({ children }) => {
     let response = await fetch("/api/logOut");
     response = await response.json();
     console.log(response.message);
+    navigate("/");
   };
 
   async function setLoggedIn() {

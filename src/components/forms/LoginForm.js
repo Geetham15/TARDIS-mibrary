@@ -23,11 +23,10 @@ function LoginForm() {
       body: JSON.stringify(values),
     });
     response = await response.json();
-
     if (response.message === "success") {
-      await authContext.setLoggedin();
+      await authContext.setLoggedIn();
       setLoginError("");
-      navigate("/userDashboard");
+      navigate("/");
     } else {
       setLoginError("Login Failed!");
       alert("login failed");
@@ -42,8 +41,6 @@ function LoginForm() {
       "Please enter a password between 5 and 15 characters"
     ),
   });
-
-  console.log("Form Data", initialValues);
 
   return (
     <Formik

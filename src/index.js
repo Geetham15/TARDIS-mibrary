@@ -20,23 +20,23 @@ import AddBooks from "./components/AddBooks";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-    <AuthenticationProvider>
-      <Header />     
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/lend-a-book" element={<LendBook />} />
-        <Route exact path="/trade-a-book" element={<TradeBook />} />
-        <Route exact path="/sell-a-book" element={<SellBook />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup" element={<SignUp />} />
-        <Route exact path="/forgotpassword" element={<ForgotPassword />} />
-        <Route exact path="/userDashboard" element={<UserDashboard />} />
-        <Route exact path="/addBooks" element={<AddBooks />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AuthenticationProvider>
+        <Header />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/lend-a-book" element={<LendBook />} />
+          <Route exact path="/trade-a-book" element={<TradeBook />} />
+          <Route exact path="/sell-a-book" element={<SellBook />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<SignUp />} />
+          <Route exact path="/forgotpassword" element={<ForgotPassword />} />
+          <Route exact path="/userDashboard" element={<UserDashboard />} />
+          <Route exact path="/addBooks" element={<AddBooks />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
       </AuthenticationProvider>
     </BrowserRouter>
-    <Footer />
   </React.StrictMode>,
   document.getElementById("root")
 );

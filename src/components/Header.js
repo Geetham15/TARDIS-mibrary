@@ -61,7 +61,7 @@ function Header() {
                 </button>
               </NavLink>
             </MustBeLoggedIn>
-            {!authContext.username ? (
+            {/* {!authContext.username ? (
               <NavLink exact to="/login">
                 <button className="hover:bg-white rounded p-2 m-2">
                   Login
@@ -69,7 +69,8 @@ function Header() {
               </NavLink>
             ) : (
               <p> Hello {authContext.username}!</p>
-            )}
+            )} */}
+            {authContext.username && <p>Hello {authContext.username}!</p>}
 
             {!authContext.username && (
               <NavLink exact to="./signup">

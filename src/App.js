@@ -27,7 +27,7 @@ function App() {
     if (authContext.userId) {
       getBooks();
     }
-  }, []);
+  }, [authContext.userId]);
 
   return (
     <div>

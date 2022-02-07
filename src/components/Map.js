@@ -14,7 +14,7 @@ const Map = ({ bookData }) => {
   const [viewport, setViewport] = useState({
     latitude: authContext.latitude,
     longitude: authContext.longitude,
-    width: "35vw",
+    width: "100%",
     height: "50vh",
     zoom: 10,
   });

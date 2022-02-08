@@ -112,3 +112,18 @@ header {
 .styled-table td {
   padding: 12px 15px;
 }
+
+.chatBox {
+  height: 400px;
+  width: 200px;
+  background-color: whitesmoke;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border: #000;
+  border-style: solid;
+}
+
+.chatBoxHeading {
+  background-color: blue;
+}

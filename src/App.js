@@ -12,10 +12,12 @@ import NotFound from "./pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import AuthenticationContext from "./AuthenticationContext";
 import LandingPage from "./pages/LandingPage";
+import ChatBox from "./components/ChatBox";
 
 function App() {
   const [bookData, setBookData] = useState([]);
   const [books, setBooks] = useState([]);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const authContext = useContext(AuthenticationContext);
   useEffect(() => {
     async function getBooks() {
@@ -50,7 +52,8 @@ function App() {
         <Route exact path="about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+      {isChatOpen && <ChatBox />}
+      <Footer setIsChatOpen={setIsChatOpen} />
     </div>
   );
 }

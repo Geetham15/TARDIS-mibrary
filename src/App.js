@@ -52,7 +52,7 @@ function App() {
         <Route exact path="about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {isChatOpen && <ChatBox />}
+      {isChatOpen && <ChatBox setIsChatOpen={setIsChatOpen} />}
       <Footer setIsChatOpen={setIsChatOpen} />
     </div>
   );

@@ -63,7 +63,7 @@ const Chat = ({ chattingWith }) => {
           </div>
         );
       })}
-      <div style={{ position: "absolute", bottom: 0, width: "100%" }}>
+      <div>
         <form onSubmit={onSubmit}>
           <input
             type="text"

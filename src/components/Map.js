@@ -10,16 +10,53 @@ const navControlStyle = {
 };
 const Map = ({ bookData }) => {
   const authContext = useContext(AuthenticationContext);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const sendInitialBorrowerChat = async () => {
+    let response = await fetch("/api/sendChat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fromUserId: authContext.userId,
+        toUserId: selectedBook.id,
+        message: `Hello, I'd like to borrow ${selectedBook.title}.`,
+      }),
+    });
+    response = await response.json();
+    return response;
+  };
+  const sendInitialLenderChat = async () => {
+    let response2 = await fetch("/api/sendChat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fromUserId: selectedBook.id,
+        toUserId: authContext.userId,
+        message: `Hello, I'd like to lend ${selectedBook.title}.`,
+      }),
+    });
+    response2 = await response2.json();
+    return response2;
+  };
+  const initializeChat = async () => {
+    let response = await sendInitialBorrowerChat();
+    console.log(response);
+    let response2 = await sendInitialLenderChat();
+    console.log(response2);
+  };
 
   const [viewport, setViewport] = useState({
-    latitude: authContext.latitude,
-    longitude: authContext.longitude,
     width: "100%",
     height: "50vh",
     zoom: 10,
   });
 
-  const [selectedBook, setSelectedBook] = useState(null);
+  useEffect(() => {
+    setViewport({
+      ...viewport,
+      latitude: authContext.latitude,
+      longitude: authContext.longitude,
+    });
+  }, []);
 
   useEffect(() => {
     const listener = (e) => {
@@ -93,6 +130,9 @@ const Map = ({ bookData }) => {
             <div>
               <p>{selectedBook.title}</p>
               <p>{selectedBook.authors}</p>
+              <button className="btn" onClick={initializeChat}>
+                rent
+              </button>
             </div>
           </Popup>
         ) : null}

@@ -3,19 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import MustBeLoggedIn from "./MustBeLoggedIn";
 function Footer({ setIsChatOpen }) {
-  //   const handleChatClick = async () => {
-  //     let response = await fetch("/api/sendChat", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         fromUserId: 1,
-  //         toUserId: 2,
-  //         message: "Hello World",
-  //       }),
-  //     });
-  //     response = await response.json();
-  //     console.log(response);
-  //   };
   const handleChatClick = () => {
     setIsChatOpen((old) => {
       return !old;

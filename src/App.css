@@ -112,3 +112,52 @@ header {
 .styled-table td {
   padding: 12px 15px;
 }
+
+.chatBox {
+  height: 400px;
+  width: 250px;
+  background-color: whitesmoke;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border: #000;
+  border-style: solid;
+}
+
+.chatBoxHeading {
+  background-color: blue;
+}
+
+.userChat {
+  display: flex;
+  color: black;
+  margin: 20px;
+}
+
+.chatSent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chatReceived {
+  display: flex;
+  flex-direction: column;
+}
+
+.singleMessageReceived {
+  background-color: teal;
+  margin-top: 10px;
+  width: 40%;
+  border-radius: 10%;
+  margin-left: 5px;
+}
+
+.singleMessageSent {
+  flex-direction: column;
+  background-color: blue;
+  margin-top: 10px;
+  width: 40%;
+  border-radius: 10%;
+  margin-right: 5px;
+}

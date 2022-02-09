@@ -14,6 +14,7 @@ const BookRow = ({ id, title, author, condition, comments, deleteBook }) => (
     </td>
   </tr>
 );
+
 const UserBooks = ({ books, setBooks }) => {
   const authContext = useContext(AuthenticationContext);
   async function deleteBook(id) {

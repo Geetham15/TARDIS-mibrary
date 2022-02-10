@@ -14,6 +14,8 @@ import AuthenticationContext from "./AuthenticationContext";
 import LandingPage from "./pages/LandingPage";
 import ChatBox from "./components/ChatBox";
 
+
+
 function App() {
   const [bookData, setBookData] = useState([]);
   const [books, setBooks] = useState([]);
@@ -33,7 +35,7 @@ function App() {
 
   return (
     <div>
-      <Header />
+      
       <Routes>
         <Route
           exact

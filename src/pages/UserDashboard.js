@@ -2,7 +2,7 @@ import AuthenticationContext from "../AuthenticationContext";
 import { useContext, useState } from "react";
 import UserBooks from "../components/UserBooks.js";
 import AddBooks from "../components/AddBooks";
-
+import DataTable from "../components/Dashboard/DataTable"
 const UserDashboard = ({ books, setBooks }) => {
   const [bookData, setBookData] = useState({
     comments: "",
@@ -17,6 +17,7 @@ const UserDashboard = ({ books, setBooks }) => {
         setBooks={setBooks}
         books={books}
       />
+      <DataTable/>
     </div>
   );
 };

@@ -11,6 +11,15 @@
   padding: 30px;
   border-radius: 5px;
 }
+
+.homeContainer {
+  max-width: 800px;
+  margin: 30px auto;
+  min-height: 300px;
+  border: 1px solid steelblue;
+  padding: 30px;
+  border-radius: 5px;
+}
 .btn {
   display: inline-block;
   background: #000;
@@ -122,7 +131,12 @@ header {
   bottom: 0;
   border: #000;
   border-style: solid;
-  overflow: scroll;
+}
+
+.chatArea {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: scroll;
 }
 
 .chatBoxHeading {

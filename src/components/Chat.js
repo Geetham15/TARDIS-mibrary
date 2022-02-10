@@ -47,7 +47,6 @@ const Chat = ({ chattingWith, socket }) => {
   }, []);
 
   useEffect(() => {
-    console.log(arrivalMessage);
     arrivalMessage && setPreviousMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 

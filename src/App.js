@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -13,12 +13,30 @@ import { Routes, Route } from "react-router-dom";
 import AuthenticationContext from "./AuthenticationContext";
 import LandingPage from "./pages/LandingPage";
 import ChatBox from "./components/ChatBox";
+import { io } from "socket.io-client";
 
 function App() {
   const [bookData, setBookData] = useState([]);
   const [books, setBooks] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [users, setUsers] = useState([]);
+  const socket = useRef();
   const authContext = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+  }, []);
+
+  useEffect(() => {
+    async function loadUsers() {
+      let response = await fetch(`/api/loadUsers/${authContext.userId}`);
+      response = await response.json();
+      setUsers(response);
+    }
+    loadUsers();
+  }, [isChatOpen]);
+
   useEffect(() => {
     async function getBooks() {
       let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
@@ -28,6 +46,15 @@ function App() {
     }
     if (authContext.userId) {
       getBooks();
+    }
+  }, [authContext.userId]);
+
+  useEffect(() => {
+    if (authContext.userId) {
+      socket.current.emit("addUser", authContext.userId);
+      socket.current.on("getUsers", (users) => {
+        console.log(users);
+      });
     }
   }, [authContext.userId]);
 
@@ -52,7 +79,9 @@ function App() {
         <Route exact path="about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {isChatOpen && <ChatBox setIsChatOpen={setIsChatOpen} />}
+      {isChatOpen && (
+        <ChatBox setIsChatOpen={setIsChatOpen} socket={socket} users={users} />
+      )}
       <Footer setIsChatOpen={setIsChatOpen} />
     </div>
   );

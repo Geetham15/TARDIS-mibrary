@@ -1,21 +1,10 @@
 import ChatUsers from "./ChatUsers.js";
 import { useState, useEffect, useContext } from "react";
 import Chat from "./Chat.js";
-import AuthenticationContext from "../AuthenticationContext.js";
 
-const ChatBox = ({ setIsChatOpen }) => {
+const ChatBox = ({ setIsChatOpen, socket, users }) => {
   const [chattingWith, setChattingWith] = useState(null);
-  const [users, setUsers] = useState([]);
-  const authContext = useContext(AuthenticationContext);
-  useEffect(() => {
-    async function loadUsers() {
-      let response = await fetch(`/api/loadUsers/${authContext.userId}`);
-      response = await response.json();
-      console.log(response);
-      setUsers(response);
-    }
-    loadUsers();
-  }, []);
+
   return (
     <div className="chatBox">
       <div className="chatBoxHeading">
@@ -36,7 +25,7 @@ const ChatBox = ({ setIsChatOpen }) => {
         </button>
       </div>
       {chattingWith ? (
-        <Chat chattingWith={chattingWith} />
+        <Chat chattingWith={chattingWith} socket={socket} />
       ) : (
         <ChatUsers users={users} setChattingWith={setChattingWith} />
       )}

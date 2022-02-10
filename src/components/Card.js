@@ -20,7 +20,7 @@ import Login from "../pages/Login.js";
 
 import Title from "./Title";
 const pages = ["SignUp", "LogIn"]
-const [isLoggedIn, setIsLogedIn ] = useState=(false)
+
 
 
 const ResponsiveAppBar = () => {

@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import UserBooks from "../components/UserBooks.js";
 import AddBooks from "../components/AddBooks";
 import DataTable from "../components/Dashboard/DataTable"
+import NavBar from '../components/Card'
 const UserDashboard = ({ books, setBooks }) => {
   const [bookData, setBookData] = useState({
     comments: "",
@@ -10,6 +11,7 @@ const UserDashboard = ({ books, setBooks }) => {
   });
   return (
     <div>
+    <NavBar />
       <UserBooks books={books} setBooks={setBooks} />
       <AddBooks
         bookData={bookData}

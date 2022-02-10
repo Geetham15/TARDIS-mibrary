@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import AuthenticationContext from "../AuthenticationContext"
+import AuthenticationProvider from "../AuthenticationProvider"
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,11 +16,12 @@ import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import Link from "@mui/material/Link";
 import CssBaseline from "@mui/material/CssBaseline";
+import Login from "../pages/Login.js";
 
 import Title from "./Title";
+const pages = ["SignUp", "LogIn"]
+const [isLoggedIn, setIsLogedIn ] = useState=(false)
 
-const pages = ['Sign Up', 'Login', 'About'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -39,6 +42,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
+ 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -49,7 +53,8 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            LOGO
+           <HomeIcon  fontSize="large" />
+           
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -82,8 +87,10 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                
+                  <Typography textAlign="center"></Typography>
+                  
                 </MenuItem>
               ))}
             </Menu>
@@ -97,16 +104,24 @@ const ResponsiveAppBar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+            {/* {pages.map((page) => ( */}
+              <Button component={Link} href={`/signup`} onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}>SignUp
+                 {/* key={page} */}
+
+                
+               </Button>
+               <Button component={Link} href={`/login`} onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}>Login
+                 {/* key={page} */}
+
+                
+               </Button>
+               </Box>
+                {/* {page} */}
+             
+            {/* ))} */}
+          
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -130,11 +145,22 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+             
+                <MenuItem  onClick={handleCloseUserMenu}>
+                 <Button component={Link} href={`/profile`} variant="contained" color="primary">
+                   Profile
+                 </Button>
+                 <Button component={Link} href={`/account`} variant="contained" color="primary">
+                   Account
+                 </Button>
+                 <Button component={Link} href={`/userDashboard`} variant="contained" color="primary">
+                   Dashboard
+                 </Button>
+                 <Button component={Link} href={`/logOut`} variant="contained" color="primary">
+                   Logout
+                 </Button>
                 </MenuItem>
-              ))}
+        
             </Menu>
           </Box>
         </Toolbar>

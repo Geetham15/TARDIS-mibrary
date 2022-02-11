@@ -38,6 +38,7 @@ const Map = ({ bookData }) => {
     return response2;
   };
   const initializeChat = async () => {
+    setSelectedBook(null);
     let response = await sendInitialBorrowerChat();
     console.log(response);
     let response2 = await sendInitialLenderChat();
@@ -56,7 +57,7 @@ const Map = ({ bookData }) => {
       latitude: authContext.latitude,
       longitude: authContext.longitude,
     });
-  }, []);
+  }, [authContext.latitude, authContext.longitude]);
 
   useEffect(() => {
     const listener = (e) => {

@@ -1,7 +1,7 @@
-import AuthenticationContext from "../AuthenticationContext";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import UserBooks from "../components/UserBooks.js";
 import AddBooks from "../components/AddBooks";
+import ChangePostalCode from "../components/ChangePostalCode";
 
 const UserDashboard = ({ books, setBooks }) => {
   const [bookData, setBookData] = useState({
@@ -17,6 +17,7 @@ const UserDashboard = ({ books, setBooks }) => {
         setBooks={setBooks}
         books={books}
       />
+      <ChangePostalCode />
     </div>
   );
 };

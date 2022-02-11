@@ -8,6 +8,12 @@ const ChatBox = ({ setIsChatOpen, socket }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
   const deleteConversation = async (id) => {
+    console.log(users);
+    setUsers((old) => {
+      return old.filter((user) => {
+        return user.toUserId !== id;
+      });
+    });
     let response = await fetch("/api/deleteConversation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,6 +37,22 @@ const ChatBox = ({ setIsChatOpen, socket }) => {
   return (
     <div className="chatBox">
       <div className="chatBoxHeading">
+        {chattingWith && (
+          <button
+            onClick={() => setChattingWith(null)}
+            className="btn"
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              height: "30px",
+              width: "5px",
+              fontSize: "10px",
+            }}
+          >
+            back
+          </button>
+        )}
         <p style={{ color: "white", textAlign: "center" }}>Chat</p>
         <button
           onClick={() => setIsChatOpen((old) => !old)}

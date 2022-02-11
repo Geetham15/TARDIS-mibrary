@@ -19,23 +19,12 @@ function App() {
   const [bookData, setBookData] = useState([]);
   const [books, setBooks] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [users, setUsers] = useState([]);
   const socket = useRef();
   const authContext = useContext(AuthenticationContext);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
   }, []);
-
-  useEffect(() => {
-    async function loadUsers() {
-      let response = await fetch(`/api/loadUsers/${authContext.userId}`);
-      response = await response.json();
-      setUsers(response);
-    }
-    loadUsers();
-  }, [isChatOpen]);
 
   useEffect(() => {
     async function getBooks() {
@@ -79,9 +68,7 @@ function App() {
         <Route exact path="about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {isChatOpen && (
-        <ChatBox setIsChatOpen={setIsChatOpen} socket={socket} users={users} />
-      )}
+      {isChatOpen && <ChatBox setIsChatOpen={setIsChatOpen} socket={socket} />}
       <Footer setIsChatOpen={setIsChatOpen} />
     </div>
   );

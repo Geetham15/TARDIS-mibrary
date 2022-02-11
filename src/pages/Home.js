@@ -8,9 +8,9 @@ import Login from "./Login.js";
 function Home({ bookData, setBookData }) {
   const authContext = useContext(AuthenticationContext);
   return (
-    <div>
+    <div className="home">
       {authContext.username ? (
-        <div className="container">
+        <div className="homeContainer">
           <Search bookData={bookData} setBookData={setBookData} />
           <Map bookData={bookData} />
         </div>

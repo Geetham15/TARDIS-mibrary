@@ -35,6 +35,8 @@ const AuthenticationProvider = ({ children }) => {
     userId,
     username,
     latitude,
+    setLatitude,
+    setLongitude,
     longitude,
     logOut,
     setLoggedIn,

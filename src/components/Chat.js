@@ -1,9 +1,10 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import AuthenticationContext from "../AuthenticationContext.js";
 
-const Chat = ({ chattingWith }) => {
+const Chat = ({ chattingWith, socket }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
   const sendMessage = async (userId) => {
     setPreviousMessages([
       ...previousMessages,
@@ -23,6 +24,11 @@ const Chat = ({ chattingWith }) => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    socket.current.emit("sendMessage", {
+      senderId: authContext.userId,
+      receiverId: chattingWith,
+      text: toSend,
+    });
     sendMessage(chattingWith);
     setToSend("");
   };
@@ -38,6 +44,20 @@ const Chat = ({ chattingWith }) => {
     }
 
     loadMessages();
+  }, []);
+
+  useEffect(() => {
+    arrivalMessage && setPreviousMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
+
+  useEffect(() => {
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        fromUserId: data.senderId,
+        toUserId: data.receiverId,
+        message: data.text,
+      });
+    });
   }, []);
 
   return (
@@ -63,7 +83,7 @@ const Chat = ({ chattingWith }) => {
           </div>
         );
       })}
-      <div style={{ position: "absolute", bottom: 0, width: "100%" }}>
+      <div>
         <form onSubmit={onSubmit}>
           <input
             type="text"

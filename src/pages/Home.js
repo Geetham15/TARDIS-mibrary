@@ -9,10 +9,14 @@ import Header from "../components/Header";
 function Home({ bookData, setBookData }) {
   const authContext = useContext(AuthenticationContext);
   return (
+<<<<<<< HEAD
     <div>
   <NavBar/>
+=======
+    <div className="home">
+>>>>>>> main
       {authContext.username ? (
-        <div className="container">
+        <div className="homeContainer">
           <Search bookData={bookData} setBookData={setBookData} />
           <Map bookData={bookData} />
         </div>

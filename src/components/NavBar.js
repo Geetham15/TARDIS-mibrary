@@ -16,14 +16,15 @@ import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import Link from "@mui/material/Link";
 import CssBaseline from "@mui/material/CssBaseline";
+
 import Login from "../pages/Login.js";
 
-import Title from "./Title";
+
 const pages = ["SignUp", "LogIn"]
 
 
 
-const ResponsiveAppBar = () => {
+const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -44,7 +45,7 @@ const ResponsiveAppBar = () => {
 
  
   return (
-    <AppBar position="static">
+    <AppBar position="static" height="100vh">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -66,7 +67,12 @@ const ResponsiveAppBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+           
+              <MenuIcon>
+                 <Button component={Link} href={"/"}/>
+              </MenuIcon>
+           
+              
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -117,6 +123,7 @@ const ResponsiveAppBar = () => {
 
                 
                </Button>
+               
                </Box>
                 {/* {page} */}
              
@@ -146,7 +153,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
              
-                <MenuItem  onClick={handleCloseUserMenu}>
+                <MenuItem  onClick={handleCloseUserMenu} flexDirection="column">
                  <Button component={Link} href={`/profile`} variant="contained" color="primary">
                    Profile
                  </Button>
@@ -156,7 +163,7 @@ const ResponsiveAppBar = () => {
                  <Button component={Link} href={`/userDashboard`} variant="contained" color="primary">
                    Dashboard
                  </Button>
-                 <Button component={Link} href={`/logOut`} variant="contained" color="primary">
+                 <Button component={Link} href={`/`} variant="contained" color="primary">
                    Logout
                  </Button>
                 </MenuItem>
@@ -168,4 +175,4 @@ const ResponsiveAppBar = () => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default NavBar;

@@ -1,28 +1,45 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import MustBeLoggedIn from "./MustBeLoggedIn";
+
 function Footer({ setIsChatOpen }) {
   const handleChatClick = () => {
     setIsChatOpen((old) => {
       return !old;
     });
   };
+
+  //  const classes = useStyles();
   return (
     <div>
-      <header
-        className="bg-blue-400  p-2 items-center flex justify-around  "
-        style={{ position: "fixed", bottom: "0", width: "100%" }}
+      {/* // style={{ position: "static", bottom: "0", width: "100%" }} */}
+      <AppBar
+        position="static"
+        component="div"
+       
+    
       >
-        <h1>2022 © MiBrary</h1>
-        <MustBeLoggedIn>
-          <FontAwesomeIcon
-            icon={faCommentAlt}
-            cursor="pointer"
-            onClick={handleChatClick}
-          />
-        </MustBeLoggedIn>
-      </header>
+        <Toolbar>
+          <Typography variant="h6" component="label" position="static">
+            2022 © MiBrary
+          </Typography>
+
+          <Typography className=" p-5 mr-4 items-center flex justify-around  ">
+            <MustBeLoggedIn>
+              <FontAwesomeIcon
+                icon={faCommentAlt}
+                cursor="pointer"
+                onClick={handleChatClick}
+              />
+            </MustBeLoggedIn>
+          </Typography>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }

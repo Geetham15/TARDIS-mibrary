@@ -2,9 +2,9 @@ import { useState } from "react";
 import UserBooks from "../components/UserBooks.js";
 import AddBooks from "../components/AddBooks";
 import DataTable from "../components/Dashboard/DataTable"
-import NavBar from '../components/Card'
+import NavBar from '../components/NavBar'
 import ChangePostalCode from "../components/ChangePostalCode";
-
+import Footer from "../components/Footer"
 const UserDashboard = ({ books, setBooks }) => {
   const [bookData, setBookData] = useState({
     comments: "",
@@ -13,6 +13,7 @@ const UserDashboard = ({ books, setBooks }) => {
   return (
     <div>
     <NavBar />
+   
       <UserBooks books={books} setBooks={setBooks} />
       <AddBooks
         bookData={bookData}
@@ -20,8 +21,9 @@ const UserDashboard = ({ books, setBooks }) => {
         setBooks={setBooks}
         books={books}
       />
-      <DataTable/>
-      <ChangePostalCode />
+      {/* <DataTable/>
+      <ChangePostalCode /> */}
+      {/* <Footer /> */}
     </div>
   );
 };

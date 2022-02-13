@@ -11,12 +11,10 @@ function Home({ bookData, setBookData }) {
   const authContext = useContext(AuthenticationContext);
   return (
     <div>
+    <NavBar/>
       <div className="home">
         <div className="home">
-          {/* <Header /> */}
-          <NavBar />
-
-         <Title/>
+        
          
           {authContext.username ? (
             <div className="homeContainer">
@@ -26,7 +24,7 @@ function Home({ bookData, setBookData }) {
             </div>
           ) : (
             <>
-              <Title name="MiBrary" />
+              
               <Login />
             </>
           )} 

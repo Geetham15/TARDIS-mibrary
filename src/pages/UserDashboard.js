@@ -21,8 +21,8 @@ const UserDashboard = ({ books, setBooks }) => {
         setBooks={setBooks}
         books={books}
       />
-      {/* <DataTable/>
-      <ChangePostalCode /> */}
+      <DataTable/>
+      <ChangePostalCode />
       {/* <Footer /> */}
     </div>
   );

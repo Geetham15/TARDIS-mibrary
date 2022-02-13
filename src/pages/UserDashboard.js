@@ -23,7 +23,7 @@ const UserDashboard = ({ books, setBooks }) => {
       />
       <DataTable/>
       <ChangePostalCode />
-      {/* <Footer /> */}
+     {/* <Footer />  */}
     </div>
   );
 };

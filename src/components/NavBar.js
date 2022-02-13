@@ -45,7 +45,7 @@ const NavBar = () => {
 
  
   return (
-    <AppBar position="static" height="100vh">
+    <AppBar position="fixed" height="100vh">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -110,16 +110,16 @@ const NavBar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {/* {pages.map((page) => ( */}
+        
               <Button component={Link} href={`/signup`} onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}>SignUp
-                 {/* key={page} */}
+               
 
                 
                </Button>
                <Button component={Link} href={`/login`} onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}>Login
-                 {/* key={page} */}
+           
 
                 
                </Button>

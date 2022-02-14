@@ -1,15 +1,17 @@
 import React from "react";
 import "./LandingPage.css";
-// import NavBar from '../components/NavBar'
-// import Footer from './components/Footer'
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 function LandingPage() {
     return (
+        <>
+ <NavBar/>
+        
         <div class="grid-container">
-        {/* <NavBar/> */}
         
             <div class="header">
                 <h2>
-                    <b>About MiBrary</b>
+                    <h1><strong>About MiBrary</strong></h1>
                 </h2>
             </div>
             <div class="left">
@@ -122,6 +124,8 @@ function LandingPage() {
 
             {/* <Footer/> */}
         </div>
+        </>
+   
     );
 }
 

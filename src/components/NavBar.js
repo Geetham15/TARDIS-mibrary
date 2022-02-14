@@ -95,8 +95,8 @@ const NavBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           ></Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }  }}>
-            <h1 >Mibrary The Virtual Book Exchange App</h1>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <h1>Mibrary The Virtual Book Exchange App</h1>
           </Box>
 
           <Button
@@ -145,40 +145,31 @@ const NavBar = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              MenuListProps={{ "aria-labelledby": "basic-button" }}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Button
-                  component={Link}
-                  href={`/profile`}
-                  variant="contained"
-                  color="primary"
-                >
-                  Profile
-                </Button>
-                <Button
-                  component={Link}
-                  href={`/account`}
-                  variant="contained"
-                  color="primary"
-                >
-                  Account
-                </Button>
-                <Button
-                  component={Link}
-                  href={`/userDashboard`}
-                  variant="contained"
-                  color="primary"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  component={Link}
-                  href={`/`}
-                  variant="contained"
-                  color="primary"
-                >
-                  Logout
-                </Button>
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                component={Link}
+                href="/profile"
+              >
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                component={Link}
+                href="/account"
+              >
+                Account
+              </MenuItem>
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                component={Link}
+                href="/userDashboard"
+              >
+                Dashboard
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu} component={Link} href="/">
+                Logout
               </MenuItem>
             </Menu>
           </Box>

@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 function Login() {
   return (
     <div>
-    <NavBar/>
+<NavBar/>
       <LoginForm />
       
     </div>

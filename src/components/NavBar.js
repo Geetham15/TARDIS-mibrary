@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 import AuthenticationProvider from "../AuthenticationProvider";
 import AppBar from "@mui/material/AppBar";
@@ -15,13 +15,15 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import Link from "@mui/material/Link";
+import MustBeLoggedIn from "./MustBeLoggedIn";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Login from "../pages/Login.js";
 
 const pages = ["SignUp", "LogIn"];
-
 const NavBar = () => {
+  const authContext = useContext(AuthenticationContext);
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -62,9 +64,7 @@ const NavBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon>
-                <Button component={Link} href={"/"} />
-              </MenuIcon>
+              <MenuIcon component={Link} href="/"></MenuIcon>
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -123,56 +123,70 @@ const NavBar = () => {
           >
             About
           </Button>
+          <MustBeLoggedIn> 
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="User Pic" src="/static/images/avatar/2.jpg" />
+                 
+                </IconButton>
+               
+              </Tooltip>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User Pic" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-              MenuListProps={{ "aria-labelledby": "basic-button" }}
-            >
-              <MenuItem
-                onClick={handleCloseUserMenu}
-                component={Link}
-                href="/profile"
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+                MenuListProps={{ "aria-labelledby": "basic-button" }}
               >
-                Profile
-              </MenuItem>
-              <MenuItem
-                onClick={handleCloseUserMenu}
-                component={Link}
-                href="/account"
-              >
-                Account
-              </MenuItem>
-              <MenuItem
-                onClick={handleCloseUserMenu}
-                component={Link}
-                href="/userDashboard"
-              >
-                Dashboard
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu} component={Link} href="/">
-                Logout
-              </MenuItem>
-            </Menu>
-          </Box>
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  href="/profile"
+                >
+                  Profile
+                </MenuItem>
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  href="/account"
+                >
+                  Account
+                </MenuItem>
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  href="/userDashboard"
+                >
+                  Dashboard
+                </MenuItem>
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  href="/login"
+                  onClick={authContext.logOut}
+                >
+                  Logout
+                </MenuItem>
+               
+              </Menu>
+            </Box>
+          {authContext.username && <p>Welcome {authContext.username}</p>}
+          
+
+            
+          </MustBeLoggedIn> 
         </Toolbar>
       </Container>
     </AppBar>

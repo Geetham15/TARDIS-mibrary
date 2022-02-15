@@ -46,14 +46,25 @@ const NavBar = () => {
     <AppBar position="static" height="100vh">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            <HomeIcon fontSize="large" />
-          </Typography>
+         
+
+        
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            >
+<MustBeLoggedIn>
+  <IconButton>
+                <Button component={Link} href="/">
+                  <HomeIcon fontSize="large" className="text-white" />
+                </Button>
+              </IconButton>
+</MustBeLoggedIn>
+              
+            </Typography>
+     
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -123,14 +134,12 @@ const NavBar = () => {
           >
             About
           </Button>
-          <MustBeLoggedIn> 
+          <MustBeLoggedIn>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="User Pic" src="/static/images/avatar/2.jpg" />
-                 
                 </IconButton>
-               
               </Tooltip>
 
               <Menu
@@ -179,17 +188,13 @@ const NavBar = () => {
                 >
                   Logout
                 </MenuItem>
-               
               </Menu>
             </Box>
-          {authContext.username && <p>Welcome {authContext.username}</p>}
-          
-
-            
-          </MustBeLoggedIn> 
+            {authContext.username && <p>Welcome {authContext.username}</p>}
+          </MustBeLoggedIn>
         </Toolbar>
-     </Container>
-     </AppBar>
+      </Container>
+    </AppBar>
   );
 };
-export default NavBar
+export default NavBar;

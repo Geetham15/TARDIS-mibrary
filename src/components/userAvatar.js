@@ -7,7 +7,7 @@ const userAvatar = () => {
       <>
            Profile area
     <Stack direction="row" spacing={2}>
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg">
+      <Avatar alt="User" src="/static/images/avatar/1.jpg">
         
       </Avatar>
       

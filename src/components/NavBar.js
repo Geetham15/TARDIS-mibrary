@@ -188,8 +188,8 @@ const NavBar = () => {
             
           </MustBeLoggedIn> 
         </Toolbar>
-      </Container>
-    </AppBar>
+     </Container>
+     </AppBar>
   );
 };
-export default NavBar;
+export default NavBar

@@ -15,6 +15,8 @@ import LandingPage from "./pages/LandingPage";
 import ChatBox from "./components/ChatBox";
 import { io } from "socket.io-client";
 
+
+
 function App() {
   const [bookData, setBookData] = useState([]);
   const [books, setBooks] = useState([]);
@@ -49,7 +51,7 @@ function App() {
 
   return (
     <div>
-      <Header />
+      
       <Routes>
         <Route
           exact
@@ -65,7 +67,8 @@ function App() {
           element={<UserDashboard books={books} setBooks={setBooks} />}
         />
         <Route exact path="/addBooks" element={<AddBooks />} />
-        <Route exact path="about" element={<LandingPage />} />
+        <Route exact path="/addBooks" element={<AddBooks />} />
+        <Route exact path="/about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {isChatOpen && <ChatBox setIsChatOpen={setIsChatOpen} socket={socket} />}

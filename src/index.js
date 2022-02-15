@@ -4,14 +4,20 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import AuthenticationProvider from "./AuthenticationProvider";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme();
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+   <ThemeProvider theme={theme}>
+     <BrowserRouter>
       <AuthenticationProvider>
         <App />
       </AuthenticationProvider>
     </BrowserRouter>
+   </ThemeProvider>
+    
   </React.StrictMode>,
   document.getElementById("root")
 );

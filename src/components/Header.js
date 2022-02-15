@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHome } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import AuthenticationContext from "../AuthenticationContext";
 import MustBeLoggedIn from "./MustBeLoggedIn";
 
+
+
 function Header() {
   const authContext = useContext(AuthenticationContext);
+
   return (
     <>
       <div style={{ marginBottom: 50 }}>
@@ -35,6 +38,7 @@ function Header() {
           >
             Mibrary
           </h1>
+         
 
           <div>
             <MustBeLoggedIn>

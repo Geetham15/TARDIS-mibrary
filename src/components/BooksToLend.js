@@ -22,7 +22,7 @@ const BooksToLend = ({ selectedBook }) => {
       bookStatus: bookStatus,
     }
     console.log(data)
-    let response = await fetch('api/bookOutOnLoan', {
+    let response = await fetch('/api/bookOutOnLoan', {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

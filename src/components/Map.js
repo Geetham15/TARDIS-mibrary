@@ -100,6 +100,7 @@ const Map = ({ bookData }) => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
+                  console.log('bookId', book.id)
                   setSelectedBook(book);
                 }}
               >

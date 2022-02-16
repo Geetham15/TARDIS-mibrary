@@ -108,28 +108,22 @@ const NavBar = () => {
           {!authContext.userId && (
             <>
               <Button
-                component={Link}
-                href={`/signup`}
-                onClick={handleCloseNavMenu}
+                onClick={() => navigate("/signUp")}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                SignUp
+                Sign Up
               </Button>
               <Button
-                component={Link}
-                href={`/login`}
-                onClick={handleCloseNavMenu}
+                onClick={() => navigate("/login")}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                Login
+                Log in
               </Button>
             </>
           )}
 
           <Button
-            component={Link}
-            href={`/about`}
-            onClick={handleCloseNavMenu}
+            onClick={() => navigate("/about")}
             sx={{ my: 2, color: "white", display: "block" }}
           >
             About
@@ -160,34 +154,30 @@ const NavBar = () => {
                 MenuListProps={{ "aria-labelledby": "basic-button" }}
               >
                 <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/profile"
+                  onClick={() => {
+                    navigate("/profile");
+                    handleCloseUserMenu();
+                  }}
                 >
                   Profile
                 </MenuItem>
                 <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/account"
+                  onClick={() => {
+                    navigate("/account");
+                    handleCloseUserMenu();
+                  }}
                 >
                   Account
                 </MenuItem>
                 <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/userDashboard"
+                  onClick={() => {
+                    navigate("/userDashboard");
+                    handleCloseUserMenu();
+                  }}
                 >
                   Dashboard
                 </MenuItem>
-                <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/login"
-                  onClick={authContext.logOut}
-                >
-                  Logout
-                </MenuItem>
+                <MenuItem onClick={authContext.logOut}>Logout</MenuItem>
               </Menu>
             </Box>
             {authContext.username && <p>Welcome {authContext.username}</p>}

@@ -48,6 +48,7 @@ const NavBar = () => {
     <AppBar position="static" height="100vh">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+
           <Typography
             variant="h6"
             noWrap

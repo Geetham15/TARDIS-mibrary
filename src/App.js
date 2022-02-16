@@ -65,7 +65,7 @@ function App() {
           element={<UserDashboard books={books} setBooks={setBooks} />}
         />
         <Route exact path="/addBooks" element={<AddBooks />} />
-        <Route exact path="/addBooks" element={<AddBooks />} />
+        
         <Route exact path="/about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

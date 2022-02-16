@@ -14,11 +14,9 @@ function Footer({ setIsChatOpen }) {
     });
   };
 
- 
   return (
     <div>
-      
-      <AppBar position="static" component="div">
+      <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
         <Toolbar className=" p-5 mr-4 items-center flex justify-around  ">
           <Typography variant="h6" component="label" position="static">
             <h1> 2022 © MiBrary</h1>

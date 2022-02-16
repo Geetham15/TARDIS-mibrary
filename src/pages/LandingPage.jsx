@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 function LandingPage() {
     return (
         <>
- <NavBar/>
         
         <div class="grid-container">
         

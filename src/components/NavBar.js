@@ -48,7 +48,6 @@ const NavBar = () => {
     <AppBar position="static" height="100vh">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-
           <Typography
             variant="h6"
             noWrap
@@ -71,7 +70,7 @@ const NavBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon component={Link} href="/"></MenuIcon>
+              <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"

@@ -30,7 +30,6 @@ function App() {
     async function getBooks() {
       let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
       let bookList = await fetchBook.json();
-      console.log(bookList);
       setBooks(bookList);
     }
     if (authContext.userId) {
@@ -65,7 +64,7 @@ function App() {
           element={<UserDashboard books={books} setBooks={setBooks} />}
         />
         <Route exact path="/addBooks" element={<AddBooks />} />
-        
+
         <Route exact path="/about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -9,6 +9,7 @@ import ChangePostalCode from "../components/ChangePostalCode";
 import Footer from "../components/Footer";
 import Avatar from '../components/userAvatar'
 import ReturnButton from "../components/ReturnButton"
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -37,13 +38,19 @@ const UserDashboard = ({ books, setBooks }) => {
           </Grid>
           <Grid item xs={12} md={8}>
             <Item>
-              {" "}
-              <Button component={Link}>Books for Loan</Button>{" "}
-              <DataTable />
-              <Button component={Link}>Books Loaned</Button>{" "}
-              <DataTable />
-              <Button component={Link}>Books for Return</Button>{" "}
-              <DataTable />
+             
+              {/* <Button component={Link}>Books for Loan</Button>{" "} */}
+            <DataTable 
+              title={"Books Borrowed"}
+            />  
+              {/* <Button component={Link}>Books Loaned</Button>{" "} */}
+              <DataTable
+                title={"Books on Loan"}
+              />
+              {/* <Button component={Link}>Books for Return</Button>{" "} */}
+           <DataTable
+             title={"Books for Return"}
+           />
               {/* <UserBooks books={books} setBooks={setBooks} /> */}
             </Item>
           </Grid>

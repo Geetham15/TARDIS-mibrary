@@ -5,18 +5,24 @@ const columns: GridColDef[] = [
   { field: "title", headerName: "Title", width: 150 },
   { field: "author", headerName: "Author", width: 150 },
   { field: "isbn", headerName: "ISBN", width: 150 },
-  { field: "DateLent", headerName: "DateLent", width: 150 },
-  { field: "DateReturned", headerName: "DateReturned", width: 150 },
+  { field: "DateLent", headerName: "Date Lent", width: 150 },
+  { field: "ExpectedReturn", headerName: "Expected Return", width: 150 },
+  { field: "DateReturned", headerName: "Date Returned", width: 150 },
+  { field: "BorrowerName", headerName: "Borrower Name", width: 150 },
+  { field: "BorrowerId", headerName: "Borrower ID", width: 150 },
 ];
 
 const rows: GridRowsProp = [
     {
-      id: 1,
-      title: "Neuromancer",
-      author: "William Gibson",
-      isbn: "978-0441569595",
+      id: "user.id",
+      title: "user.title",
+      author: "user.author",
+      isbn: "ISBN_10",
       DateLent: "10-04-2022",
       DateReturned: "02-07-2022",
+      ExpectedReturn:"",
+      BorrowerName:"Borrower Name",
+      BorrowerId:"Borrower ID",
     },
     {
       id: 2,

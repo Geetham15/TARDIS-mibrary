@@ -19,6 +19,7 @@ import MustBeLoggedIn from "./MustBeLoggedIn";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Login from "../pages/Login.js";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["SignUp", "LogIn"];
 const NavBar = () => {
@@ -41,30 +42,25 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static" height="100vh">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-         
 
-        
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-            >
-<MustBeLoggedIn>
-  <IconButton>
-                <Button component={Link} href="/">
-                  <HomeIcon fontSize="large" className="text-white" />
-                </Button>
-              </IconButton>
-</MustBeLoggedIn>
-              
-            </Typography>
-     
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+          >
+            <HomeIcon
+              fontSize="large"
+              onClick={() => navigate("/")}
+              style={{ cursor: "pointer" }}
+            />
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -107,25 +103,29 @@ const NavBar = () => {
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <h1>Mibrary The Virtual Book Exchange App</h1>
+            <h1>Mibrary: The Virtual Book Exchange App</h1>
           </Box>
+          {!authContext.userId && (
+            <>
+              <Button
+                component={Link}
+                href={`/signup`}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                SignUp
+              </Button>
+              <Button
+                component={Link}
+                href={`/login`}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Login
+              </Button>
+            </>
+          )}
 
-          <Button
-            component={Link}
-            href={`/signup`}
-            onClick={handleCloseNavMenu}
-            sx={{ my: 2, color: "white", display: "block" }}
-          >
-            SignUp
-          </Button>
-          <Button
-            component={Link}
-            href={`/login`}
-            onClick={handleCloseNavMenu}
-            sx={{ my: 2, color: "white", display: "block" }}
-          >
-            Login
-          </Button>
           <Button
             component={Link}
             href={`/about`}

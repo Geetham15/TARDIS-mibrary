@@ -3,14 +3,19 @@ import ReactMapGL, { Marker, Popup, NavigationControl } from "react-map-gl";
 import { faBook, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthenticationContext from "../AuthenticationContext";
+import Modal from 'react-modal';
+import BooksToLend from "./BooksToLend";
 
 const navControlStyle = {
   right: 10,
   top: 10,
 };
+Modal.setAppElement('#root')
 const Map = ({ bookData }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  
   const sendInitialBorrowerChat = async () => {
     let response = await fetch("/api/sendChat", {
       method: "POST",
@@ -95,15 +100,11 @@ const Map = ({ bookData }) => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
+                  console.log('bookId', book.id)
                   setSelectedBook(book);
                 }}
               >
                 <FontAwesomeIcon icon={faBook} cursor="pointer" />
-                {/* <img
-                  src="/images/book2.jpeg"
-                  style={{ height: "20px", width: "20px" }}
-                  alt="book icon"
-                /> */}
               </button>
             </Marker>
           ))}
@@ -129,11 +130,30 @@ const Map = ({ bookData }) => {
             }}
           >
             <div>
-              <p>{selectedBook.title}</p>
-              <p>{selectedBook.authors}</p>
+              <p>Title: {selectedBook.title}</p>
+              <p>Author: {selectedBook.authors}</p>
               <button className="btn" onClick={initializeChat}>
                 rent
               </button>
+              <button className="btn" onClick={()=>setModalIsOpen(true)}>Fill details to Barrow Book</button>
+                <Modal isOpen={modalIsOpen} selectedBook={selectedBook}
+                        shouldCloseOnOverlayClick={false} 
+                        onRequestClose={()=>setModalIsOpen(false)}
+                        style={
+                          {
+                            overlay:{
+                              backgroundColor: 'grey'
+                            },
+                            content:{
+                              color:'black'
+                            }
+                          }
+                        }>
+                  <BooksToLend selectedBook={selectedBook}/>                
+                  <div>
+                    <button onClick={()=> setModalIsOpen(false)}>Close</button>
+                  </div>
+                </Modal>
             </div>
           </Popup>
         ) : null}

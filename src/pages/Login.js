@@ -5,9 +5,7 @@ import Footer from "../components/Footer";
 function Login() {
   return (
     <div>
-<NavBar/>
       <LoginForm />
-      
     </div>
   );
 }

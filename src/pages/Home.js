@@ -7,31 +7,25 @@ import Login from "./Login.js";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import BookCard from "../components/BookCard"
+import BookCard from "../components/BookCard";
 
 function Home({ bookData, setBookData }) {
   const authContext = useContext(AuthenticationContext);
   return (
     <div>
-    <NavBar/>
-  
       <div className="home">
         <div className="home">
-        
-         
           {authContext.username ? (
             <div className="homeContainer">
               <Search bookData={bookData} setBookData={setBookData} />
               <Map bookData={bookData} />
-     
             </div>
           ) : (
             <>
-              
               <Login />
             </>
-          )} 
-        {/* <BookCard/> */}
+          )}
+          {/* <BookCard/> */}
         </div>
       </div>
     </div>

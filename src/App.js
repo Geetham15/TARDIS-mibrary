@@ -1,6 +1,5 @@
 import "./App.css";
 import { useState, useEffect, useContext, useRef } from "react";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -14,8 +13,7 @@ import AuthenticationContext from "./AuthenticationContext";
 import LandingPage from "./pages/LandingPage";
 import ChatBox from "./components/ChatBox";
 import { io } from "socket.io-client";
-
-
+import NavBar from "./components/NavBar";
 
 function App() {
   const [bookData, setBookData] = useState([]);
@@ -32,7 +30,6 @@ function App() {
     async function getBooks() {
       let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
       let bookList = await fetchBook.json();
-      console.log(bookList);
       setBooks(bookList);
     }
     if (authContext.userId) {
@@ -51,7 +48,7 @@ function App() {
 
   return (
     <div>
-      
+      <NavBar />
       <Routes>
         <Route
           exact
@@ -67,7 +64,7 @@ function App() {
           element={<UserDashboard books={books} setBooks={setBooks} />}
         />
         <Route exact path="/addBooks" element={<AddBooks />} />
-        
+
         <Route exact path="/about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

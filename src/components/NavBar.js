@@ -19,6 +19,7 @@ import MustBeLoggedIn from "./MustBeLoggedIn";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Login from "../pages/Login.js";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["SignUp", "LogIn"];
 const NavBar = () => {
@@ -41,30 +42,24 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static" height="100vh">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-         
-
-        
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-            >
-<MustBeLoggedIn>
-  <IconButton>
-                <Button component={Link} href="/">
-                  <HomeIcon fontSize="large" className="text-white" />
-                </Button>
-              </IconButton>
-</MustBeLoggedIn>
-              
-            </Typography>
-     
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+          >
+            <HomeIcon
+              fontSize="large"
+              onClick={() => navigate("/")}
+              style={{ cursor: "pointer" }}
+            />
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -75,7 +70,7 @@ const NavBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon component={Link} href="/"></MenuIcon>
+              <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -107,29 +102,27 @@ const NavBar = () => {
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <h1>Mibrary The Virtual Book Exchange App</h1>
+            <h1>Mibrary: The Virtual Book Exchange App</h1>
           </Box>
+          {!authContext.userId && (
+            <>
+              <Button
+                onClick={() => navigate("/signUp")}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Sign Up
+              </Button>
+              <Button
+                onClick={() => navigate("/login")}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Log in
+              </Button>
+            </>
+          )}
 
           <Button
-            component={Link}
-            href={`/signup`}
-            onClick={handleCloseNavMenu}
-            sx={{ my: 2, color: "white", display: "block" }}
-          >
-            SignUp
-          </Button>
-          <Button
-            component={Link}
-            href={`/login`}
-            onClick={handleCloseNavMenu}
-            sx={{ my: 2, color: "white", display: "block" }}
-          >
-            Login
-          </Button>
-          <Button
-            component={Link}
-            href={`/about`}
-            onClick={handleCloseNavMenu}
+            onClick={() => navigate("/about")}
             sx={{ my: 2, color: "white", display: "block" }}
           >
             About
@@ -160,34 +153,30 @@ const NavBar = () => {
                 MenuListProps={{ "aria-labelledby": "basic-button" }}
               >
                 <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/profile"
+                  onClick={() => {
+                    navigate("/profile");
+                    handleCloseUserMenu();
+                  }}
                 >
                   Profile
                 </MenuItem>
                 <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/account"
+                  onClick={() => {
+                    navigate("/account");
+                    handleCloseUserMenu();
+                  }}
                 >
                   Account
                 </MenuItem>
                 <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/userDashboard"
+                  onClick={() => {
+                    navigate("/userDashboard");
+                    handleCloseUserMenu();
+                  }}
                 >
                   Dashboard
                 </MenuItem>
-                <MenuItem
-                  onClick={handleCloseUserMenu}
-                  component={Link}
-                  href="/login"
-                  onClick={authContext.logOut}
-                >
-                  Logout
-                </MenuItem>
+                <MenuItem onClick={authContext.logOut}>Logout</MenuItem>
               </Menu>
             </Box>
             {authContext.username && <p>Welcome {authContext.username}</p>}

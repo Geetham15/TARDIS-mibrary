@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 
 const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
@@ -74,8 +74,14 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
       }),
     });
     response = await response.json();
-    setBookData({ ...bookData, id: response.id });
-    setBooks([...books, bookData]);
+    console.log(response);
+    await setBookData((old) => {
+      return { ...old, id: response.id };
+    });
+    console.log(bookData);
+    await setBooks((old) => {
+      return { ...old, bookData };
+    });
     clearContents();
     alert(response.title + " added to library");
   };
@@ -115,22 +121,6 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
             onChange={handleChange}
             required
           />
-          {/* <label htmlFor="pages">Pages</label>
-          <input
-            type="text"
-            id="pages"
-            name="number_of_pages"
-            value={bookData.number_of_pages}
-            onChange={handleChange}
-          /> */}
-          {/* <label htmlFor="description">Description</label>
-          <textarea
-            type="text"
-            id="description"
-            name="description"
-            value={bookData.description?.value}
-            onChange={handleChange}
-          /> */}
           <label htmlFor="binding">Binding</label>
           <input
             type="text"
@@ -139,16 +129,6 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
             value={bookData.physical_format}
             onChange={handleChange}
           />
-          {/* <label htmlFor="subjects">
-            Subjects (separated by comma + space)
-          </label>
-          <input
-            type="text"
-            id="subjects"
-            name="subjects"
-            value={bookData.subjects?.join(", ")}
-            onChange={handleChange}
-          /> */}
           <label htmlFor="comments">Comments</label>
           <input
             type="text"

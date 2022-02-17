@@ -61,7 +61,7 @@ function Returns(props){
   const [returns, setReturns] = useState([])
   useEffect(() => {
     const getReturns = async () =>{
-      await fetch('/bookList').then(res => {
+      await fetch('/bookReturns').then(res => {
         setReturns(res.data)
       })
     }

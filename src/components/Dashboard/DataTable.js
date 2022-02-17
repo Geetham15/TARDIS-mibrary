@@ -1,30 +1,86 @@
-import { DataGrid } from "@mui/x-data-grid";
+
+import React, {useState,useEffect} from "react";
+import MUIDataTable from "mui-datatables";
+
 const columns = [
-  { field: "title", headerName: "Title", width: 150 },
-  { field: "authors", headerName: "Author", width: 150 },
-  { field: "condition", headerName: "Condition", width: 150 },
-  { field: "comments", headerName: "Comments", width: 150 },
-  // { field: "DateLent", headerName: "Date Lent", width: 150 },
-  // { field: "ExpectedReturn", headerName: "Expected Return", width: 150 },
-  // { field: "DateReturned", headerName: "Date Returned", width: 150 },
-  // { field: "BorrowerName", headerName: "Borrower Name", width: 150 },
-  // { field: "BorrowerId", headerName: "Borrower ID", width: 150 },
+  {
+    title: "title",
+    label: "title",
+    options: {
+      filter:false,
+      sort: true,
+    },
+  },
+  {
+    title: "author",
+    label: "author",
+    options: {
+     filter:false,
+      sort: true,
+    },
+  },
+  {
+    title: "ISBN",
+    label: "ISBN",
+    options: {
+     filter:false,
+      sort: true,
+    },
+  },
+  {
+    title: "DateLent",
+    label: "Date Lent",
+    options: {
+     filter:false,
+      sort: true,
+    },
+  },
+  {
+    title: "ExpectedReturn",
+    label: "Expected Return",
+    options: {
+     filter:false,
+      sort: true,
+    },
+  },
+  {
+    title: "DateReturned",
+    label: "Date Returned",
+    options: {
+      filter:false,
+      sort: true,
+    },
+  },
 ];
 
-const DataTable = ({ books }) => {
-  const rows = books;
-  return (
-    <div style={{ height: 500, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-    </div>
-  );
+const options = {
+  filterType: 'checkbox',
+  serverSide: true
 };
 
-export default DataTable;
+function Returns(props){
+  const [returns, setReturns] = useState([])
+  useEffect(() => {
+    const getReturns = async () =>{
+      await fetch('/bookReturns').then(res => {
+        setReturns(res.data)
+      })
+    }
+    getReturns()
+  },[])
+  return(
+<div>
+  <MUIDataTable
+  title={props.title}
+  data={returns}
+  columns={columns}
+  options={options}
+  />
+</div>
+  )
+}
+
+
+
+
+export default Returns;

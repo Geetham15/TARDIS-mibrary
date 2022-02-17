@@ -12,8 +12,10 @@ import { styled } from "@mui/styles";
 import AddBooks from "../components/AddBooks";
 import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
+
 import Avatar from "../components/userAvatar";
 import ReturnButton from "../components/ReturnButton";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -42,6 +44,7 @@ const UserDashboard = ({ books, setBooks }) => {
           </Grid>
           <Grid item xs={12} md={8}>
             <Item>
+
               <ButtonGroup
                 variant="outlined"
                 aria-label="outlined primary button group"
@@ -84,6 +87,7 @@ const UserDashboard = ({ books, setBooks }) => {
                   <Button component={Link}>Books Rented</Button> <DataTable />
                 </>
               )}
+
             </Item>
           </Grid>
           <Grid item xs={12} md={2}>

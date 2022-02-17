@@ -1,86 +1,50 @@
-
-import React, {useState,useEffect} from "react";
+import { useContext } from "react";
 import MUIDataTable from "mui-datatables";
+import AuthenticationContext from "../../AuthenticationContext";
 
-const columns = [
-  {
-    title: "title",
-    label: "title",
-    options: {
-      filter:false,
-      sort: true,
-    },
-  },
-  {
-    title: "author",
-    label: "author",
-    options: {
-     filter:false,
-      sort: true,
-    },
-  },
-  {
-    title: "ISBN",
-    label: "ISBN",
-    options: {
-     filter:false,
-      sort: true,
-    },
-  },
-  {
-    title: "DateLent",
-    label: "Date Lent",
-    options: {
-     filter:false,
-      sort: true,
-    },
-  },
-  {
-    title: "ExpectedReturn",
-    label: "Expected Return",
-    options: {
-     filter:false,
-      sort: true,
-    },
-  },
-  {
-    title: "DateReturned",
-    label: "Date Returned",
-    options: {
-      filter:false,
-      sort: true,
-    },
-  },
-];
-
-const options = {
-  filterType: 'checkbox',
-  serverSide: true
-};
-
-function Returns(props){
-  const [returns, setReturns] = useState([])
-  useEffect(() => {
-    const getReturns = async () =>{
-      await fetch('/bookReturns').then(res => {
-        setReturns(res.data)
-      })
+function DataTable({ title, books, columns, setBooks }) {
+  const authContext = useContext(AuthenticationContext);
+  async function deleteBook(id) {
+    console.log(id);
+    setBooks(() => {
+      let newBooks = books.filter((book) => {
+        return book.id !== id;
+      });
+      return newBooks;
+    });
+    let response = await fetch("/api/deleteBook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, userId: authContext.userId }),
+    });
+    response = await response.json();
+    if (response) {
+      alert("Delete was successful");
+    } else {
+      alert("something went wrong");
     }
-    getReturns()
-  },[])
-  return(
-<div>
-  <MUIDataTable
-  title={props.title}
-  data={returns}
-  columns={columns}
-  options={options}
-  />
-</div>
-  )
+  }
+  const options = {
+    filterType: "checkbox",
+    serverSide: false,
+    sort: true,
+    onRowsDelete: (rowsDeleted) => {
+      console.log(rowsDeleted.data);
+      for (let i = 0; i < rowsDeleted.data.length; i++) {
+        deleteBook(books[rowsDeleted.data[i].dataIndex].id);
+      }
+    },
+  };
+  return (
+    <div>
+      <MUIDataTable
+        title={title}
+        data={books}
+        columns={columns}
+        options={options}
+      />
+    </div>
+  );
 }
 
-
-
-
-export default Returns;
+export default DataTable;

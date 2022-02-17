@@ -14,11 +14,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
-import Link from "@mui/material/Link";
 import MustBeLoggedIn from "./MustBeLoggedIn";
-import CssBaseline from "@mui/material/CssBaseline";
 
-import Login from "../pages/Login.js";
 import { useNavigate } from "react-router-dom";
 
 const pages = ["SignUp", "LogIn"];

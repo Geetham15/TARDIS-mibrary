@@ -3,26 +3,26 @@ import ReactMapGL, { Marker, Popup, NavigationControl } from "react-map-gl";
 import { faBook, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthenticationContext from "../AuthenticationContext";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 import BooksToLend from "./BooksToLend";
 
 const navControlStyle = {
   right: 10,
   top: 10,
 };
-Modal.setAppElement('#root')
+Modal.setAppElement("#root");
 const Map = ({ bookData }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false)
-  
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const sendInitialBorrowerChat = async () => {
     let response = await fetch("/api/sendChat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         fromUserId: authContext.userId,
-        toUserId: selectedBook.id,
+        toUserId: selectedBook.user_id,
         message: `Hello, I'd like to borrow ${selectedBook.title}.`,
       }),
     });
@@ -34,7 +34,7 @@ const Map = ({ bookData }) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fromUserId: selectedBook.id,
+        fromUserId: selectedBook.user_id,
         toUserId: authContext.userId,
         message: `Hello, I'd like to lend ${selectedBook.title}.`,
       }),
@@ -100,7 +100,7 @@ const Map = ({ bookData }) => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log('bookId', book.id)
+                  console.log("bookId", book.id);
                   setSelectedBook(book);
                 }}
               >
@@ -135,25 +135,28 @@ const Map = ({ bookData }) => {
               <button className="btn" onClick={initializeChat}>
                 rent
               </button>
-              <button className="btn" onClick={()=>setModalIsOpen(true)}>Fill details to Barrow Book</button>
-                <Modal isOpen={modalIsOpen} selectedBook={selectedBook}
-                        shouldCloseOnOverlayClick={false} 
-                        onRequestClose={()=>setModalIsOpen(false)}
-                        style={
-                          {
-                            overlay:{
-                              backgroundColor: 'grey'
-                            },
-                            content:{
-                              color:'black'
-                            }
-                          }
-                        }>
-                  <BooksToLend selectedBook={selectedBook}/>                
-                  <div>
-                    <button onClick={()=> setModalIsOpen(false)}>Close</button>
-                  </div>
-                </Modal>
+              <button className="btn" onClick={() => setModalIsOpen(true)}>
+                Fill details to Barrow Book
+              </button>
+              <Modal
+                isOpen={modalIsOpen}
+                selectedBook={selectedBook}
+                shouldCloseOnOverlayClick={false}
+                onRequestClose={() => setModalIsOpen(false)}
+                style={{
+                  overlay: {
+                    backgroundColor: "grey",
+                  },
+                  content: {
+                    color: "black",
+                  },
+                }}
+              >
+                <BooksToLend selectedBook={selectedBook} />
+                <div>
+                  <button onClick={() => setModalIsOpen(false)}>Close</button>
+                </div>
+              </Modal>
             </div>
           </Popup>
         ) : null}

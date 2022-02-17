@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Grid,
   Button,
@@ -12,7 +12,7 @@ import { styled } from "@mui/styles";
 import AddBooks from "../components/AddBooks";
 import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
-
+import AuthenticationContext from "../AuthenticationContext";
 import Avatar from "../components/userAvatar";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,11 +24,33 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const UserDashboard = ({ books, setBooks }) => {
+  const authContext = useContext(AuthenticationContext);
   const [bookData, setBookData] = useState({
     comments: "",
     condition: "gently used",
   });
+  const [lentBooks, setLentBooks] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);
+  async function deleteBook(id) {
+    console.log(id);
+    setBooks(() => {
+      let newBooks = books.filter((book) => {
+        return book.id !== id;
+      });
+      return newBooks;
+    });
+    let response = await fetch("/api/deleteBook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, userId: authContext.userId }),
+    });
+    response = await response.json();
+    if (response) {
+      alert("Delete was successful");
+    } else {
+      alert("something went wrong");
+    }
+  }
   const columns1 = [
     {
       name: "id",
@@ -69,6 +91,82 @@ const UserDashboard = ({ books, setBooks }) => {
       },
     },
   ];
+  const columns2 = [
+    {
+      name: "title",
+      label: "Title",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "authors",
+      label: "Author",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "condition",
+      label: "Condition",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "dateBorrowed",
+      label: "Date Borrowed",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "dateDueForReturn",
+      label: "Date Due",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "username",
+      label: "Borrowed By",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
+  const options1 = {
+    filterType: "checkbox",
+    serverSide: false,
+    sort: true,
+    onRowsDelete: (rowsDeleted) => {
+      console.log(rowsDeleted.data);
+      for (let i = 0; i < rowsDeleted.data.length; i++) {
+        deleteBook(books[rowsDeleted.data[i].dataIndex].id);
+      }
+    },
+  };
+  const options2 = {
+    filterType: "checkbox",
+    serverSide: false,
+    sort: true,
+    selectableRows: false,
+  };
+  useEffect(() => {
+    async function getLentBooks() {
+      let result = await fetch(`/api/getLentBooks/${authContext.userId}`);
+      result = await result.json();
+      console.log(result);
+      setLentBooks(result);
+    }
+    getLentBooks();
+  }, [authContext.userId]);
   return (
     <div>
       <Box sx={{ flexGrow: 2 }}>
@@ -116,12 +214,19 @@ const UserDashboard = ({ books, setBooks }) => {
                     title="Owned"
                     columns={columns1}
                     setBooks={setBooks}
+                    options={options1}
                   />
                 </>
               )}
               {tableDisplay === 2 && (
                 <>
-                  <Button component={Link}>Books Loaned</Button> <DataTable />
+                  <Button component={Link}>Books Loaned</Button>{" "}
+                  <DataTable
+                    columns={columns2}
+                    books={lentBooks}
+                    title="Loaned"
+                    options={options2}
+                  />
                 </>
               )}
               {tableDisplay === 3 && (

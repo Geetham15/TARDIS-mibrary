@@ -1,13 +1,8 @@
 import { React, useContext } from "react";
-import Title from "../components/Title";
 import Map from "../components/Map";
 import Search from "../components/Search.js";
 import AuthenticationContext from "../AuthenticationContext";
 import Login from "./Login.js";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import BookCard from "../components/BookCard";
 
 function Home({ bookData, setBookData }) {
   const authContext = useContext(AuthenticationContext);

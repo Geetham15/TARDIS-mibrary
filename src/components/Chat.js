@@ -5,17 +5,21 @@ const Chat = ({ chattingWith, socket }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const sendMessage = async (userId) => {
+  const sendMessage = async () => {
     setPreviousMessages([
       ...previousMessages,
-      { fromUserId: authContext.userId, toUserId: userId, message: toSend },
+      {
+        fromUserId: authContext.userId,
+        toUserId: chattingWith,
+        message: toSend,
+      },
     ]);
     let response = await fetch("/api/sendChat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         fromUserId: authContext.userId,
-        toUserId: userId,
+        toUserId: chattingWith,
         message: toSend,
       }),
     });
@@ -29,7 +33,7 @@ const Chat = ({ chattingWith, socket }) => {
       receiverId: chattingWith,
       text: toSend,
     });
-    sendMessage(chattingWith);
+    sendMessage();
     setToSend("");
   };
   const authContext = useContext(AuthenticationContext);

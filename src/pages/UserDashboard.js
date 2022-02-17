@@ -14,7 +14,6 @@ import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
 
 import Avatar from "../components/userAvatar";
-import ReturnButton from "../components/ReturnButton";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -30,6 +29,46 @@ const UserDashboard = ({ books, setBooks }) => {
     condition: "gently used",
   });
   const [tableDisplay, setTableDisplay] = useState(1);
+  const columns1 = [
+    {
+      name: "id",
+      options: {
+        display: false,
+      },
+    },
+    {
+      name: "title",
+      label: "Title",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "authors",
+      label: "Author",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "condition",
+      label: "Condition",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "comments",
+      label: "Comments",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
   return (
     <div>
       <Box sx={{ flexGrow: 2 }}>
@@ -38,13 +77,11 @@ const UserDashboard = ({ books, setBooks }) => {
             <Item>
               <Avatar />
               <Button component={Link}>Books on Loan</Button>
-              {/* <DataTable  />  */}
               <ChangePostalCode />
             </Item>
           </Grid>
           <Grid item xs={12} md={8}>
             <Item>
-
               <ButtonGroup
                 variant="outlined"
                 aria-label="outlined primary button group"
@@ -74,7 +111,12 @@ const UserDashboard = ({ books, setBooks }) => {
               {tableDisplay === 1 && (
                 <>
                   <Button component={Link}>Books for Loan</Button>{" "}
-                  <DataTable books={books} />
+                  <DataTable
+                    books={books}
+                    title="Owned"
+                    columns={columns1}
+                    setBooks={setBooks}
+                  />
                 </>
               )}
               {tableDisplay === 2 && (
@@ -87,7 +129,6 @@ const UserDashboard = ({ books, setBooks }) => {
                   <Button component={Link}>Books Rented</Button> <DataTable />
                 </>
               )}
-
             </Item>
           </Grid>
           <Grid item xs={12} md={2}>

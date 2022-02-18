@@ -9,19 +9,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { styled } from "@mui/material/styles";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
-import FolderIcon from "@mui/icons-material/Folder";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 const ChatBox = ({ setIsChatOpen, socket }) => {
   const [chattingWith, setChattingWith] = useState(null);
@@ -59,16 +47,18 @@ const ChatBox = ({ setIsChatOpen, socket }) => {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={() => setChattingWith(null)}
-            >
-              <ArrowBackIcon />
-            </IconButton>
+            {chattingWith && (
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => setChattingWith(null)}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            )}
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Chat
             </Typography>
@@ -81,33 +71,17 @@ const ChatBox = ({ setIsChatOpen, socket }) => {
           </Toolbar>
         </AppBar>
         <List style={{ backgroundColor: "white" }}>
-          <ListItem
-            secondaryAction={
-              <IconButton edge="end" aria-label="delete">
-                <DeleteIcon />
-              </IconButton>
-            }
-          >
-            <ListItemAvatar>
-              <Avatar>
-                <FolderIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Single-line item" />
-          </ListItem>
+          {chattingWith ? (
+            <Chat chattingWith={chattingWith} socket={socket} />
+          ) : (
+            <ChatUsers
+              users={users}
+              setChattingWith={setChattingWith}
+              deleteConversation={deleteConversation}
+            />
+          )}
         </List>
       </Box>
-      <div className="chatArea">
-        {chattingWith ? (
-          <Chat chattingWith={chattingWith} socket={socket} />
-        ) : (
-          <ChatUsers
-            users={users}
-            setChattingWith={setChattingWith}
-            deleteConversation={deleteConversation}
-          />
-        )}
-      </div>
     </div>
   );
 };

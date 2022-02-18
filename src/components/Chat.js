@@ -1,10 +1,19 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import AuthenticationContext from "../AuthenticationContext.js";
+import { Button } from "@mui/material";
+import { Box } from "@mui/system";
 
 const Chat = ({ chattingWith, socket }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [previousMessages]);
   const sendMessage = async () => {
     setPreviousMessages([
       ...previousMessages,
@@ -65,7 +74,15 @@ const Chat = ({ chattingWith, socket }) => {
   }, []);
 
   return (
-    <div>
+    <Box
+      sx={{
+        width: 300,
+        height: 350,
+        display: "flex",
+        overflowY: "scroll",
+        flexDirection: "column",
+      }}
+    >
       {previousMessages.map((message) => {
         return (
           <div
@@ -87,20 +104,24 @@ const Chat = ({ chattingWith, socket }) => {
           </div>
         );
       })}
-      <div>
-        <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            value={toSend}
-            onChange={(e) => setToSend(e.target.value)}
-            style={{ width: "100%" }}
-          />
-          <button type="submit" className="btn btn-block">
-            send
-          </button>
-        </form>
-      </div>
-    </div>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          value={toSend}
+          onChange={(e) => setToSend(e.target.value)}
+          style={{ width: "100%" }}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          style={{ width: "100%", marginTop: "auto" }}
+        >
+          send
+        </Button>
+      </form>
+      <div ref={messagesEndRef} />
+    </Box>
   );
 };
 

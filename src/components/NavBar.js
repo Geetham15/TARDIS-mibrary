@@ -134,7 +134,10 @@ const NavBar = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="User Pic" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="User Pic" src="/static/images/avatar/2.jpg">
+                    {authContext.userId &&
+                      authContext.username[0].toUpperCase()}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
 
@@ -179,10 +182,10 @@ const NavBar = () => {
                 >
                   Dashboard
                 </MenuItem>
-                <MenuItem onClick={authContext.logOut}>Logout</MenuItem>
+                <MenuItem onClick={authContext.logOut}>Log out</MenuItem>
               </Menu>
             </Box>
-            {authContext.username && <p>Welcome {authContext.username}</p>}
+            {/* {authContext.username && <p>Welcome {authContext.username}</p>} */}
           </MustBeLoggedIn>
         </Toolbar>
       </Container>

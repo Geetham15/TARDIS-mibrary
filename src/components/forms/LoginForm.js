@@ -5,6 +5,7 @@ import TextError from "./TextError";
 import * as Yup from "yup";
 import "./LoginForm.css";
 import AuthenticationContext from "../../AuthenticationContext";
+import { Button } from "@mui/material";
 
 function LoginForm() {
   const initialValues = {
@@ -48,7 +49,10 @@ function LoginForm() {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      <Form className="flex flex-col justify-center items-center ">
+      <Form
+        className="flex flex-col justify-center items-center "
+        style={{ marginTop: 40 }}
+      >
         <div className="text-center text-2xl">
           <h1>Login</h1>
         </div>
@@ -75,14 +79,22 @@ function LoginForm() {
         </div>
         <div>
           <Field as="button" type="submit" value="Login" />
-          <button type="submit" className="btn btn-block">
-            <h1>Log in</h1>
-          </button>
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ marginBottom: 20, width: 200, marginTop: 20 }}
+          >
+            Log in
+          </Button>
           <p>Don't have an account?</p>
           <NavLink exact to="/signup">
-            <button type="button" className="btn btn-block">
-              <h1>Sign up</h1>
-            </button>
+            <Button
+              type="button"
+              variant="outlined"
+              style={{ marginTop: 20, width: 200 }}
+            >
+              Sign up
+            </Button>
           </NavLink>
         </div>
       </Form>

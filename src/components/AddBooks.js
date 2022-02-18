@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 
 const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
@@ -74,14 +74,10 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
       }),
     });
     response = await response.json();
-    console.log(response);
-    await setBookData((old) => {
-      return { ...old, id: response.id };
-    });
-    console.log(bookData);
-    await setBooks((old) => {
-      return { ...old, bookData };
-    });
+    // Load user's books to update table with new info
+    let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
+    let bookList = await fetchBook.json();
+    setBooks(bookList);
     clearContents();
     alert(response.title + " added to library");
   };

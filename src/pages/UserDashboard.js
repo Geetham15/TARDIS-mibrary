@@ -28,6 +28,7 @@ const UserDashboard = ({ books, setBooks }) => {
   const [bookData, setBookData] = useState({
     comments: "",
     condition: "gently used",
+    isbn: "",
   });
   const [lentBooks, setLentBooks] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);

@@ -51,7 +51,7 @@ const Search = ({ bookData, setBookData }) => {
     >
       <TextField
         id="standard-basic"
-        label="Search"
+        label="What would you like to read?"
         variant="standard"
         value={entry}
         onChange={(e) => setEntry(e.target.value)}

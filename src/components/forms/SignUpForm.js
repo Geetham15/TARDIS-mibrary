@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextError from "./TextError";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { Button } from "@mui/material";
+
 function SignUp() {
   const initialValues = {
     username: "",
@@ -62,7 +64,10 @@ function SignUp() {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      <Form className="flex flex-col justify-center items-center ">
+      <Form
+        className="flex flex-col justify-center items-center "
+        style={{ marginTop: 40 }}
+      >
         <div className="text-center text-2xl">
           <h1>Sign Up</h1>
         </div>
@@ -119,16 +124,22 @@ function SignUp() {
 
         <div>
           <Field as="button" type="submit" value="Sign Up" />
-          <button type="submit" className="btn btn-block">
-            <h1>Sign up</h1>
-          </button>
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ width: 200, marginBottom: 20, marginTop: 20 }}
+          >
+            Sign up
+          </Button>
         </div>
         <div>
           <p className="float-left">Already have an account?</p>
-          <NavLink exact to="/login" className="bg-blue-500 rounded">
-            <button>Log in</button>
-          </NavLink>
         </div>
+        <NavLink exact to="/login">
+          <Button variant="outlined" style={{ marginTop: 20 }}>
+            Log in
+          </Button>
+        </NavLink>
       </Form>
     </Formik>
   );

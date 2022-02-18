@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import AuthenticationContext from "../AuthenticationContext";
-import AuthenticationProvider from "../AuthenticationProvider";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,7 +17,6 @@ import MustBeLoggedIn from "./MustBeLoggedIn";
 
 import { useNavigate } from "react-router-dom";
 
-const pages = ["SignUp", "LogIn"];
 const NavBar = () => {
   const authContext = useContext(AuthenticationContext);
 

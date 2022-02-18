@@ -99,7 +99,15 @@ const NavBar = () => {
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <h1>Mibrary: The Virtual Book Exchange App</h1>
+            <Typography variant="h4">Mibrary</Typography>
+            <Typography
+              variant="subtitle"
+              style={{
+                paddingLeft: 40,
+              }}
+            >
+              the virtual book exchange app
+            </Typography>
           </Box>
           {!authContext.userId && (
             <>

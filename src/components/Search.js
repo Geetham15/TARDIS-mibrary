@@ -1,5 +1,9 @@
 import { useContext, useState } from "react";
 import AuthenticationContext from "../AuthenticationContext";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+
 const Search = ({ bookData, setBookData }) => {
   const authContext = useContext(AuthenticationContext);
   const [entry, setEntry] = useState("");
@@ -36,31 +40,34 @@ const Search = ({ bookData, setBookData }) => {
     }
   };
   return (
-    <div>
-      <form className="form-control" onSubmit={onSearch}>
-        <input
-          type="text"
-          style={{ width: "100%", fontSize: 17 }}
-          placeholder="search for a book"
-          value={entry}
-          onChange={(e) => setEntry(e.target.value)}
-          required
-        />
-        <button type="submit" className="btn btn-block">
-          Search
-        </button>
-      </form>
-      {/* {bookData &&
-        bookData.map((book, index) => {
-          return (
-            <p className="task">{`${book.title} by ${
-              book.authors
-            } is ${Math.round(
-              calculateHaversine([book.latitude, book.longitude])
-            )} km away`}</p>
-          );
-        })} */}
-    </div>
+    <Box
+      component="form"
+      sx={{
+        "& > :not(style)": { m: 1, width: "25ch" },
+      }}
+      noValidate
+      autoComplete="off"
+      onSubmit={onSearch}
+    >
+      <TextField
+        id="standard-basic"
+        label="Search"
+        variant="standard"
+        value={entry}
+        onChange={(e) => setEntry(e.target.value)}
+        style={{ width: "100%" }}
+        size="large"
+        inputProps={{ style: { fontSize: 24 } }}
+      />
+      <Button
+        color="primary"
+        type="submit"
+        variant="contained"
+        style={{ width: "100%" }}
+      >
+        Search
+      </Button>
+    </Box>
   );
 };
 

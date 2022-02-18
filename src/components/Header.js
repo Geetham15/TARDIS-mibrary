@@ -5,8 +5,6 @@ import { NavLink } from "react-router-dom";
 import AuthenticationContext from "../AuthenticationContext";
 import MustBeLoggedIn from "./MustBeLoggedIn";
 
-
-
 function Header() {
   const authContext = useContext(AuthenticationContext);
 
@@ -14,11 +12,6 @@ function Header() {
     <>
       <div style={{ marginBottom: 50 }}>
         <header className="bg-blue-400  p-2 items-center flex justify-around  ">
-          {/* <FontAwesomeIcon
-            icon={faBars}
-            className="  flex absolute top-2 mb-3 mt-1 left-10 text-5xl items-center "
-            cursor="pointer"
-          /> */}
           <NavLink exact to="/">
             <FontAwesomeIcon
               icon={faHome}
@@ -38,7 +31,6 @@ function Header() {
           >
             Mibrary
           </h1>
-         
 
           <div>
             <MustBeLoggedIn>

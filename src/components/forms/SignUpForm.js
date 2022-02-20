@@ -4,6 +4,7 @@ import TextError from "./TextError";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Button } from "@mui/material";
+import { Box } from "@mui/system";
 
 function SignUp() {
   const initialValues = {
@@ -59,89 +60,93 @@ function SignUp() {
   });
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      <Form
-        className="flex flex-col justify-center items-center "
-        style={{ marginTop: 40 }}
+    <Box sx={{ paddingBottom: 10 }}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
       >
-        <div className="text-center text-2xl">
-          <h1>Sign Up</h1>
-        </div>
-        <div className="">
-          <label htmlFor="username">Username</label>
-          <Field
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Bob_Smith"
-          />
-          <ErrorMessage name="username" component={TextError} />
-        </div>
-        <div className="">
-          <label htmlFor="email">Email</label>
-          <Field
-            type="email"
-            id="email"
-            name="email"
-            placeholder="your_email@gmail.com"
-          />
-          <ErrorMessage name="email" component={TextError} />
-        </div>
-        <div className="">
-          <label htmlFor="postalCode">Postal Code</label>
-          <Field
-            type="postalCode"
-            id="postalCode"
-            name="postalCode"
-            placeholder="A1A 1A1"
-          />
-          <ErrorMessage name="postalCode" component={TextError} />
-        </div>
-        <div className="">
-          <label htmlFor="password">Password</label>
-          <Field type="password" id="password" name="password" />
-          <ErrorMessage name="password" component={TextError} />
-        </div>
-        <div className="">
-          <label htmlFor="confirmPass"> Confirm Password</label>
-          <Field type="password" id="confirmPass" name="confirmPass" />
-          <ErrorMessage name="confirmPass" component={TextError} />
-        </div>
-        <div className="text-sm">
-          <p>Your personal data will be used to support your experience</p>{" "}
-          <p>throughout this website, to manage access to your account, and</p>{" "}
-          <p>for other purposes described in our</p>
-          <NavLink exact to="/privacypolicy">
-            <Field as="button">
-              <strong className="text-red-600">privacy policy.</strong>
-            </Field>
-          </NavLink>
-        </div>
+        <Form
+          className="flex flex-col justify-center items-center "
+          style={{ marginTop: 20 }}
+        >
+          <div className="text-center text-2xl">
+            <h1>Sign Up</h1>
+          </div>
+          <div className="">
+            <label htmlFor="username">Username</label>
+            <Field
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Bob_Smith"
+            />
+            <ErrorMessage name="username" component={TextError} />
+          </div>
+          <div className="">
+            <label htmlFor="email">Email</label>
+            <Field
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your_email@gmail.com"
+            />
+            <ErrorMessage name="email" component={TextError} />
+          </div>
+          <div className="">
+            <label htmlFor="postalCode">Postal Code</label>
+            <Field
+              type="postalCode"
+              id="postalCode"
+              name="postalCode"
+              placeholder="A1A 1A1"
+            />
+            <ErrorMessage name="postalCode" component={TextError} />
+          </div>
+          <div className="">
+            <label htmlFor="password">Password</label>
+            <Field type="password" id="password" name="password" />
+            <ErrorMessage name="password" component={TextError} />
+          </div>
+          <div className="">
+            <label htmlFor="confirmPass"> Confirm Password</label>
+            <Field type="password" id="confirmPass" name="confirmPass" />
+            <ErrorMessage name="confirmPass" component={TextError} />
+          </div>
+          <div className="text-sm">
+            <p>Your personal data will be used to support your experience</p>{" "}
+            <p>
+              throughout this website, to manage access to your account, and
+            </p>{" "}
+            <p>for other purposes described in our</p>
+            <NavLink exact to="/privacypolicy">
+              <Field as="button">
+                <strong className="text-red-600">privacy policy.</strong>
+              </Field>
+            </NavLink>
+          </div>
 
-        <div>
-          <Field as="button" type="submit" value="Sign Up" />
-          <Button
-            type="submit"
-            variant="contained"
-            style={{ width: 200, marginBottom: 20, marginTop: 20 }}
-          >
-            Sign up
-          </Button>
-        </div>
-        <div>
-          <p className="float-left">Already have an account?</p>
-        </div>
-        <NavLink exact to="/login">
-          <Button variant="outlined" style={{ marginTop: 20 }}>
-            Log in
-          </Button>
-        </NavLink>
-      </Form>
-    </Formik>
+          <div>
+            <Field as="button" type="submit" value="Sign Up" />
+            <Button
+              type="submit"
+              variant="contained"
+              style={{ width: 200, marginBottom: 10, marginTop: 10 }}
+            >
+              Sign up
+            </Button>
+          </div>
+          <div>
+            <p className="float-left">Already have an account?</p>
+          </div>
+          <NavLink exact to="/login">
+            <Button variant="outlined" style={{ marginTop: 10 }}>
+              Log in
+            </Button>
+          </NavLink>
+        </Form>
+      </Formik>
+    </Box>
   );
 }
 

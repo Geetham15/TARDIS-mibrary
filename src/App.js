@@ -21,6 +21,8 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const socket = useRef();
   const authContext = useContext(AuthenticationContext);
+  const [booksDueSoon, setBooksDueSoon] = useState(false);
+  const [booksRented, setBooksRented] = useState([]);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -46,9 +48,26 @@ function App() {
     }
   }, [authContext.userId]);
 
+  useEffect(() => {
+    async function getBooksRented() {
+      let dueBookList = await fetch(
+        `/api/getBooksRented/${authContext.userId}`
+      );
+      dueBookList = await dueBookList.json();
+      console.log(dueBookList);
+      setBooksRented(dueBookList);
+    }
+    getBooksRented();
+    for (let book of booksRented) {
+      if (book.daysLeftToReturn <= 4) {
+        setBooksDueSoon(true);
+      }
+    }
+  }, [authContext.userId]);
+
   return (
     <div>
-      <NavBar />
+      <NavBar booksDueSoon={booksDueSoon} />
       <Routes>
         <Route
           exact
@@ -61,7 +80,13 @@ function App() {
         <Route
           exact
           path="/userDashboard"
-          element={<UserDashboard books={books} setBooks={setBooks} />}
+          element={
+            <UserDashboard
+              books={books}
+              setBooks={setBooks}
+              booksRented={booksRented}
+            />
+          }
         />
         <Route exact path="/addBooks" element={<AddBooks />} />
 

@@ -133,10 +133,10 @@ const Map = ({ bookData }) => {
               <p>Title: {selectedBook.title}</p>
               <p>Author: {selectedBook.authors}</p>
               <button className="btn" onClick={initializeChat}>
-                rent
+                Chat
               </button>
               <button className="btn" onClick={() => setModalIsOpen(true)}>
-                Fill details to Barrow Book
+                Borrow
               </button>
               <Modal
                 isOpen={modalIsOpen}

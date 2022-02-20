@@ -14,6 +14,7 @@ import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
 import AuthenticationContext from "../AuthenticationContext";
 import Avatar from "../components/userAvatar";
+import { columns1, columns2, columns3 } from "../data/tableOptions.js";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -52,154 +53,17 @@ const UserDashboard = ({ books, setBooks, booksRented }) => {
       alert("something went wrong");
     }
   }
-  const columns1 = [
-    {
-      name: "id",
-      options: {
-        display: false,
-      },
-    },
-    {
-      name: "title",
-      label: "Title",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "authors",
-      label: "Author",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "condition",
-      label: "Condition",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "comments",
-      label: "Comments",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-  ];
-  const columns2 = [
-    {
-      name: "title",
-      label: "Title",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "authors",
-      label: "Author",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "condition",
-      label: "Condition",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "dateBorrowed",
-      label: "Date Borrowed",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-    {
-      name: "dateDueForReturn",
-      label: "Date Due",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-    {
-      name: "username",
-      label: "Borrowed By",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-  ];
-  const columns3 = [
-    {
-      name: "title",
-      label: "Title",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "authors",
-      label: "Author",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "condition",
-      label: "Condition",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "dateBorrowed",
-      label: "Date Borrowed",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "dateDueForReturn",
-      label: "Date Due",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "daysLeftToReturn",
-      label: "Days Left",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "username",
-      label: "Owned By",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-  ];
+
+  useEffect(() => {
+    async function getLentBooks() {
+      let result = await fetch(`/api/getLentBooks/${authContext.userId}`);
+      result = await result.json();
+      console.log(result);
+      setLentBooks(result);
+    }
+    getLentBooks();
+  }, [authContext.userId]);
+
   const options1 = {
     filterType: "checkbox",
     serverSide: false,
@@ -217,15 +81,6 @@ const UserDashboard = ({ books, setBooks, booksRented }) => {
     sort: true,
     selectableRows: "none",
   };
-  useEffect(() => {
-    async function getLentBooks() {
-      let result = await fetch(`/api/getLentBooks/${authContext.userId}`);
-      result = await result.json();
-      console.log(result);
-      setLentBooks(result);
-    }
-    getLentBooks();
-  }, [authContext.userId]);
 
   const options3 = {
     filterType: "checkbox",

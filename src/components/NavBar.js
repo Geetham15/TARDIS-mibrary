@@ -135,10 +135,7 @@ const NavBar = () => {
             </>
           )}
           <MustBeLoggedIn>
-            { booksDueSoon && <FontAwesomeIcon icon = {faClock} cursor="pointer" onClick={() => {
-              alert('hello dashboard')
-              setTableDisplay(3);
-              navigate("/userDashboard")}}/> }
+            { booksDueSoon && <FontAwesomeIcon icon = {faClock} cursor="pointer" onClick={() => {navigate("/userDashboard")}}/> }
           </MustBeLoggedIn>
           <Button
             onClick={() => navigate("/about")}

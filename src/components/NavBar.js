@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -14,15 +14,18 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import MustBeLoggedIn from "./MustBeLoggedIn";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NavBar = () => {
   const authContext = useContext(AuthenticationContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+  const [booksDueSoon, setBooksDueSoon] = useState([]);
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -38,7 +41,15 @@ const NavBar = () => {
     setAnchorElUser(null);
   };
   const navigate = useNavigate();
-
+  
+  useEffect(()=>{
+    async function getBooksDueSoon(){
+      let dueBookList = await fetch(`/api/getBooksDueSoon/${authContext.userId}`)
+      dueBookList = await dueBookList.json();
+      setBooksDueSoon(dueBookList)
+    }
+    getBooksDueSoon()
+  }, [authContext.userId]);
   return (
     <AppBar position="static" height="100vh">
       <Container maxWidth="xl">
@@ -123,7 +134,12 @@ const NavBar = () => {
               </Button>
             </>
           )}
-
+          <MustBeLoggedIn>
+            { booksDueSoon && <FontAwesomeIcon icon = {faClock} cursor="pointer" onClick={() => {
+              alert('hello dashboard')
+              setTableDisplay(3);
+              navigate("/userDashboard")}}/> }
+          </MustBeLoggedIn>
           <Button
             onClick={() => navigate("/about")}
             sx={{ my: 2, color: "white", display: "block" }}

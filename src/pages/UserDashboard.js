@@ -31,6 +31,7 @@ const UserDashboard = ({ books, setBooks }) => {
     isbn: "",
   });
   const [lentBooks, setLentBooks] = useState([]);
+  const [booksDueSoon, setBooksDueSoon] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);
   async function deleteBook(id) {
     console.log(id);
@@ -142,6 +143,64 @@ const UserDashboard = ({ books, setBooks }) => {
       },
     },
   ];
+  const columns3=[
+    {
+      name: "title",
+      label: "Title",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "authors",
+      label: "Author",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "condition",
+      label: "Condition",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "dateBorrowed",
+      label: "Date Borrowed",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "dateDueForReturn",
+      label: "Date Due",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "daysLeftToReturn",
+      label: "Days Left",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "username",
+      label: "Owned By",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
   const options1 = {
     filterType: "checkbox",
     serverSide: false,
@@ -167,6 +226,22 @@ const UserDashboard = ({ books, setBooks }) => {
       setLentBooks(result);
     }
     getLentBooks();
+  }, [authContext.userId]);
+
+  const options3= {
+    filterType: "checkbox",
+    serverSide: false,
+    sort: true,
+    selecttableRows: false,
+  }
+  useEffect(()=>{
+    async function getBooksDueSoon(){
+      let dueBookList = await fetch(`/api/getBooksDueSoon/${authContext.userId}`)
+      dueBookList = await dueBookList.json();
+      console.log(dueBookList)
+      setBooksDueSoon(dueBookList)
+    }
+    getBooksDueSoon()
   }, [authContext.userId]);
   return (
     <div>
@@ -201,7 +276,7 @@ const UserDashboard = ({ books, setBooks }) => {
                   variant={tableDisplay === 3 ? "contained" : "outlined"}
                   onClick={() => setTableDisplay(3)}
                 >
-                  Rented
+                  BooksDueSoon
                 </Button>
               </ButtonGroup>
             </Item>
@@ -232,7 +307,13 @@ const UserDashboard = ({ books, setBooks }) => {
               )}
               {tableDisplay === 3 && (
                 <>
-                  <Button component={Link}>Books Rented</Button> <DataTable />
+                  <Button component={Link}>Books Due Soon</Button> 
+                  <DataTable 
+                    columns={columns3}
+                    books={booksDueSoon}
+                    title="Books Due Soon"
+                    option = {options3}
+                  />
                 </>
               )}
             </Item>

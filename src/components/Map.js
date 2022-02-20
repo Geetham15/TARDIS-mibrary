@@ -152,7 +152,10 @@ const Map = ({ bookData }) => {
                   },
                 }}
               >
-                <BooksToLend selectedBook={selectedBook} />
+                <BooksToLend
+                  selectedBook={selectedBook}
+                  initializeChat={initializeChat}
+                />
                 <div>
                   <button onClick={() => setModalIsOpen(false)}>Close</button>
                 </div>

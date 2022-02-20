@@ -44,7 +44,11 @@ const ChatBox = ({ setIsChatOpen, socket }) => {
 
   return (
     <div className="chatBox">
-      <Box sx={{ flexGrow: 1 }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+        }}
+      >
         <AppBar position="static">
           <Toolbar>
             {chattingWith && (
@@ -70,15 +74,23 @@ const ChatBox = ({ setIsChatOpen, socket }) => {
             </Button>
           </Toolbar>
         </AppBar>
+
         <List style={{ backgroundColor: "white" }}>
           {chattingWith ? (
             <Chat chattingWith={chattingWith} socket={socket} />
           ) : (
-            <ChatUsers
-              users={users}
-              setChattingWith={setChattingWith}
-              deleteConversation={deleteConversation}
-            />
+            <div
+              style={{
+                overflowY: "scroll",
+                height: 350,
+              }}
+            >
+              <ChatUsers
+                users={users}
+                setChattingWith={setChattingWith}
+                deleteConversation={deleteConversation}
+              />
+            </div>
           )}
         </List>
       </Box>

@@ -9,7 +9,7 @@ const Chat = ({ chattingWith, socket }) => {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
   useEffect(() => {
     scrollToBottom();
@@ -74,54 +74,59 @@ const Chat = ({ chattingWith, socket }) => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        width: 300,
-        height: 350,
-        display: "flex",
-        overflowY: "scroll",
-        flexDirection: "column",
-      }}
-    >
-      {previousMessages.map((message) => {
-        return (
-          <div
-            className={
-              message.fromUserId === authContext.userId
-                ? "chatSent"
-                : "chatReceived"
-            }
-          >
+    <>
+      <Box
+        sx={{
+          width: 300,
+          height: 290,
+          display: "flex",
+          overflowY: "scroll",
+          flexDirection: "column",
+        }}
+      >
+        {previousMessages.map((message) => {
+          return (
             <div
               className={
                 message.fromUserId === authContext.userId
-                  ? "singleMessageSent"
-                  : "singleMessageReceived"
+                  ? "chatSent"
+                  : "chatReceived"
               }
             >
-              <p style={{ color: "white" }}>{message.message}</p>
+              <div
+                className={
+                  message.fromUserId === authContext.userId
+                    ? "singleMessageSent"
+                    : "singleMessageReceived"
+                }
+              >
+                <p style={{ color: "white" }}>{message.message}</p>
+              </div>
             </div>
-          </div>
-        );
-      })}
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          value={toSend}
-          onChange={(e) => setToSend(e.target.value)}
-          style={{ width: "100%" }}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
-          style={{ width: "100%", marginTop: "auto" }}
-        >
-          send
-        </Button>
-      </form>
-      <div ref={messagesEndRef} />
-    </Box>
+          );
+        })}
+
+        <div ref={messagesEndRef} />
+      </Box>
+      <Box>
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            value={toSend}
+            onChange={(e) => setToSend(e.target.value)}
+            style={{ width: "100%" }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            style={{ width: "100%", marginTop: "auto" }}
+          >
+            send
+          </Button>
+        </form>
+      </Box>
+    </>
   );
 };
 

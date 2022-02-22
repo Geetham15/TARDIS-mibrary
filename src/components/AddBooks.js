@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext";
+import { Button } from "@mui/material";
+import { TextField } from "@mui/material";
 
-const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
+const AddBooks = ({ bookData, setBookData, setBooks }) => {
   const authContext = useContext(AuthenticationContext);
   const searchIsbn = async (e) => {
     e.preventDefault();
@@ -82,24 +84,25 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
     alert(response.title + " added to library");
   };
   return (
-    <div className="container">
-      <form onSubmit={searchIsbn} className="form-control">
-        <input
+    <div>
+      <form onSubmit={searchIsbn}>
+        <TextField
           type="text"
           value={bookData.isbn}
           name="isbn"
           onChange={handleChange}
           placeholder="enter ISBN here"
+          style={{ marginBottom: 20, width: "100%" }}
         />
-        <button type="submit" className="btn">
+        <Button type="submit" variant="outlined">
           Search
-        </button>
-        <button type="reset" className="btn" onClick={clearContents}>
+        </Button>
+        <Button type="reset" variant="text" onClick={clearContents}>
           Clear
-        </button>
+        </Button>
       </form>
       {bookData.title && (
-        <form className="form-control" onSubmit={addToLibrary}>
+        <form onSubmit={addToLibrary}>
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -107,6 +110,7 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
             name="title"
             value={bookData.title}
             onChange={handleChange}
+            style={{ width: "100%" }}
           />
           <label htmlFor="author">Author</label>
           <input
@@ -116,6 +120,7 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
             value={bookData.authors}
             onChange={handleChange}
             required
+            style={{ width: "100%" }}
           />
           <label htmlFor="binding">Binding</label>
           <input
@@ -124,6 +129,7 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
             name="physical_format"
             value={bookData.physical_format}
             onChange={handleChange}
+            style={{ width: "100%" }}
           />
           <label htmlFor="comments">Comments</label>
           <input
@@ -132,6 +138,7 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
             name="comments"
             value={bookData.comments}
             onChange={handleChange}
+            style={{ width: "100%" }}
           />
           <label>Condition</label>
           <div className="form-control-check">
@@ -163,9 +170,9 @@ const AddBooks = ({ bookData, setBookData, setBooks, books }) => {
               onChange={handleRadioChange}
             />
           </div>
-          <button type="submit" className="btn btn-block">
-            Add to personal library
-          </button>
+          <Button type="submit" variant="contained">
+            Add to owned books
+          </Button>
         </form>
       )}
     </div>

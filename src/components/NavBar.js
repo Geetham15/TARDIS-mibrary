@@ -146,7 +146,7 @@ const NavBar = ({ booksDueSoon, setTableDisplay }) => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="User Pic" src="/static/images/avatar/2.jpg">
+                  <Avatar>
                     {authContext.userId &&
                       authContext.username[0].toUpperCase()}
                   </Avatar>

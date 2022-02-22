@@ -30,6 +30,7 @@ const UserDashboard = ({
   booksRented,
   tableDisplay,
   setTableDisplay,
+  lentBooks,
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [bookData, setBookData] = useState({
@@ -37,7 +38,7 @@ const UserDashboard = ({
     condition: "gently used",
     isbn: "",
   });
-  const [lentBooks, setLentBooks] = useState([]);
+
   async function deleteBook(id) {
     console.log(id);
     setBooks(() => {
@@ -58,16 +59,6 @@ const UserDashboard = ({
       alert("something went wrong");
     }
   }
-
-  useEffect(() => {
-    async function getLentBooks() {
-      let result = await fetch(`/api/getLentBooks/${authContext.userId}`);
-      result = await result.json();
-      console.log(result);
-      setLentBooks(result);
-    }
-    getLentBooks();
-  }, [authContext.userId]);
 
   const options1 = {
     filterType: "checkbox",
@@ -98,10 +89,9 @@ const UserDashboard = ({
     <div>
       <Box sx={{ flexGrow: 2 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={2} sx={{ marginTop: 2 }}>
             <Item>
               <Avatar />
-              <Button component={Link}>Books on Loan</Button>
               <ChangePostalCode />
             </Item>
           </Grid>
@@ -135,10 +125,9 @@ const UserDashboard = ({
               {" "}
               {tableDisplay === 1 && (
                 <>
-                  <Button component={Link}>Books for Loan</Button>{" "}
+                  <Button component={Link}>Books Owned</Button>{" "}
                   <DataTable
                     books={books}
-                    title="Owned"
                     columns={columns1}
                     setBooks={setBooks}
                     options={options1}
@@ -151,7 +140,6 @@ const UserDashboard = ({
                   <DataTable
                     columns={columns2}
                     books={lentBooks}
-                    title="Loaned"
                     options={options2}
                   />
                 </>
@@ -162,17 +150,15 @@ const UserDashboard = ({
                   <DataTable
                     columns={columns3}
                     books={booksRented}
-                    title="Rented"
                     options={options3}
                   />
                 </>
               )}
             </Item>
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={2} sx={{ paddingRight: 1, marginTop: 2 }}>
             <Item>
-              <Button component={Link}>Outstanding Loans</Button>
-              {/* <UserBooks/> */}
+              <Button component={Link}>Add book</Button>
               <AddBooks
                 bookData={bookData}
                 setBookData={setBookData}
@@ -183,7 +169,6 @@ const UserDashboard = ({
           </Grid>
         </Grid>
       </Box>
-      <Typography></Typography>
     </div>
   );
 };

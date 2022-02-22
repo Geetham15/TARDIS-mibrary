@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext.js";
+import { Button, TextField } from "@mui/material";
 
 const ChangePostalCode = () => {
   const [postalCode, setPostalCode] = useState("");
@@ -37,20 +38,21 @@ const ChangePostalCode = () => {
     setPostalCode("");
   };
   return (
-    <div className="container">
-      <h1>Change Postal Code</h1>
-      <form className="form-control" onSubmit={changePostalCode}>
-        <label htmlFor="postalCode">New Postal Code</label>
-        <input
+    <div>
+      <Button>Change postal code</Button>
+      <form onSubmit={changePostalCode}>
+        <TextField
+          label="new postal code"
           id="postalCode"
           type="text"
           placeholder="A1A 1A1"
           value={postalCode}
           onChange={(e) => setPostalCode(e.target.value)}
+          style={{ width: "100%", marginBottom: 20 }}
         />
-        <button type="submit" className="btn">
+        <Button type="submit" variant="outlined">
           Submit
-        </button>
+        </Button>
       </form>
     </div>
   );

@@ -23,6 +23,7 @@ function App() {
   const authContext = useContext(AuthenticationContext);
   const [booksDueSoon, setBooksDueSoon] = useState(false);
   const [booksRented, setBooksRented] = useState([]);
+  const [tableDisplay, setTableDisplay] = useState(1);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -54,6 +55,10 @@ function App() {
         `/api/getBooksRented/${authContext.userId}`
       );
       dueBookList = await dueBookList.json();
+
+      dueBookList = await dueBookList.sort((a, b) => {
+        return a.daysLeftToReturn - b.daysLeftToReturn;
+      });
       console.log(dueBookList);
       setBooksRented(dueBookList);
     }
@@ -67,7 +72,7 @@ function App() {
 
   return (
     <div>
-      <NavBar booksDueSoon={booksDueSoon} />
+      <NavBar booksDueSoon={booksDueSoon} setTableDisplay={setTableDisplay} />
       <Routes>
         <Route
           exact
@@ -85,6 +90,8 @@ function App() {
               books={books}
               setBooks={setBooks}
               booksRented={booksRented}
+              tableDisplay={tableDisplay}
+              setTableDisplay={setTableDisplay}
             />
           }
         />

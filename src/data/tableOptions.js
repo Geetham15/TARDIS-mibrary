@@ -68,7 +68,7 @@ const columns2 = [
     label: "Date Borrowed",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {
@@ -76,7 +76,7 @@ const columns2 = [
     label: "Date Due",
     options: {
       filter: true,
-      sort: false,
+      sort: true,
     },
   },
   {

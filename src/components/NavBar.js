@@ -19,7 +19,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const NavBar = ({ booksDueSoon }) => {
+const NavBar = ({ booksDueSoon, setTableDisplay }) => {
   const authContext = useContext(AuthenticationContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -130,6 +130,7 @@ const NavBar = ({ booksDueSoon }) => {
                 icon={faClock}
                 cursor="pointer"
                 onClick={() => {
+                  setTableDisplay(3);
                   navigate("/userDashboard");
                 }}
               />

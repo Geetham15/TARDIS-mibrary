@@ -24,7 +24,13 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const UserDashboard = ({ books, setBooks, booksRented }) => {
+const UserDashboard = ({
+  books,
+  setBooks,
+  booksRented,
+  tableDisplay,
+  setTableDisplay,
+}) => {
   const authContext = useContext(AuthenticationContext);
   const [bookData, setBookData] = useState({
     comments: "",
@@ -32,7 +38,6 @@ const UserDashboard = ({ books, setBooks, booksRented }) => {
     isbn: "",
   });
   const [lentBooks, setLentBooks] = useState([]);
-  const [tableDisplay, setTableDisplay] = useState(1);
   async function deleteBook(id) {
     console.log(id);
     setBooks(() => {

@@ -23,22 +23,12 @@ function App() {
   const authContext = useContext(AuthenticationContext);
   const [booksDueSoon, setBooksDueSoon] = useState(false);
   const [booksRented, setBooksRented] = useState([]);
+  const [lentBooks, setLentBooks] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
   }, []);
-
-  useEffect(() => {
-    async function getBooks() {
-      let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
-      let bookList = await fetchBook.json();
-      setBooks(bookList);
-    }
-    if (authContext.userId) {
-      getBooks();
-    }
-  }, [authContext.userId]);
 
   useEffect(() => {
     if (authContext.userId) {
@@ -55,18 +45,35 @@ function App() {
         `/api/getBooksRented/${authContext.userId}`
       );
       dueBookList = await dueBookList.json();
-
       dueBookList = await dueBookList.sort((a, b) => {
         return a.daysLeftToReturn - b.daysLeftToReturn;
       });
       console.log(dueBookList);
       setBooksRented(dueBookList);
     }
-    getBooksRented();
-    for (let book of booksRented) {
-      if (book.daysLeftToReturn <= 4) {
-        setBooksDueSoon(true);
+    async function getBooks() {
+      let fetchBook = await fetch(`/api/userBooks/${authContext.userId}`);
+      let bookList = await fetchBook.json();
+      setBooks(bookList);
+    }
+    async function getLentBooks() {
+      let result = await fetch(`/api/getLentBooks/${authContext.userId}`);
+      result = await result.json();
+      console.log(result);
+      setLentBooks(result);
+    }
+    async function loadAllBooks() {
+      await getBooksRented();
+      await getBooks();
+      await getLentBooks();
+      for (let book of booksRented) {
+        if (book.daysLeftToReturn <= 4) {
+          setBooksDueSoon(true);
+        }
       }
+    }
+    if (authContext.userId) {
+      loadAllBooks();
     }
   }, [authContext.userId]);
 
@@ -92,6 +99,7 @@ function App() {
               booksRented={booksRented}
               tableDisplay={tableDisplay}
               setTableDisplay={setTableDisplay}
+              lentBooks={lentBooks}
             />
           }
         />
@@ -100,7 +108,14 @@ function App() {
         <Route exact path="/about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {isChatOpen && <ChatBox setIsChatOpen={setIsChatOpen} socket={socket} />}
+      {isChatOpen && (
+        <ChatBox
+          setIsChatOpen={setIsChatOpen}
+          socket={socket}
+          lentBooks={lentBooks}
+          booksRented={booksRented}
+        />
+      )}
       <Footer setIsChatOpen={setIsChatOpen} />
     </div>
   );

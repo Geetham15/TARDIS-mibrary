@@ -11,12 +11,27 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import List from "@mui/material/List";
 
-const ChatBox = ({ setIsChatOpen, socket }) => {
+const ChatBox = ({ setIsChatOpen, socket, lentBooks, booksRented }) => {
   const [chattingWith, setChattingWith] = useState(null);
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
   const deleteConversation = async (id) => {
-    console.log(users);
+    for (const book of lentBooks) {
+      if (book.bookborrower_id === id) {
+        alert(
+          "You can't delete this conversation because you are currently lending a book to this user."
+        );
+        return;
+      }
+    }
+    for (const book of booksRented) {
+      if (book.bookowner_id === id) {
+        alert(
+          "You can't delete this conversation because you are currently renting from this user."
+        );
+        return;
+      }
+    }
     setUsers((old) => {
       return old.filter((user) => {
         return user.toUserId !== id;

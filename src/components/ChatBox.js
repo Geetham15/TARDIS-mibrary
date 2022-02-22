@@ -79,7 +79,7 @@ const ChatBox = ({ setIsChatOpen, socket, lentBooks, booksRented }) => {
               </IconButton>
             )}
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Chat
+              {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
             <Button
               color="inherit"

@@ -19,7 +19,7 @@ const Chat = ({ chattingWith, socket }) => {
       ...previousMessages,
       {
         fromUserId: authContext.userId,
-        toUserId: chattingWith,
+        toUserId: chattingWith.id,
         message: toSend,
       },
     ]);
@@ -28,7 +28,7 @@ const Chat = ({ chattingWith, socket }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         fromUserId: authContext.userId,
-        toUserId: chattingWith,
+        toUserId: chattingWith.id,
         message: toSend,
       }),
     });
@@ -39,7 +39,7 @@ const Chat = ({ chattingWith, socket }) => {
     e.preventDefault();
     socket.current.emit("sendMessage", {
       senderId: authContext.userId,
-      receiverId: chattingWith,
+      receiverId: chattingWith.id,
       text: toSend,
     });
     sendMessage();
@@ -50,7 +50,7 @@ const Chat = ({ chattingWith, socket }) => {
   useEffect(() => {
     async function loadMessages() {
       let response = await fetch(
-        `/api/loadChats?fromUserId=${authContext.userId}&toUserId=${chattingWith}`
+        `/api/loadChats?fromUserId=${authContext.userId}&toUserId=${chattingWith.id}`
       );
       response = await response.json();
       setPreviousMessages(response);

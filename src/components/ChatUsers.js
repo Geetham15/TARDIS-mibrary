@@ -28,7 +28,7 @@ const ChatUsers = ({ users, setChattingWith, deleteConversation }) => {
               </ListItemAvatar>
               <ListItemText
                 primary={user.username}
-                onClick={() => setChattingWith(user.id)}
+                onClick={() => setChattingWith(user)}
               />
             </ListItem>
             <Divider />

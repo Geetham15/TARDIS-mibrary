@@ -132,6 +132,8 @@ const Map = ({ bookData }) => {
             <div>
               <p>Title: {selectedBook.title}</p>
               <p>Author: {selectedBook.authors}</p>
+              <p>Condition: {selectedBook.condition}</p>
+              <p>Comments: {selectedBook.comments}</p>
               <button className="btn" onClick={initializeChat}>
                 Chat
               </button>

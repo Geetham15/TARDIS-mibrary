@@ -23,7 +23,7 @@ const Map = ({ bookData }) => {
       body: JSON.stringify({
         fromUserId: authContext.userId,
         toUserId: selectedBook.user_id,
-        message: `Hello, I'd like to borrow ${selectedBook.title}.`,
+        message: `Hello, I'd like to borrow ${selectedBook.title}. (automatic message)`,
       }),
     });
     response = await response.json();
@@ -36,11 +36,29 @@ const Map = ({ bookData }) => {
       body: JSON.stringify({
         fromUserId: selectedBook.user_id,
         toUserId: authContext.userId,
-        message: `Hello, I'd like to lend ${selectedBook.title}.`,
+        message: `Hello, I'd like to lend ${selectedBook.title}. (automatic message)`,
       }),
     });
     response2 = await response2.json();
     return response2;
+  };
+  const initializeTransaction = async () => {
+    let data = {
+      bookowner_id: selectedBook.user_id,
+      bookborrower_id: authContext.userId,
+      bookId: selectedBook.id,
+      dateBorrowed: null,
+      dateDueForReturn: null,
+      bookStatus: "pending",
+    };
+    console.log(data);
+    let response = await fetch("/api/bookOutOnLoan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    response = await response.json();
+    alert(response.message);
   };
   const initializeChat = async () => {
     setSelectedBook(null);
@@ -48,6 +66,8 @@ const Map = ({ bookData }) => {
     console.log(response);
     let response2 = await sendInitialLenderChat();
     console.log(response2);
+    let response3 = await initializeTransaction();
+    console.log(response3);
   };
 
   const [viewport, setViewport] = useState({
@@ -109,8 +129,8 @@ const Map = ({ bookData }) => {
             </Marker>
           ))}
         <Marker
-          latitude={authContext.latitude}
-          longitude={authContext.longitude}
+          latitude={authContext.latitude || 0}
+          longitude={authContext.longitude || 0}
         >
           <button
             onClick={(e) => {
@@ -132,6 +152,8 @@ const Map = ({ bookData }) => {
             <div>
               <p>Title: {selectedBook.title}</p>
               <p>Author: {selectedBook.authors}</p>
+              <p>Condition: {selectedBook.condition}</p>
+              <p>Comments: {selectedBook.comments}</p>
               <button className="btn" onClick={initializeChat}>
                 Chat
               </button>

@@ -15,6 +15,7 @@ const ChatBox = ({ setIsChatOpen, socket, lentBooks, booksRented }) => {
   const [chattingWith, setChattingWith] = useState(null);
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
+  console.log(booksRented);
   const deleteConversation = async (id) => {
     for (const book of lentBooks) {
       if (book.bookborrower_id === id) {
@@ -31,6 +32,12 @@ const ChatBox = ({ setIsChatOpen, socket, lentBooks, booksRented }) => {
         );
         return;
       }
+    }
+    const confirmation = window.confirm(
+      "Are you sure you want to end this chat?"
+    );
+    if (!confirmation) {
+      return;
     }
     setUsers((old) => {
       return old.filter((user) => {
@@ -79,7 +86,7 @@ const ChatBox = ({ setIsChatOpen, socket, lentBooks, booksRented }) => {
               </IconButton>
             )}
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Chat
+              {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
             <Button
               color="inherit"

@@ -8,13 +8,26 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [pendingRentalsPerUser, setPendingRentalsPerUser] = useState();
   const messagesEndRef = useRef(null);
+  const authContext = useContext(AuthenticationContext);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
   useEffect(() => {
     scrollToBottom();
   }, [previousMessages]);
+
+  useEffect(() => {
+    setPendingRentalsPerUser(() => {
+      return pendingRentals.filter((rental) => {
+        return (
+          rental.bookborrower_id === authContext.userId ||
+          rental.bookowner_id === authContext.userId
+        );
+      });
+    });
+  }, []);
 
   const sendMessage = async () => {
     setPreviousMessages([
@@ -48,7 +61,6 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
     sendMessage();
     setToSend("");
   };
-  const authContext = useContext(AuthenticationContext);
 
   useEffect(() => {
     async function loadMessages() {
@@ -111,7 +123,9 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
         <div ref={messagesEndRef} />
       </Box>
       <Box>
-        <FormDialog pendingRentals={pendingRentals} />
+        {pendingRentalsPerUser && (
+          <FormDialog pendingRentalsPerUser={pendingRentalsPerUser} />
+        )}
         <form onSubmit={onSubmit}>
           <input
             type="text"

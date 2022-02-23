@@ -148,4 +148,55 @@ const columns3 = [
   },
 ];
 
-export { columns1, columns2, columns3 };
+const columns4 = [
+  {
+    name: "title",
+    label: "Title",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "authors",
+    label: "Author",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "condition",
+    label: "Condition",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "dateBorrowed",
+    label: "Pickup Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "dateDueForReturn",
+    label: "Date Due",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "username",
+    label: "Owned By",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+];
+
+export { columns1, columns2, columns3, columns4 };

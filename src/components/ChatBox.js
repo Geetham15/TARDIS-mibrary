@@ -11,7 +11,13 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import List from "@mui/material/List";
 
-const ChatBox = ({ setIsChatOpen, socket, lentBooks, booksRented }) => {
+const ChatBox = ({
+  setIsChatOpen,
+  socket,
+  lentBooks,
+  booksRented,
+  pendingRentals,
+}) => {
   const [chattingWith, setChattingWith] = useState(null);
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
@@ -99,7 +105,11 @@ const ChatBox = ({ setIsChatOpen, socket, lentBooks, booksRented }) => {
 
         <List style={{ backgroundColor: "white" }}>
           {chattingWith ? (
-            <Chat chattingWith={chattingWith} socket={socket} />
+            <Chat
+              chattingWith={chattingWith}
+              socket={socket}
+              pendingRentals={pendingRentals}
+            />
           ) : (
             <div
               style={{

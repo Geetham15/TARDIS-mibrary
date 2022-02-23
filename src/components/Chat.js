@@ -2,11 +2,13 @@ import { useState, useContext, useEffect, useRef } from "react";
 import AuthenticationContext from "../AuthenticationContext.js";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
+import FormDialog from "./FormDialog.js";
 
 const Chat = ({ chattingWith, socket }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [pendingRentals, setPendingRentals] = useState([]);
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
@@ -55,8 +57,19 @@ const Chat = ({ chattingWith, socket }) => {
       response = await response.json();
       setPreviousMessages(response);
     }
-
-    loadMessages();
+    async function loadPendingRentals() {
+      let response = await fetch(
+        `/api/getPendingRentals?bookOwnerId=${chattingWith.id}&bookBorrowerId=${authContext.userId}`
+      );
+      response = await response.json();
+      setPendingRentals(response);
+    }
+    async function loadAll() {
+      await loadMessages();
+      await loadPendingRentals();
+    }
+    loadAll();
+    console.log(pendingRentals);
   }, []);
 
   useEffect(() => {
@@ -78,7 +91,7 @@ const Chat = ({ chattingWith, socket }) => {
       <Box
         sx={{
           width: 300,
-          height: 290,
+          height: 250,
           display: "flex",
           overflowY: "scroll",
           flexDirection: "column",
@@ -109,6 +122,7 @@ const Chat = ({ chattingWith, socket }) => {
         <div ref={messagesEndRef} />
       </Box>
       <Box>
+        <FormDialog pendingRentals={pendingRentals} />
         <form onSubmit={onSubmit}>
           <input
             type="text"

@@ -4,18 +4,31 @@ import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import FormDialog from "./FormDialog.js";
 
-const Chat = ({ chattingWith, socket }) => {
+const Chat = ({ chattingWith, socket, pendingRentals }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [pendingRentals, setPendingRentals] = useState([]);
+  const [pendingRentalsPerUser, setPendingRentalsPerUser] = useState();
   const messagesEndRef = useRef(null);
+  const authContext = useContext(AuthenticationContext);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
   useEffect(() => {
     scrollToBottom();
   }, [previousMessages]);
+
+  useEffect(() => {
+    setPendingRentalsPerUser(() => {
+      return pendingRentals.filter((rental) => {
+        return (
+          rental.bookborrower_id === authContext.userId ||
+          rental.bookowner_id === authContext.userId
+        );
+      });
+    });
+  }, []);
+
   const sendMessage = async () => {
     setPreviousMessages([
       ...previousMessages,
@@ -37,6 +50,7 @@ const Chat = ({ chattingWith, socket }) => {
     response = await response.json();
     console.log(response);
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
     socket.current.emit("sendMessage", {
@@ -47,7 +61,6 @@ const Chat = ({ chattingWith, socket }) => {
     sendMessage();
     setToSend("");
   };
-  const authContext = useContext(AuthenticationContext);
 
   useEffect(() => {
     async function loadMessages() {
@@ -57,19 +70,7 @@ const Chat = ({ chattingWith, socket }) => {
       response = await response.json();
       setPreviousMessages(response);
     }
-    async function loadPendingRentals() {
-      let response = await fetch(
-        `/api/getPendingRentals?bookOwnerId=${chattingWith.id}&bookBorrowerId=${authContext.userId}`
-      );
-      response = await response.json();
-      setPendingRentals(response);
-    }
-    async function loadAll() {
-      await loadMessages();
-      await loadPendingRentals();
-    }
-    loadAll();
-    console.log(pendingRentals);
+    loadMessages();
   }, []);
 
   useEffect(() => {
@@ -122,7 +123,9 @@ const Chat = ({ chattingWith, socket }) => {
         <div ref={messagesEndRef} />
       </Box>
       <Box>
-        <FormDialog pendingRentals={pendingRentals} />
+        {pendingRentalsPerUser && (
+          <FormDialog pendingRentalsPerUser={pendingRentalsPerUser} />
+        )}
         <form onSubmit={onSubmit}>
           <input
             type="text"

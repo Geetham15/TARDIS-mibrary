@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -6,21 +6,42 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function FormDialog({ pendingRentals }) {
+export default function FormDialog({ pendingRentalsPerUser }) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
   const [dateDueForReturn, setDateDueForReturn] = useState();
   const [bookStatus, setBookStatus] = useState();
 
+  useEffect(() => {
+    if (pendingRentalsPerUser) {
+      setDateBorrowed(pendingRentalsPerUser[0].dateBorrowed);
+      setDateDueForReturn(pendingRentalsPerUser[0].dateDueForReturn);
+    }
+  }, []);
   const updatePendingRental = async () => {
     let data = {
-      bookBorrowingId: pendingRentals[0]?.book_borrowing_id,
+      bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
       dateBorrowed: currentDateBorrowed,
       dateDueForReturn: dateDueForReturn,
       bookStatus: "reserved",
     };
     console.log(data);
     let response = await fetch("/api/updatePendingRental", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    response = await response.json();
+    alert(response.message);
+  };
+
+  const confirmRental = async () => {
+    let data = {
+      bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
+      bookStatus: "Lend",
+    };
+    console.log(data);
+    let response = await fetch("/api/confirmRental", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -44,7 +65,9 @@ export default function FormDialog({ pendingRentals }) {
         style={{ width: "100%" }}
         onClick={handleClickOpen}
       >
-        Open rental form
+        {pendingRentalsPerUser[0]?.bookStatus === "pending"
+          ? "Fill rental form"
+          : "Confirm rental"}
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Rent</DialogTitle>
@@ -57,7 +80,7 @@ export default function FormDialog({ pendingRentals }) {
             id="title"
             name="title"
             type="text"
-            value={pendingRentals[0]?.title}
+            value={pendingRentalsPerUser[0]?.title}
             readOnly
           />
           <label htmlFor="author">Author</label>
@@ -65,7 +88,7 @@ export default function FormDialog({ pendingRentals }) {
             id="author"
             name="author"
             type="text"
-            value={pendingRentals[0]?.authors}
+            value={pendingRentalsPerUser[0]?.authors}
             readOnly
           />
           <label htmlFor="condition">Condition</label>
@@ -73,35 +96,47 @@ export default function FormDialog({ pendingRentals }) {
             id="condition"
             name="condition"
             type="text"
-            value={pendingRentals[0]?.condition}
+            value={pendingRentalsPerUser[0]?.condition}
             readOnly
           />
           <label htmlFor="dateBorrowed">Pickup date</label>
-          <input
-            type="date"
-            name="dateBorrowed"
-            value={currentDateBorrowed}
-            onChange={(e) => setDateBorrowed(e.target.value)}
-            required
-          />
+          {pendingRentalsPerUser[0]?.bookStatus === "pending" ? (
+            <input
+              type="date"
+              name="dateBorrowed"
+              value={currentDateBorrowed}
+              onChange={(e) => setDateBorrowed(e.target.value)}
+              required
+            />
+          ) : (
+            <p>{currentDateBorrowed}</p>
+          )}
           <label htmlFor="dueDateForReturn">Due Date</label>
-          <input
-            type="date"
-            name="dueDateForReturn"
-            value={dateDueForReturn}
-            onChange={(e) => setDateDueForReturn(e.target.value)}
-            required
-          />
+          {pendingRentalsPerUser[0]?.bookStatus === "pending" ? (
+            <input
+              type="date"
+              name="dueDateForReturn"
+              value={dateDueForReturn}
+              onChange={(e) => setDateDueForReturn(e.target.value)}
+              required
+            />
+          ) : (
+            <p>{dateDueForReturn}</p>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={() => {
-              updatePendingRental();
+              pendingRentalsPerUser[0]?.bookStatus === "pending"
+                ? updatePendingRental()
+                : confirmRental();
               handleClose();
             }}
           >
-            Request
+            {pendingRentalsPerUser[0]?.bookStatus === "pending"
+              ? "Request"
+              : "Confirm"}
           </Button>
         </DialogActions>
       </Dialog>

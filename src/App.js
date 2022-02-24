@@ -24,6 +24,7 @@ function App() {
   const [booksDueSoon, setBooksDueSoon] = useState(false);
   const [booksRented, setBooksRented] = useState([]);
   const [lentBooks, setLentBooks] = useState([]);
+  const [pendingRentals, setPendingRentals] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);
 
   useEffect(() => {
@@ -62,10 +63,18 @@ function App() {
       console.log(result);
       setLentBooks(result);
     }
+    async function loadPendingRentals() {
+      let response = await fetch(
+        `/api/getPendingRentals/${authContext.userId}`
+      );
+      response = await response.json();
+      setPendingRentals(response);
+    }
     async function loadAllBooks() {
       await getBooksRented();
       await getBooks();
       await getLentBooks();
+      await loadPendingRentals();
       for (let book of booksRented) {
         if (book.daysLeftToReturn <= 4) {
           setBooksDueSoon(true);
@@ -100,6 +109,7 @@ function App() {
               tableDisplay={tableDisplay}
               setTableDisplay={setTableDisplay}
               lentBooks={lentBooks}
+              pendingRentals={pendingRentals}
             />
           }
         />
@@ -114,6 +124,7 @@ function App() {
           socket={socket}
           lentBooks={lentBooks}
           booksRented={booksRented}
+          pendingRentals={pendingRentals}
         />
       )}
       <Footer setIsChatOpen={setIsChatOpen} />

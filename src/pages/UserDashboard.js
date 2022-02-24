@@ -14,7 +14,12 @@ import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
 import AuthenticationContext from "../AuthenticationContext";
 import Avatar from "../components/userAvatar";
-import { columns1, columns2, columns3 } from "../data/tableOptions.js";
+import {
+  columns1,
+  columns2,
+  columns3,
+  columns4,
+} from "../data/tableOptions.js";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -31,6 +36,7 @@ const UserDashboard = ({
   tableDisplay,
   setTableDisplay,
   lentBooks,
+  pendingRentals,
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [bookData, setBookData] = useState({
@@ -119,6 +125,12 @@ const UserDashboard = ({
                 >
                   Rented
                 </Button>
+                <Button
+                  variant={tableDisplay === 4 ? "contained" : "outlined"}
+                  onClick={() => setTableDisplay(4)}
+                >
+                  Pending
+                </Button>
               </ButtonGroup>
             </Item>
             <Item>
@@ -150,6 +162,16 @@ const UserDashboard = ({
                   <DataTable
                     columns={columns3}
                     books={booksRented}
+                    options={options3}
+                  />
+                </>
+              )}
+              {tableDisplay === 4 && (
+                <>
+                  <Button component={Link}>Pending</Button>
+                  <DataTable
+                    columns={columns4}
+                    books={pendingRentals}
                     options={options3}
                   />
                 </>

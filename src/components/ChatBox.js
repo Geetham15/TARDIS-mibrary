@@ -21,7 +21,6 @@ const ChatBox = ({
   const [chattingWith, setChattingWith] = useState(null);
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
-  console.log(booksRented);
   const deleteConversation = async (id) => {
     for (const book of lentBooks) {
       if (book.bookborrower_id === id) {

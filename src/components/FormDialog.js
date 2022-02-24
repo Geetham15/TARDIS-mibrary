@@ -1,21 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import AuthenticationContext from "../AuthenticationContext";
 
-export default function FormDialog({ pendingRentalsPerUser }) {
+export default function FormDialog({
+  pendingRentalsPerUser,
+  setPendingRentalsPerUser,
+}) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
   const [dateDueForReturn, setDateDueForReturn] = useState();
   const [bookStatus, setBookStatus] = useState();
+  const authContext = useContext(AuthenticationContext);
 
   useEffect(() => {
     if (pendingRentalsPerUser) {
-      setDateBorrowed(pendingRentalsPerUser[0].dateBorrowed);
-      setDateDueForReturn(pendingRentalsPerUser[0].dateDueForReturn);
+      setDateBorrowed(pendingRentalsPerUser[0]?.dateBorrowed);
+      setDateDueForReturn(pendingRentalsPerUser[0]?.dateDueForReturn);
     }
   }, []);
   const updatePendingRental = async () => {
@@ -25,13 +30,15 @@ export default function FormDialog({ pendingRentalsPerUser }) {
       dateDueForReturn: dateDueForReturn,
       bookStatus: "reserved",
     };
-    console.log(data);
     let response = await fetch("/api/updatePendingRental", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     response = await response.json();
+    setPendingRentalsPerUser((old) => {
+      return { ...old, bookStatus: "reserved" };
+    });
     alert(response.message);
   };
 
@@ -47,6 +54,27 @@ export default function FormDialog({ pendingRentalsPerUser }) {
       body: JSON.stringify(data),
     });
     response = await response.json();
+    setPendingRentalsPerUser((old) => {
+      return { ...old, bookStatus: "Lend" };
+    });
+    alert(response.message);
+  };
+
+  const denyRental = async () => {
+    let data = {
+      bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
+      bookStatus: "pending",
+    };
+    console.log(data);
+    let response = await fetch("/api/confirmRental", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    response = await response.json();
+    setPendingRentalsPerUser((old) => {
+      return { ...old, bookStatus: "pending" };
+    });
     alert(response.message);
   };
 
@@ -60,15 +88,39 @@ export default function FormDialog({ pendingRentalsPerUser }) {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        style={{ width: "100%" }}
-        onClick={handleClickOpen}
-      >
-        {pendingRentalsPerUser[0]?.bookStatus === "pending"
-          ? "Fill rental form"
-          : "Confirm rental"}
-      </Button>
+      {pendingRentalsPerUser[0]?.bookStatus === "pending" &&
+        pendingRentalsPerUser[0]?.bookborrower_id === authContext.userId && (
+          <Button
+            variant="outlined"
+            style={{ width: "100%" }}
+            onClick={handleClickOpen}
+          >
+            Fill rental form
+          </Button>
+        )}
+      {pendingRentalsPerUser[0]?.bookStatus === "reserved" &&
+        pendingRentalsPerUser[0]?.bookborrower_id !== authContext.userId && (
+          <Button
+            variant="outlined"
+            style={{ width: "100%" }}
+            onClick={handleClickOpen}
+          >
+            Confirm rental
+          </Button>
+        )}
+
+      {pendingRentalsPerUser[0]?.bookStatus === "reserved" &&
+        pendingRentalsPerUser[0]?.bookborrower_id === authContext.userId && (
+          <Button
+            variant="outlined"
+            style={{ width: "100%" }}
+            onClick={handleClickOpen}
+            disabled
+          >
+            Awaiting confirmation
+          </Button>
+        )}
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Rent</DialogTitle>
         <DialogContent>
@@ -126,6 +178,17 @@ export default function FormDialog({ pendingRentalsPerUser }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
+          {pendingRentalsPerUser[0]?.bookStatus === "reserved" && (
+            <Button
+              onClick={() => {
+                denyRental();
+                handleClose();
+              }}
+            >
+              Deny
+            </Button>
+          )}
+
           <Button
             onClick={() => {
               pendingRentalsPerUser[0]?.bookStatus === "pending"

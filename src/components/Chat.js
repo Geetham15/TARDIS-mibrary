@@ -28,7 +28,7 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
       });
     });
   }, []);
-
+  console.log(pendingRentalsPerUser);
   const sendMessage = async () => {
     setPreviousMessages([
       ...previousMessages,
@@ -72,7 +72,6 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
     }
     loadMessages();
   }, []);
-
   useEffect(() => {
     arrivalMessage && setPreviousMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
@@ -124,7 +123,10 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
       </Box>
       <Box>
         {pendingRentalsPerUser && (
-          <FormDialog pendingRentalsPerUser={pendingRentalsPerUser} />
+          <FormDialog
+            pendingRentalsPerUser={pendingRentalsPerUser}
+            setPendingRentalsPerUser={setPendingRentalsPerUser}
+          />
         )}
         <form onSubmit={onSubmit}>
           <input

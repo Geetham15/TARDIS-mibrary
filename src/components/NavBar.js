@@ -14,10 +14,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import MustBeLoggedIn from "./MustBeLoggedIn";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NavBar = ({ booksDueSoon, setTableDisplay }) => {
   const authContext = useContext(AuthenticationContext);
@@ -126,14 +125,17 @@ const NavBar = ({ booksDueSoon, setTableDisplay }) => {
           )}
           <MustBeLoggedIn>
             {booksDueSoon && (
-              <FontAwesomeIcon
-                icon={faClock}
-                cursor="pointer"
-                onClick={() => {
-                  setTableDisplay(3);
-                  navigate("/userDashboard");
-                }}
-              />
+              <Tooltip title="book(s) due soon">
+                <IconButton>
+                  <AccessAlarmIcon
+                    onClick={() => {
+                      setTableDisplay(3);
+                      navigate("/userDashboard");
+                    }}
+                    style={{ color: "red" }}
+                  />
+                </IconButton>
+              </Tooltip>
             )}
           </MustBeLoggedIn>
           <Button

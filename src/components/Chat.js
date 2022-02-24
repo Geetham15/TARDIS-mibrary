@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import FormDialog from "./FormDialog.js";
 
-const Chat = ({ chattingWith, socket, pendingRentals }) => {
+const Chat = ({ chattingWith, socket, pendingRentals, setNewMessages }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -94,6 +94,10 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
         fromUserId: data.senderId,
         toUserId: data.receiverId,
         message: data.text,
+      });
+      setNewMessages((old) => {
+        old = old + 1;
+        return old;
       });
     });
   }, []);

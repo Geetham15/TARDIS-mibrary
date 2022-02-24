@@ -1,13 +1,12 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MustBeLoggedIn from "./MustBeLoggedIn";
+import { Badge } from "@mui/material";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
-function Footer({ setIsChatOpen }) {
+function Footer({ setIsChatOpen, newMessages, setNewMessages }) {
   const handleChatClick = () => {
     setIsChatOpen((old) => {
       return !old;
@@ -23,11 +22,15 @@ function Footer({ setIsChatOpen }) {
           </Typography>
 
           <MustBeLoggedIn>
-            <FontAwesomeIcon
-              icon={faCommentAlt}
-              cursor="pointer"
-              onClick={handleChatClick}
-            />
+            <Badge badgeContent={newMessages} color="secondary">
+              <ChatBubbleIcon
+                cursor="pointer"
+                onClick={() => {
+                  handleChatClick();
+                  setNewMessages(0);
+                }}
+              />
+            </Badge>
           </MustBeLoggedIn>
         </Toolbar>
       </AppBar>

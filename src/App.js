@@ -27,6 +27,7 @@ function App() {
   const [pendingRentals, setPendingRentals] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);
   const [chattingWith, setChattingWith] = useState(null);
+  const [newMessages, setNewMessages] = useState(0);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -36,7 +37,7 @@ function App() {
     if (authContext.userId) {
       socket.current.emit("addUser", authContext.userId);
       socket.current.on("getUsers", (users) => {
-        console.log(users);
+        //console.log(users);
       });
     }
   }, [authContext.userId]);
@@ -135,9 +136,14 @@ function App() {
           pendingRentals={pendingRentals}
           setChattingWith={setChattingWith}
           chattingWith={chattingWith}
+          setNewMessages={setNewMessages}
         />
       )}
-      <Footer setIsChatOpen={setIsChatOpen} />
+      <Footer
+        setIsChatOpen={setIsChatOpen}
+        newMessages={newMessages}
+        setNewMessages={setNewMessages}
+      />
     </div>
   );
 }

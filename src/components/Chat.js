@@ -28,16 +28,27 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
       });
     });
   }, []);
-  console.log(pendingRentalsPerUser);
   const sendMessage = async () => {
-    setPreviousMessages([
-      ...previousMessages,
-      {
-        fromUserId: authContext.userId,
-        toUserId: chattingWith.id,
-        message: toSend,
-      },
-    ]);
+    setPreviousMessages(() => {
+      if (previousMessages) {
+        return [
+          ...previousMessages,
+          {
+            fromUserId: authContext.userId,
+            toUserId: chattingWith.id,
+            message: toSend,
+          },
+        ];
+      } else {
+        return [
+          {
+            fromUserId: authContext.userId,
+            toUserId: chattingWith.id,
+            message: toSend,
+          },
+        ];
+      }
+    });
     let response = await fetch("/api/sendChat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -72,6 +83,7 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
     }
     loadMessages();
   }, []);
+
   useEffect(() => {
     arrivalMessage && setPreviousMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
@@ -97,27 +109,28 @@ const Chat = ({ chattingWith, socket, pendingRentals }) => {
           flexDirection: "column",
         }}
       >
-        {previousMessages.map((message) => {
-          return (
-            <div
-              className={
-                message.fromUserId === authContext.userId
-                  ? "chatSent"
-                  : "chatReceived"
-              }
-            >
+        {previousMessages &&
+          previousMessages.map((message) => {
+            return (
               <div
                 className={
                   message.fromUserId === authContext.userId
-                    ? "singleMessageSent"
-                    : "singleMessageReceived"
+                    ? "chatSent"
+                    : "chatReceived"
                 }
               >
-                <p style={{ color: "white" }}>{message.message}</p>
+                <div
+                  className={
+                    message.fromUserId === authContext.userId
+                      ? "singleMessageSent"
+                      : "singleMessageReceived"
+                  }
+                >
+                  <p style={{ color: "white" }}>{message.message}</p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
         <div ref={messagesEndRef} />
       </Box>

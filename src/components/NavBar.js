@@ -126,14 +126,13 @@ const NavBar = ({ booksDueSoon, setTableDisplay }) => {
           <MustBeLoggedIn>
             {booksDueSoon && (
               <Tooltip title="book(s) due soon">
-                <IconButton>
-                  <AccessAlarmIcon
-                    onClick={() => {
-                      setTableDisplay(3);
-                      navigate("/userDashboard");
-                    }}
-                    style={{ color: "red" }}
-                  />
+                <IconButton
+                  onClick={() => {
+                    setTableDisplay(3);
+                    navigate("/userDashboard");
+                  }}
+                >
+                  <AccessAlarmIcon style={{ color: "red" }} />
                 </IconButton>
               </Tooltip>
             )}

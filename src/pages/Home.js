@@ -6,7 +6,7 @@ import Login from "./Login.js";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
-function Home({ bookData, setBookData }) {
+function Home({ bookData, setBookData, setIsChatOpen, setChattingWith }) {
   const authContext = useContext(AuthenticationContext);
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -22,7 +22,11 @@ function Home({ bookData, setBookData }) {
         >
           <CardContent>
             <Search bookData={bookData} setBookData={setBookData} />
-            <Map bookData={bookData} />
+            <Map
+              bookData={bookData}
+              setIsChatOpen={setIsChatOpen}
+              setChattingWith={setChattingWith}
+            />
           </CardContent>
         </Card>
       ) : (

@@ -6,7 +6,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function FormDialog({ pendingRentalsPerUser }) {
+export default function FormDialog({
+  pendingRentalsPerUser,
+  setPendingRentalsPerUser,
+}) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
   const [dateDueForReturn, setDateDueForReturn] = useState();
@@ -14,8 +17,8 @@ export default function FormDialog({ pendingRentalsPerUser }) {
 
   useEffect(() => {
     if (pendingRentalsPerUser) {
-      setDateBorrowed(pendingRentalsPerUser[0].dateBorrowed);
-      setDateDueForReturn(pendingRentalsPerUser[0].dateDueForReturn);
+      setDateBorrowed(pendingRentalsPerUser[0]?.dateBorrowed);
+      setDateDueForReturn(pendingRentalsPerUser[0]?.dateDueForReturn);
     }
   }, []);
   const updatePendingRental = async () => {
@@ -25,13 +28,15 @@ export default function FormDialog({ pendingRentalsPerUser }) {
       dateDueForReturn: dateDueForReturn,
       bookStatus: "reserved",
     };
-    console.log(data);
     let response = await fetch("/api/updatePendingRental", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     response = await response.json();
+    setPendingRentalsPerUser((old) => {
+      return { ...old, bookStatus: "reserved" };
+    });
     alert(response.message);
   };
 
@@ -47,6 +52,9 @@ export default function FormDialog({ pendingRentalsPerUser }) {
       body: JSON.stringify(data),
     });
     response = await response.json();
+    setPendingRentalsPerUser((old) => {
+      return { ...old, bookStatus: "Lend" };
+    });
     alert(response.message);
   };
 

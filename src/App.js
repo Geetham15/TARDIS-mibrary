@@ -26,6 +26,7 @@ function App() {
   const [lentBooks, setLentBooks] = useState([]);
   const [pendingRentals, setPendingRentals] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);
+  const [chattingWith, setChattingWith] = useState(null);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -93,7 +94,14 @@ function App() {
         <Route
           exact
           path="/"
-          element={<Home bookData={bookData} setBookData={setBookData} />}
+          element={
+            <Home
+              bookData={bookData}
+              setBookData={setBookData}
+              setIsChatOpen={setIsChatOpen}
+              setChattingWith={setChattingWith}
+            />
+          }
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<SignUp />} />
@@ -125,6 +133,8 @@ function App() {
           lentBooks={lentBooks}
           booksRented={booksRented}
           pendingRentals={pendingRentals}
+          setChattingWith={setChattingWith}
+          chattingWith={chattingWith}
         />
       )}
       <Footer setIsChatOpen={setIsChatOpen} />

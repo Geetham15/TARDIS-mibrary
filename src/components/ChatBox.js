@@ -17,8 +17,9 @@ const ChatBox = ({
   lentBooks,
   booksRented,
   pendingRentals,
+  setChattingWith,
+  chattingWith,
 }) => {
-  const [chattingWith, setChattingWith] = useState(null);
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
   const deleteConversation = async (id) => {
@@ -95,7 +96,10 @@ const ChatBox = ({
             </Typography>
             <Button
               color="inherit"
-              onClick={() => setIsChatOpen((old) => !old)}
+              onClick={() => {
+                setIsChatOpen((old) => !old);
+                setChattingWith(null);
+              }}
             >
               x
             </Button>

@@ -11,7 +11,7 @@ const navControlStyle = {
   top: 10,
 };
 Modal.setAppElement("#root");
-const Map = ({ bookData }) => {
+const Map = ({ bookData, setIsChatOpen, setChattingWith }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -51,7 +51,6 @@ const Map = ({ bookData }) => {
       dateDueForReturn: null,
       bookStatus: "pending",
     };
-    console.log(data);
     let response = await fetch("/api/bookOutOnLoan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -60,6 +59,7 @@ const Map = ({ bookData }) => {
     response = await response.json();
     alert(response.message);
   };
+
   const initializeChat = async () => {
     setSelectedBook(null);
     let response = await sendInitialBorrowerChat();
@@ -68,6 +68,11 @@ const Map = ({ bookData }) => {
     console.log(response2);
     let response3 = await initializeTransaction();
     console.log(response3);
+    setChattingWith({
+      id: selectedBook.user_id,
+      username: selectedBook.userName,
+    });
+    setIsChatOpen(true);
   };
 
   const [viewport, setViewport] = useState({

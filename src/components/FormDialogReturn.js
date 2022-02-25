@@ -23,20 +23,15 @@ export default function FormDialogReturn({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    alert(response.message);
-  };
-
-  const cancelReturn = async () => {
-    let data = {
-      bookBorrowingId: booksRentedPerUser[0]?.book_borrowing_id,
-      bookStatus: "Lend",
-    };
-    let response = await fetch("/api/cancelReturn", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+    setBooksRentedPerUser((old) => {
+      return old.map((book, index) => {
+        if (index === 0) {
+          return { ...book, bookStatus: "return" };
+        } else {
+          return book;
+        }
+      });
     });
-    response = await response.json();
     alert(response.message);
   };
 

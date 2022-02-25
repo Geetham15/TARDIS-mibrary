@@ -23,7 +23,10 @@ export default function FormDialogConfirmReturn({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    setLentBooksPerUser([]);
+    setLentBooksPerUser((old) => {
+      old.shift();
+      return old;
+    });
     alert(response.message);
   };
 
@@ -51,13 +54,15 @@ export default function FormDialogConfirmReturn({
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        style={{ width: "100%" }}
-        onClick={handleClickOpen}
-      >
-        Confirm Return
-      </Button>
+      {lentBooksPerUser && (
+        <Button
+          variant="outlined"
+          style={{ width: "100%" }}
+          onClick={handleClickOpen}
+        >
+          Confirm Return
+        </Button>
+      )}
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Confirm Return</DialogTitle>

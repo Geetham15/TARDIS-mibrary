@@ -37,7 +37,13 @@ export default function FormDialog({
     });
     response = await response.json();
     setPendingRentalsPerUser((old) => {
-      return { ...old, bookStatus: "reserved" };
+      return old.map((book, index) => {
+        if (index === 0) {
+          return { ...book, bookStatus: "reserved" };
+        } else {
+          return book;
+        }
+      });
     });
     alert(response.message);
   };
@@ -54,6 +60,10 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
+    setPendingRentalsPerUser((old) => {
+      old.shift();
+      return old;
+    });
     alert(response.message);
   };
 
@@ -70,7 +80,13 @@ export default function FormDialog({
     });
     response = await response.json();
     setPendingRentalsPerUser((old) => {
-      return { ...old, bookStatus: "pending" };
+      return old.map((book, index) => {
+        if (index === 0) {
+          return { ...book, bookStatus: "pending" };
+        } else {
+          return book;
+        }
+      });
     });
     alert(response.message);
   };

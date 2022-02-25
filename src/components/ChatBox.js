@@ -19,6 +19,7 @@ const ChatBox = ({
   pendingRentals,
   setChattingWith,
   chattingWith,
+  setNewMessages,
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
@@ -112,6 +113,7 @@ const ChatBox = ({
               chattingWith={chattingWith}
               socket={socket}
               pendingRentals={pendingRentals}
+              setNewMessages={setNewMessages}
             />
           ) : (
             <div

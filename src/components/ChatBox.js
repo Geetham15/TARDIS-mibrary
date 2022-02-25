@@ -114,6 +114,8 @@ const ChatBox = ({
               socket={socket}
               pendingRentals={pendingRentals}
               setNewMessages={setNewMessages}
+              lentBooks={lentBooks}
+              booksRented={booksRented}
             />
           ) : (
             <div

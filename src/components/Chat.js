@@ -3,12 +3,23 @@ import AuthenticationContext from "../AuthenticationContext.js";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import FormDialog from "./FormDialog.js";
+import FormDialogReturn from "./FormDialogReturn.js";
+import FormDialogConfirmReturn from "./FormDialogConfirmReturn.js";
 
-const Chat = ({ chattingWith, socket, pendingRentals, setNewMessages }) => {
+const Chat = ({
+  chattingWith,
+  socket,
+  pendingRentals,
+  setNewMessages,
+  lentBooks,
+  booksRented,
+}) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [pendingRentalsPerUser, setPendingRentalsPerUser] = useState();
+  const [lentBooksPerUser, setLentBooksPerUser] = useState([]);
+  const [booksRentedPerUser, setBooksRentedPerUser] = useState([]);
   const messagesEndRef = useRef(null);
   const authContext = useContext(AuthenticationContext);
   const scrollToBottom = () => {
@@ -27,7 +38,20 @@ const Chat = ({ chattingWith, socket, pendingRentals, setNewMessages }) => {
         );
       });
     });
+    setLentBooksPerUser(() => {
+      return lentBooks.filter((lentBook) => {
+        return lentBook.bookborrower_id === chattingWith.id;
+      });
+    });
+    setBooksRentedPerUser(() => {
+      return booksRented.filter((rentedBook) => {
+        return rentedBook.bookowner_id === chattingWith.id;
+      });
+    });
   }, []);
+  console.log("lentBooksPerUser", lentBooksPerUser);
+  console.log("rentedBooksPerUser", booksRentedPerUser);
+
   const sendMessage = async () => {
     setPreviousMessages(() => {
       if (previousMessages) {
@@ -122,6 +146,7 @@ const Chat = ({ chattingWith, socket, pendingRentals, setNewMessages }) => {
                     ? "chatSent"
                     : "chatReceived"
                 }
+                key={message.id}
               >
                 <div
                   className={
@@ -143,6 +168,18 @@ const Chat = ({ chattingWith, socket, pendingRentals, setNewMessages }) => {
           <FormDialog
             pendingRentalsPerUser={pendingRentalsPerUser}
             setPendingRentalsPerUser={setPendingRentalsPerUser}
+          />
+        )}
+        {booksRentedPerUser.length !== 0 && (
+          <FormDialogReturn
+            booksRentedPerUser={booksRentedPerUser}
+            setBooksRentedPerUser={setBooksRentedPerUser}
+          />
+        )}
+        {lentBooksPerUser.length !== 0 && (
+          <FormDialogConfirmReturn
+            lentBooksPerUser={lentBooksPerUser}
+            setLentBooksPerUser={setLentBooksPerUser}
           />
         )}
         <form onSubmit={onSubmit}>

@@ -54,9 +54,6 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    setPendingRentalsPerUser((old) => {
-      return { ...old, bookStatus: "Lend" };
-    });
     alert(response.message);
   };
 

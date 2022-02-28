@@ -34,6 +34,41 @@ function App() {
   }, []);
 
   useEffect(() => {
+    socket.current.on(
+      "updatePendingStatus",
+      ({ userId, bookStatus, bookBorrowingId }) => {
+        console.log("updating pending rental");
+        setPendingRentals((old) => {
+          let bookToUpdate = old.filter((book) => {
+            return book.book_borrowing_id === bookBorrowingId;
+          });
+          console.log(bookToUpdate);
+          let other = old.filter((book) => {
+            return book.book_borrowing_id !== bookBorrowingId;
+          });
+          console.log(other);
+          bookToUpdate.bookStatus = bookStatus;
+          return [...other, bookToUpdate[0]];
+        });
+      }
+    );
+    socket.current.on("confirmRental", ({ bookBorrowingId }) => {
+      console.log("confirming rental");
+      setBooksRented((old) => {
+        let newRented = pendingRentals.filter((book) => {
+          return book.book_borrowing_id === bookBorrowingId;
+        });
+        return [...old, newRented];
+      });
+      setPendingRentals((old) => {
+        return old.filter((book) => {
+          return book.book_borrowing_id !== bookBorrowingId;
+        });
+      });
+    });
+  }, []);
+
+  useEffect(() => {
     if (authContext.userId) {
       socket.current.emit("addUser", authContext.userId);
       socket.current.on("getUsers", (users) => {
@@ -101,6 +136,7 @@ function App() {
               setBookData={setBookData}
               setIsChatOpen={setIsChatOpen}
               setChattingWith={setChattingWith}
+              setPendingRentals={setPendingRentals}
             />
           }
         />

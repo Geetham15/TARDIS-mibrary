@@ -49,8 +49,6 @@ const Chat = ({
       });
     });
   }, []);
-  console.log("lentBooksPerUser", lentBooksPerUser);
-  console.log("rentedBooksPerUser", booksRentedPerUser);
 
   const sendMessage = async () => {
     setPreviousMessages(() => {
@@ -168,6 +166,7 @@ const Chat = ({
           <FormDialog
             pendingRentalsPerUser={pendingRentalsPerUser}
             setPendingRentalsPerUser={setPendingRentalsPerUser}
+            socket={socket}
           />
         )}
         {booksRentedPerUser.length !== 0 && (

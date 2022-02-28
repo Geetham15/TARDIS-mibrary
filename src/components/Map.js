@@ -11,7 +11,12 @@ const navControlStyle = {
   top: 10,
 };
 Modal.setAppElement("#root");
-const Map = ({ bookData, setIsChatOpen, setChattingWith }) => {
+const Map = ({
+  bookData,
+  setIsChatOpen,
+  setChattingWith,
+  setPendingRentals,
+}) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -58,6 +63,7 @@ const Map = ({ bookData, setIsChatOpen, setChattingWith }) => {
     });
     response = await response.json();
     alert(response.message);
+    return response;
   };
 
   const initializeChat = async () => {
@@ -67,7 +73,21 @@ const Map = ({ bookData, setIsChatOpen, setChattingWith }) => {
     let response2 = await sendInitialLenderChat();
     console.log(response2);
     let response3 = await initializeTransaction();
-    console.log(response3);
+    setPendingRentals((old) => {
+      old.push({
+        bookowner_id: selectedBook.user_id,
+        title: selectedBook.title,
+        authors: selectedBook.authors,
+        condition: selectedBook.condition,
+        bookborrower_id: authContext.userId,
+        bookId: selectedBook.id,
+        dateBorrowed: null,
+        dateDueForReturn: null,
+        bookStatus: "pending",
+        book_borrowing_id: response3.id[0][0].value,
+      });
+      return old;
+    });
     setChattingWith({
       id: selectedBook.user_id,
       username: selectedBook.userName,

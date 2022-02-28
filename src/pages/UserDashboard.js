@@ -70,6 +70,8 @@ const UserDashboard = ({
     filterType: "checkbox",
     serverSide: false,
     sort: true,
+    rowsPerPage: 5,
+    rowsPerPageOptions: [5, 10, 15, 20, 50, 100],
     onRowsDelete: (rowsDeleted) => {
       console.log(rowsDeleted.data);
       for (let i = 0; i < rowsDeleted.data.length; i++) {
@@ -82,18 +84,22 @@ const UserDashboard = ({
     serverSide: false,
     sort: true,
     selectableRows: "none",
+    rowsPerPage: 5,
+    rowsPerPageOptions: [5, 10],
   };
 
   const options3 = {
     filterType: "checkbox",
     serverSide: false,
     sort: true,
+    rowsPerPage: 5,
+    rowsPerPageOptions: [5, 10],
     selectableRows: "none",
   };
 
   return (
     <div>
-      <Box sx={{ flexGrow: 2 }}>
+      <Box sx={{ flexGrow: 2, marginBottom: 10 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={2} sx={{ marginTop: 2 }}>
             <Item>

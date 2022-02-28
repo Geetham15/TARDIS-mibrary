@@ -10,11 +10,11 @@ import AuthenticationContext from "../AuthenticationContext";
 export default function FormDialog({
   pendingRentalsPerUser,
   setPendingRentalsPerUser,
+  socket,
 }) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
   const [dateDueForReturn, setDateDueForReturn] = useState();
-  const [bookStatus, setBookStatus] = useState();
   const authContext = useContext(AuthenticationContext);
 
   useEffect(() => {
@@ -45,6 +45,12 @@ export default function FormDialog({
         }
       });
     });
+    socket.current.emit("updatePendingStatus", {
+      bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
+      bookOwnerId: pendingRentalsPerUser[0]?.bookowner_id,
+      userId: authContext.userId,
+      bookStatus: "reserved",
+    });
     alert(response.message);
   };
 
@@ -63,6 +69,10 @@ export default function FormDialog({
     setPendingRentalsPerUser((old) => {
       old.shift();
       return old;
+    });
+    socket.current.emit("confirmRental", {
+      bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
+      userId: pendingRentalsPerUser[0]?.bookborrower_id,
     });
     alert(response.message);
   };

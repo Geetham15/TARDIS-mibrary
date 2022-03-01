@@ -27,7 +27,6 @@ function Footer({ setIsChatOpen, newMessages, setNewMessages }) {
                 cursor="pointer"
                 onClick={() => {
                   handleChatClick();
-                  setNewMessages(0);
                 }}
               />
             </Badge>

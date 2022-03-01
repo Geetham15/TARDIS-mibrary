@@ -66,14 +66,15 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    setPendingRentalsPerUser((old) => {
-      old.shift();
-      return old;
-    });
     socket.current.emit("confirmRental", {
       bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
       userId: pendingRentalsPerUser[0]?.bookborrower_id,
     });
+    setPendingRentalsPerUser((old) => {
+      old.shift();
+      return old;
+    });
+
     alert(response.message);
   };
 

@@ -65,6 +65,10 @@ const Map = ({
     response = await response.json();
     socket.current.emit("initiateChat", {
       ...data,
+      title: selectedBook.title,
+      authors: selectedBook.authors,
+      condition: selectedBook.condition,
+      username: selectedBook.username,
       book_borrowing_id: response.id[0][0].value,
     });
     alert(response.message);

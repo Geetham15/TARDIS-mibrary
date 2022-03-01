@@ -10,8 +10,10 @@ const Chat = ({
   chattingWith,
   socket,
   pendingRentals,
+  setPendingRentals,
   setNewMessages,
   lentBooks,
+  setLentBooks,
   booksRented,
 }) => {
   const [toSend, setToSend] = useState("");
@@ -48,7 +50,7 @@ const Chat = ({
         return rentedBook.bookowner_id === chattingWith.id;
       });
     });
-  }, []);
+  }, [pendingRentals, lentBooks, booksRented]);
 
   const sendMessage = async () => {
     setPreviousMessages(() => {
@@ -167,18 +169,22 @@ const Chat = ({
             pendingRentalsPerUser={pendingRentalsPerUser}
             setPendingRentalsPerUser={setPendingRentalsPerUser}
             socket={socket}
+            setPendingRentals={setPendingRentals}
           />
         )}
         {booksRentedPerUser.length !== 0 && (
           <FormDialogReturn
             booksRentedPerUser={booksRentedPerUser}
             setBooksRentedPerUser={setBooksRentedPerUser}
+            socket={socket}
           />
         )}
         {lentBooksPerUser.length !== 0 && (
           <FormDialogConfirmReturn
             lentBooksPerUser={lentBooksPerUser}
             setLentBooksPerUser={setLentBooksPerUser}
+            socket={socket}
+            setLentBooks={setLentBooks}
           />
         )}
         <form onSubmit={onSubmit}>

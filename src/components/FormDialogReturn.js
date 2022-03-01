@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,9 +9,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 export default function FormDialogReturn({
   booksRentedPerUser,
   setBooksRentedPerUser,
+  socket,
 }) {
   const [open, setOpen] = useState(false);
-
   const initiateReturn = async () => {
     let data = {
       bookBorrowingId: booksRentedPerUser[0]?.book_borrowing_id,
@@ -23,6 +23,11 @@ export default function FormDialogReturn({
       body: JSON.stringify(data),
     });
     response = await response.json();
+    socket.current.emit("changeRentalStatus", {
+      bookBorrowingId: booksRentedPerUser[0]?.book_borrowing_id,
+      userId: booksRentedPerUser[0]?.bookowner_id,
+      bookStatus: "return",
+    });
     setBooksRentedPerUser((old) => {
       return old.map((book, index) => {
         if (index === 0) {
@@ -45,7 +50,7 @@ export default function FormDialogReturn({
 
   return (
     <div>
-      {booksRentedPerUser[0]?.bookStatus === "Lend" ? (
+      {booksRentedPerUser[0]?.bookStatus === "Lend" && (
         <Button
           variant="outlined"
           style={{ width: "100%" }}
@@ -53,7 +58,9 @@ export default function FormDialogReturn({
         >
           Initiate Return
         </Button>
-      ) : (
+      )}
+
+      {booksRentedPerUser[0]?.bookStatus === "return" && (
         <Button
           variant="outlined"
           style={{ width: "100%" }}

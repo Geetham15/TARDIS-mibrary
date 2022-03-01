@@ -34,25 +34,24 @@ function App() {
   }, []);
 
   useEffect(() => {
-    socket.current.on(
-      "updatePendingStatus",
-      ({ userId, bookStatus, bookBorrowingId }) => {
-        console.log("updating pending rental");
-        setPendingRentals((old) => {
-          let bookToUpdate = old.filter((book) => {
-            return book.book_borrowing_id === bookBorrowingId;
-          });
-          console.log(bookToUpdate);
-          let other = old.filter((book) => {
-            return book.book_borrowing_id !== bookBorrowingId;
-          });
-          // console.log(other);
-          bookToUpdate[0].bookStatus = bookStatus;
-          console.log([...other, bookToUpdate[0]]);
-          return [...other, bookToUpdate[0]];
+    socket.current.on("updatePendingStatus", (data) => {
+      console.log("updating pending rental");
+      setPendingRentals((old) => {
+        old = old.map((book) => {
+          if (book.book_borrowing_id === data.bookBorrowingId) {
+            return {
+              ...book,
+              bookStatus: data.bookStatus,
+              dateBorrowed: `${data.dateBorrowed}`,
+              dateDueForReturn: `${data.dateDueForReturn}`,
+            };
+          } else {
+            return book;
+          }
         });
-      }
-    );
+        return old;
+      });
+    });
     socket.current.on("confirmRental", ({ bookBorrowingId }) => {
       console.log("confirming rental");
       setBooksRented((old) => {
@@ -72,6 +71,32 @@ function App() {
       console.log("initiating chat");
       setPendingRentals((old) => {
         return [...old, data];
+      });
+    });
+    socket.current.on(
+      "changeRentalStatus",
+      ({ bookBorrowingId, bookStatus }) => {
+        console.log("changing rental status");
+        setLentBooks((old) => {
+          let result = old.map((book) => {
+            if (book.book_borrowing_id === bookBorrowingId) {
+              return { ...book, bookStatus };
+            }
+            return book;
+          });
+          console.log(result);
+          return result;
+        });
+      }
+    );
+    socket.current.on("confirmReturn", ({ bookBorrowingId }) => {
+      console.log("confirming return");
+      setBooksRented((old) => {
+        old = old.filter((book) => {
+          return book.book_borrowing_id !== bookBorrowingId;
+        });
+        console.log("updated books rented", old);
+        return old;
       });
     });
   }, []);
@@ -177,8 +202,10 @@ function App() {
           setIsChatOpen={setIsChatOpen}
           socket={socket}
           lentBooks={lentBooks}
+          setLentBooks={setLentBooks}
           booksRented={booksRented}
           pendingRentals={pendingRentals}
+          setPendingRentals={setPendingRentals}
           setChattingWith={setChattingWith}
           chattingWith={chattingWith}
           setNewMessages={setNewMessages}

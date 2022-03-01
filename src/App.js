@@ -42,8 +42,8 @@ function App() {
             return {
               ...book,
               bookStatus: data.bookStatus,
-              dateBorrowed: data.dateBorrowed,
-              dateDueForReturn: data.dateDueForReturn,
+              dateBorrowed: `${data.dateBorrowed}`,
+              dateDueForReturn: `${data.dateDueForReturn}`,
             };
           } else {
             return book;

@@ -12,6 +12,7 @@ function Home({
   setIsChatOpen,
   setChattingWith,
   setPendingRentals,
+  socket,
 }) {
   const authContext = useContext(AuthenticationContext);
   return (
@@ -33,6 +34,7 @@ function Home({
               setIsChatOpen={setIsChatOpen}
               setChattingWith={setChattingWith}
               setPendingRentals={setPendingRentals}
+              socket={socket}
             />
           </CardContent>
         </Card>

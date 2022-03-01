@@ -16,6 +16,7 @@ const Map = ({
   setIsChatOpen,
   setChattingWith,
   setPendingRentals,
+  socket,
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -62,6 +63,10 @@ const Map = ({
       body: JSON.stringify(data),
     });
     response = await response.json();
+    socket.current.emit("initiateChat", {
+      ...data,
+      book_borrowing_id: response.id[0][0].value,
+    });
     alert(response.message);
     return response;
   };

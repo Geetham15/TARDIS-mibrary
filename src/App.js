@@ -46,8 +46,9 @@ function App() {
           let other = old.filter((book) => {
             return book.book_borrowing_id !== bookBorrowingId;
           });
-          console.log(other);
-          bookToUpdate.bookStatus = bookStatus;
+          // console.log(other);
+          bookToUpdate[0].bookStatus = bookStatus;
+          console.log([...other, bookToUpdate[0]]);
           return [...other, bookToUpdate[0]];
         });
       }
@@ -58,12 +59,19 @@ function App() {
         let newRented = pendingRentals.filter((book) => {
           return book.book_borrowing_id === bookBorrowingId;
         });
-        return [...old, newRented];
+        console.log([...old, newRented[0]]);
+        return [...old, newRented[0]];
       });
       setPendingRentals((old) => {
         return old.filter((book) => {
           return book.book_borrowing_id !== bookBorrowingId;
         });
+      });
+    });
+    socket.current.on("initiateChat", (data) => {
+      console.log("initiating chat");
+      setPendingRentals((old) => {
+        return [...old, data];
       });
     });
   }, []);
@@ -137,6 +145,7 @@ function App() {
               setIsChatOpen={setIsChatOpen}
               setChattingWith={setChattingWith}
               setPendingRentals={setPendingRentals}
+              socket={socket}
             />
           }
         />

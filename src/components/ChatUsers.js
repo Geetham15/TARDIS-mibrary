@@ -4,7 +4,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
-import { Divider } from "@mui/material";
+import { Divider, Badge } from "@mui/material";
 
 const ChatUsers = ({ users, setChattingWith, deleteConversation }) => {
   return (
@@ -24,7 +24,9 @@ const ChatUsers = ({ users, setChattingWith, deleteConversation }) => {
               }
             >
               <ListItemAvatar>
-                <Avatar>{user.username[0].toUpperCase()}</Avatar>
+                <Badge badgeContent={4} color="secondary">
+                  <Avatar>{user.username[0].toUpperCase()}</Avatar>
+                </Badge>
               </ListItemAvatar>
               <ListItemText
                 primary={user.username}

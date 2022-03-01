@@ -20,6 +20,7 @@ const ChatBox = ({
   setChattingWith,
   chattingWith,
   setNewMessages,
+  newMessages,
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
@@ -128,6 +129,7 @@ const ChatBox = ({
                 users={users}
                 setChattingWith={setChattingWith}
                 deleteConversation={deleteConversation}
+                newMessages={{ newMessages }}
               />
             </div>
           )}

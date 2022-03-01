@@ -15,8 +15,10 @@ const ChatBox = ({
   setIsChatOpen,
   socket,
   lentBooks,
+  setLentBooks,
   booksRented,
   pendingRentals,
+  setPendingRentals,
   setChattingWith,
   chattingWith,
   setNewMessages,
@@ -114,8 +116,10 @@ const ChatBox = ({
               chattingWith={chattingWith}
               socket={socket}
               pendingRentals={pendingRentals}
+              setPendingRentals={setPendingRentals}
               setNewMessages={setNewMessages}
               lentBooks={lentBooks}
+              setLentBooks={setLentBooks}
               booksRented={booksRented}
             />
           ) : (

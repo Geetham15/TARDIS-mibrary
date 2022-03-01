@@ -5,13 +5,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import AuthenticationContext from "../AuthenticationContext";
 
 export default function FormDialogReturn({
   booksRentedPerUser,
   setBooksRentedPerUser,
+  socket,
 }) {
   const [open, setOpen] = useState(false);
-
+  const authContext = useContext(AuthenticationContext);
   const initiateReturn = async () => {
     let data = {
       bookBorrowingId: booksRentedPerUser[0]?.book_borrowing_id,
@@ -23,6 +25,11 @@ export default function FormDialogReturn({
       body: JSON.stringify(data),
     });
     response = await response.json();
+    socket.current.emit("changeRentalStatus", {
+      bookBorrowingId: booksRentedPerUser[0]?.book_borrowing_id,
+      userId: booksRentedPerUser[0]?.bookowner_id,
+      bookStatus: "return",
+    });
     setBooksRentedPerUser((old) => {
       return old.map((book, index) => {
         if (index === 0) {
@@ -45,7 +52,7 @@ export default function FormDialogReturn({
 
   return (
     <div>
-      {booksRentedPerUser[0]?.bookStatus === "Lend" ? (
+      {booksRentedPerUser[0]?.bookStatus === "Lend" && (
         <Button
           variant="outlined"
           style={{ width: "100%" }}
@@ -53,7 +60,9 @@ export default function FormDialogReturn({
         >
           Initiate Return
         </Button>
-      ) : (
+      )}
+
+      {booksRentedPerUser[0]?.bookStatus === "return" && (
         <Button
           variant="outlined"
           style={{ width: "100%" }}

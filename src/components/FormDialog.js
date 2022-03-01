@@ -11,6 +11,7 @@ export default function FormDialog({
   pendingRentalsPerUser,
   setPendingRentalsPerUser,
   socket,
+  setPendingRentals,
 }) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
@@ -36,9 +37,11 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    setPendingRentalsPerUser((old) => {
-      return old.map((book, index) => {
-        if (index === 0) {
+    setPendingRentals((old) => {
+      return old.map((book) => {
+        if (
+          book.book_borrowing_id === pendingRentalsPerUser[0]?.bookBorrowingId
+        ) {
           return { ...book, bookStatus: "reserved" };
         } else {
           return book;
@@ -46,10 +49,8 @@ export default function FormDialog({
       });
     });
     socket.current.emit("updatePendingStatus", {
-      bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
+      ...data,
       bookOwnerId: pendingRentalsPerUser[0]?.bookowner_id,
-      userId: authContext.userId,
-      bookStatus: "reserved",
     });
     alert(response.message);
   };
@@ -70,9 +71,12 @@ export default function FormDialog({
       bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
       userId: pendingRentalsPerUser[0]?.bookborrower_id,
     });
-    setPendingRentalsPerUser((old) => {
-      old.shift();
-      return old;
+    setPendingRentals((old) => {
+      return old.filter((book) => {
+        return (
+          book.book_borrowing_id !== pendingRentalsPerUser[0]?.book_borrowing_id
+        );
+      });
     });
 
     alert(response.message);

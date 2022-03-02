@@ -15,6 +15,7 @@ const Chat = ({
   lentBooks,
   setLentBooks,
   booksRented,
+  loadAllBooks,
 }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
@@ -170,6 +171,7 @@ const Chat = ({
             setPendingRentalsPerUser={setPendingRentalsPerUser}
             socket={socket}
             setPendingRentals={setPendingRentals}
+            loadAllBooks={loadAllBooks}
           />
         )}
         {booksRentedPerUser.length !== 0 && (
@@ -177,6 +179,7 @@ const Chat = ({
             booksRentedPerUser={booksRentedPerUser}
             setBooksRentedPerUser={setBooksRentedPerUser}
             socket={socket}
+            loadAllBooks={loadAllBooks}
           />
         )}
         {lentBooksPerUser.length !== 0 && (
@@ -185,6 +188,7 @@ const Chat = ({
             setLentBooksPerUser={setLentBooksPerUser}
             socket={socket}
             setLentBooks={setLentBooks}
+            loadAllBooks={loadAllBooks}
           />
         )}
         <form onSubmit={onSubmit}>

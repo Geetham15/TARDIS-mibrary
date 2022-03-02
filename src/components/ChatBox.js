@@ -6,10 +6,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import List from "@mui/material/List";
+import CloseIcon from "@mui/icons-material/Close";
+
+import RatingDialog from "./RatingDialog.js";
 
 const ChatBox = ({
   setIsChatOpen,
@@ -28,6 +30,7 @@ const ChatBox = ({
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
+
   const deleteConversation = async (id) => {
     for (const book of lentBooks) {
       if (book.bookborrower_id === id) {
@@ -100,15 +103,16 @@ const ChatBox = ({
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
-            <Button
+            {chattingWith && <RatingDialog />}
+            <IconButton
               color="inherit"
               onClick={() => {
                 setIsChatOpen((old) => !old);
                 setChattingWith(null);
               }}
             >
-              x
-            </Button>
+              <CloseIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
 
@@ -143,6 +147,7 @@ const ChatBox = ({
             </div>
           )}
         </List>
+        <RatingDialog />
       </Box>
     </div>
   );

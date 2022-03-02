@@ -34,74 +34,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // socket.current.on("updatePendingStatus", (data) => {
-    //   console.log("updating pending rental");
-    //   setPendingRentals((old) => {
-    //     old = old.map((book) => {
-    //       if (book.book_borrowing_id === data.bookBorrowingId) {
-    //         return {
-    //           ...book,
-    //           bookStatus: data.bookStatus,
-    //           dateBorrowed: `${data.dateBorrowed}`,
-    //           dateDueForReturn: `${data.dateDueForReturn}`,
-    //         };
-    //       } else {
-    //         return book;
-    //       }
-    //     });
-    //     return old;
-    //   });
-    // });
-    socket.current.on("updateAllBooks", ({ id }) => {
-      loadAllBooks(id);
+    socket.current.on("updateAllBooks", ({ id, options }) => {
+      loadAllBooks(id, options);
     });
-    // socket.current.on("confirmRental", ({ bookBorrowingId }) => {
-    //   console.log("confirming rental");
-    //   setBooksRented((old) => {
-    //     let newRented = pendingRentals.filter((book) => {
-    //       return book.book_borrowing_id === bookBorrowingId;
-    //     });
-    //     console.log([...old, newRented[0]]);
-    //     return [...old, newRented[0]];
-    //   });
-    //   setPendingRentals((old) => {
-    //     return old.filter((book) => {
-    //       return book.book_borrowing_id !== bookBorrowingId;
-    //     });
-    //   });
-    // });
-    socket.current.on("initiateChat", (data) => {
-      console.log("initiating chat");
-      setPendingRentals((old) => {
-        return [...old, data];
-      });
-    });
-    // socket.current.on(
-    //   "changeRentalStatus",
-    //   ({ bookBorrowingId, bookStatus }) => {
-    //     console.log("changing rental status");
-    //     setLentBooks((old) => {
-    //       let result = old.map((book) => {
-    //         if (book.book_borrowing_id === bookBorrowingId) {
-    //           return { ...book, bookStatus };
-    //         }
-    //         return book;
-    //       });
-    //       console.log(result);
-    //       return result;
-    //     });
-    //   }
-    // );
-    // socket.current.on("confirmReturn", ({ bookBorrowingId }) => {
-    //   console.log("confirming return");
-    //   setBooksRented((old) => {
-    //     old = old.filter((book) => {
-    //       return book.book_borrowing_id !== bookBorrowingId;
-    //     });
-    //     console.log("updated books rented", old);
-    //     return old;
-    //   });
-    // });
   }, []);
 
   useEffect(() => {
@@ -138,14 +73,30 @@ function App() {
     response = await response.json();
     setPendingRentals(response);
   }
-  async function loadAllBooks(id = authContext.userId) {
-    await getBooksRented(id);
-    await getBooks(id);
-    await getLentBooks(id);
-    await loadPendingRentals(id);
-    for (let book of booksRented) {
-      if (book.daysLeftToReturn <= 4) {
-        setBooksDueSoon(true);
+  async function loadAllBooks(
+    id = authContext.userId,
+    options = {
+      booksRented: true,
+      booksOwned: true,
+      lentBooks: true,
+      pending: true,
+    }
+  ) {
+    if (options.booksRented) {
+      await getBooksRented(id);
+    }
+    if (options.booksOwned) {
+      await getBooks(id);
+    }
+    if (options.lentBooks) {
+      await getLentBooks(id);
+    }
+    if (options.pending) {
+      await loadPendingRentals(id);
+      for (let book of booksRented) {
+        if (book.daysLeftToReturn <= 4) {
+          setBooksDueSoon(true);
+        }
       }
     }
   }

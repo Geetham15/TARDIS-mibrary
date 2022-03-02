@@ -37,10 +37,21 @@ export default function FormDialog({
     });
     response = await response.json();
 
-    await loadAllBooks();
+    await loadAllBooks(authContext.userId, {
+      booksRented: false,
+      booksOwned: false,
+      lentBooks: false,
+      pending: true,
+    });
 
     socket.current.emit("updateAllBooks", {
       id: pendingRentalsPerUser[0]?.bookowner_id,
+      options: {
+        booksRented: false,
+        booksOwned: false,
+        lentBooks: false,
+        pending: true,
+      },
     });
     alert(response.message);
   };
@@ -58,10 +69,21 @@ export default function FormDialog({
     });
     response = await response.json();
 
-    await loadAllBooks();
+    await loadAllBooks(authContext.userId, {
+      booksRented: false,
+      booksOwned: false,
+      lentBooks: true,
+      pending: true,
+    });
 
     socket.current.emit("updateAllBooks", {
       id: pendingRentalsPerUser[0]?.bookborrower_id,
+      options: {
+        booksRented: true,
+        booksOwned: false,
+        lentBooks: false,
+        pending: true,
+      },
     });
 
     alert(response.message);
@@ -79,10 +101,22 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    await loadAllBooks();
+
+    await loadAllBooks(authContext.userId, {
+      booksRented: false,
+      booksOwned: false,
+      lentBooks: true,
+      pending: true,
+    });
 
     socket.current.emit("updateAllBooks", {
       id: pendingRentalsPerUser[0]?.bookborrower_id,
+      options: {
+        booksRented: true,
+        booksOwned: false,
+        lentBooks: false,
+        pending: true,
+      },
     });
 
     alert(response.message);

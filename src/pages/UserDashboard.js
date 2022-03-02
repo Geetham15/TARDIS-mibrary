@@ -44,6 +44,35 @@ const UserDashboard = ({
     condition: "gently used",
     isbn: "",
   });
+  console.log("booksRented", booksRented);
+  async function initiateReturn(selectedRows, displayData) {
+    console.log("selectedRows", selectedRows);
+    console.log("displayData", displayData);
+    for (let i = 0; i < selectedRows.data.length; i++) {
+      let row = selectedRows.data[i];
+      let dataIndex = row.dataIndex;
+      console.log('dataIndex', dataIndex)
+      console.log('displayData[dataIndex]', displayData[dataIndex])
+      let bookData = displayData[dataIndex].data;
+      let bookBorrowingId = bookData[8];
+      console.log("bookBorrowingId", bookBorrowingId);
+      let response = await fetch("/api/initiateReturn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookStatus: "pending",
+          bookBorrowingId: bookBorrowingId,
+        }),
+      });
+      response = await response.json();
+      if (response) {
+        alert("Initial Return was successful");
+      } else {
+        alert("something went wrong");
+      }
+    }
+    return;
+  }
 
   async function deleteBook(id) {
     console.log(id);
@@ -101,11 +130,15 @@ const UserDashboard = ({
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
     selectableRows: "single",
-    customToolbarSelect: (confirmReturn) => {
-      // console.log(acceptReturn.data);
-      for (let i = 0; i < confirmReturn.data.length; i++) {
-        return <Button>Return Book</Button>;
-      }
+    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
+      console.log("selectedRows:", selectedRows);
+      console.log("displayData:", displayData);
+      console.log("setSelectedRows:", setSelectedRows);
+      return (
+        <Button onClick={() => initiateReturn(selectedRows, displayData)}>
+          Return Book
+        </Button>
+      );
     },
   };
 
@@ -178,7 +211,7 @@ const UserDashboard = ({
               {tableDisplay === 3 && (
                 <>
                   <Button component={Link}>Rented</Button>
-                  
+
                   <DataTable
                     columns={columns3}
                     books={booksRented}

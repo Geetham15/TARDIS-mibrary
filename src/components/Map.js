@@ -65,6 +65,12 @@ const Map = ({
     response = await response.json();
     socket.current.emit("updateAllBooks", {
       id: selectedBook.user_id,
+      options: {
+        booksRented: false,
+        booksOwned: false,
+        lentBooks: false,
+        pending: true,
+      },
     });
     alert(response.message);
     return response;

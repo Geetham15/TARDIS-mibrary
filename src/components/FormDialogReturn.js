@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import AuthenticationContext from "../AuthenticationContext";
 
 export default function FormDialogReturn({
   booksRentedPerUser,
@@ -12,6 +13,7 @@ export default function FormDialogReturn({
   loadAllBooks,
 }) {
   const [open, setOpen] = useState(false);
+  const authContext = useContext(AuthenticationContext);
   const initiateReturn = async () => {
     let data = {
       bookBorrowingId: booksRentedPerUser[0]?.book_borrowing_id,
@@ -23,10 +25,21 @@ export default function FormDialogReturn({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    loadAllBooks();
+    await loadAllBooks(authContext.userId, {
+      booksRented: true,
+      booksOwned: false,
+      lentBooks: false,
+      pending: false,
+    });
 
     socket.current.emit("updateAllBooks", {
       id: booksRentedPerUser[0]?.bookowner_id,
+      options: {
+        booksRented: false,
+        booksOwned: false,
+        lentBooks: true,
+        pending: false,
+      },
     });
 
     alert(response.message);

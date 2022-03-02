@@ -27,8 +27,8 @@ function App() {
   const [pendingRentals, setPendingRentals] = useState([]);
   const [tableDisplay, setTableDisplay] = useState(1);
   const [chattingWith, setChattingWith] = useState(null);
-  const [newMessages, setNewMessages] = useState(0);
-
+  const [newMessages, setNewMessages] = useState({ testing: 0 });
+  const [isPendingConfirmation, setIsPendingConfirmation] = useState(false);
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
   }, []);
@@ -109,7 +109,11 @@ function App() {
 
   return (
     <div>
-      <NavBar booksDueSoon={booksDueSoon} setTableDisplay={setTableDisplay} />
+      <NavBar
+        booksDueSoon={booksDueSoon}
+        isPendingConfirmation={isPendingConfirmation}
+        setTableDisplay={setTableDisplay}
+      />
       <Routes>
         <Route
           exact
@@ -159,14 +163,16 @@ function App() {
           setPendingRentals={setPendingRentals}
           setChattingWith={setChattingWith}
           chattingWith={chattingWith}
+          newMessages={newMessages}
           setNewMessages={setNewMessages}
           loadAllBooks={loadAllBooks}
+          setIsPendingConfirmation={setIsPendingConfirmation}
         />
       )}
       <Footer
         setIsChatOpen={setIsChatOpen}
-        newMessages={newMessages}
         setNewMessages={setNewMessages}
+        socket={socket}
       />
     </div>
   );

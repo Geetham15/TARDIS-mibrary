@@ -15,10 +15,11 @@ import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import MustBeLoggedIn from "./MustBeLoggedIn";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import PendingIcon from "@mui/icons-material/Pending";
 
 import { useNavigate } from "react-router-dom";
 
-const NavBar = ({ booksDueSoon, setTableDisplay }) => {
+const NavBar = ({ booksDueSoon, setTableDisplay, isPendingConfirmation }) => {
   const authContext = useContext(AuthenticationContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -133,6 +134,18 @@ const NavBar = ({ booksDueSoon, setTableDisplay }) => {
                   }}
                 >
                   <AccessAlarmIcon style={{ color: "red" }} />
+                </IconButton>
+              </Tooltip>
+            )}
+            {isPendingConfirmation && (
+              <Tooltip title="confirm rental">
+                <IconButton
+                  onClick={() => {
+                    setTableDisplay(4);
+                    navigate("/userDashboard");
+                  }}
+                >
+                  <PendingIcon style={{ color: "red" }} />
                 </IconButton>
               </Tooltip>
             )}

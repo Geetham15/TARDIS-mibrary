@@ -11,6 +11,7 @@ export default function FormDialog({
   pendingRentalsPerUser,
   socket,
   loadAllBooks,
+  setIsPendingConfirmation,
 }) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
@@ -23,6 +24,18 @@ export default function FormDialog({
       setDateDueForReturn(pendingRentalsPerUser[0]?.dateDueForReturn);
     }
   }, []);
+
+  useEffect(() => {
+    setIsPendingConfirmation(() => {
+      if (
+        pendingRentalsPerUser[0]?.bookStatus === "reserved" &&
+        pendingRentalsPerUser[0]?.bookborrower_id !== authContext.userId
+      ) {
+        return true;
+      }
+      return false;
+    });
+  }, [pendingRentalsPerUser]);
   const updatePendingRental = async () => {
     let data = {
       bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,

@@ -24,6 +24,7 @@ const ChatBox = ({
   setNewMessages,
   newMessages,
   loadAllBooks,
+  setIsPendingConfirmation,
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
@@ -123,6 +124,7 @@ const ChatBox = ({
               setLentBooks={setLentBooks}
               booksRented={booksRented}
               loadAllBooks={loadAllBooks}
+              setIsPendingConfirmation={setIsPendingConfirmation}
             />
           ) : (
             <div
@@ -135,7 +137,8 @@ const ChatBox = ({
                 users={users}
                 setChattingWith={setChattingWith}
                 deleteConversation={deleteConversation}
-                newMessages={{ newMessages }}
+                newMessages={newMessages}
+                setNewMessages={setNewMessages}
               />
             </div>
           )}

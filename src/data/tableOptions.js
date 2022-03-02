@@ -197,6 +197,14 @@ const columns4 = [
       sort: true,
     },
   },
+  {
+    name: "username2",
+    label: "Renter",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
 ];
 
 export { columns1, columns2, columns3, columns4 };

@@ -16,6 +16,7 @@ const Chat = ({
   setLentBooks,
   booksRented,
   loadAllBooks,
+  setIsPendingConfirmation,
 }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
@@ -121,7 +122,11 @@ const Chat = ({
         message: data.text,
       });
       setNewMessages((old) => {
-        old = old + 1;
+        if (old[data.senderId]) {
+          old[data.senderId] += 1;
+        } else {
+          old[data.senderId] = 1;
+        }
         return old;
       });
     });
@@ -172,6 +177,7 @@ const Chat = ({
             socket={socket}
             setPendingRentals={setPendingRentals}
             loadAllBooks={loadAllBooks}
+            setIsPendingConfirmation={setIsPendingConfirmation}
           />
         )}
         {booksRentedPerUser.length !== 0 && (

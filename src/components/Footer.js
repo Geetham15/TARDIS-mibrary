@@ -1,17 +1,28 @@
-import React from "react";
+import { useContext, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MustBeLoggedIn from "./MustBeLoggedIn";
 import { Badge } from "@mui/material";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import AuthenticationContext from "../AuthenticationContext";
 
-function Footer({ setIsChatOpen, newMessages, setNewMessages }) {
+function Footer({ setIsChatOpen, socket }) {
   const handleChatClick = () => {
     setIsChatOpen((old) => {
       return !old;
     });
   };
+  const [badgeContent, setBadgeContent] = useState(0);
+  const authContext = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    if (authContext.userId) {
+      socket.current.on("getMessage", (data) => {
+        setBadgeContent((old) => (old += 1));
+      });
+    }
+  }, []);
 
   return (
     <div>
@@ -22,11 +33,12 @@ function Footer({ setIsChatOpen, newMessages, setNewMessages }) {
           </Typography>
 
           <MustBeLoggedIn>
-            <Badge badgeContent={newMessages} color="secondary">
+            <Badge badgeContent={badgeContent} color="secondary">
               <ChatBubbleIcon
                 cursor="pointer"
                 onClick={() => {
                   handleChatClick();
+                  setBadgeContent(0);
                 }}
               />
             </Badge>

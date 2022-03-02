@@ -6,7 +6,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import { Divider, Badge } from "@mui/material";
 
-const ChatUsers = ({ users, setChattingWith, deleteConversation }) => {
+const ChatUsers = ({
+  users,
+  setChattingWith,
+  deleteConversation,
+  newMessages,
+  setNewMessages,
+}) => {
   return (
     <div>
       {users.map((user) => {
@@ -24,13 +30,22 @@ const ChatUsers = ({ users, setChattingWith, deleteConversation }) => {
               }
             >
               <ListItemAvatar>
-                <Badge badgeContent={4} color="secondary">
+                <Badge
+                  badgeContent={newMessages[user.id] || 0}
+                  color="secondary"
+                >
                   <Avatar>{user.username[0].toUpperCase()}</Avatar>
                 </Badge>
               </ListItemAvatar>
               <ListItemText
                 primary={user.username}
-                onClick={() => setChattingWith(user)}
+                onClick={() => {
+                  setChattingWith(user);
+                  setNewMessages((old) => {
+                    old[user.id] = 0;
+                    return old;
+                  });
+                }}
               />
             </ListItem>
             <Divider />

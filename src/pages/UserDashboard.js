@@ -45,6 +45,8 @@ const UserDashboard = ({
     isbn: "",
   });
 
+  
+
   async function deleteBook(id) {
     console.log(id);
     setBooks(() => {
@@ -86,6 +88,12 @@ const UserDashboard = ({
     selectableRows: "none",
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
+    customToolbarSelect: (acceptReturn) => {
+      // console.log(acceptReturn.data);
+      for (let i = 0; i < acceptReturn.data.length; i++) {
+        ;
+      }
+    },
   };
 
   const options3 = {
@@ -94,7 +102,13 @@ const UserDashboard = ({
     sort: true,
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
-    selectableRows: "none",
+    selectableRows: "single",
+    customToolbarSelect: (confirmReturn) => {
+      // console.log(acceptReturn.data);
+      for (let i = 0; i < confirmReturn.data.length; i++) {
+        return <Button>Confirm Return</Button>
+      }
+    },
   };
 
   return (
@@ -155,6 +169,7 @@ const UserDashboard = ({
               {tableDisplay === 2 && (
                 <>
                   <Button component={Link}>Books Loaned</Button>{" "}
+                  <Button component={Link}>Return Book</Button>
                   <DataTable
                     columns={columns2}
                     books={lentBooks}
@@ -165,9 +180,30 @@ const UserDashboard = ({
               {tableDisplay === 3 && (
                 <>
                   <Button component={Link}>Rented</Button>
+                  <Button component={Link}>Return Book</Button>
                   <DataTable
                     columns={columns3}
                     books={booksRented}
+                    options={options3}
+                  />
+                </>
+              )}
+              {tableDisplay === 4 && (
+                <>
+                  <Button component={Link}>Pending</Button>
+                  <DataTable
+                    columns={columns4}
+                    books={pendingRentals}
+                    options={options3}
+                  />
+                </>
+              )}
+              {tableDisplay === 4 && (
+                <>
+                  <Button component={Link}>Pending</Button>
+                  <DataTable
+                    columns={columns4}
+                    books={pendingRentals}
                     options={options3}
                   />
                 </>

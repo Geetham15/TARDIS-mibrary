@@ -10,7 +10,7 @@ const navControlStyle = {
   right: 10,
   top: 10,
 };
-Modal.setAppElement("#root");
+
 const Map = ({
   bookData,
   setIsChatOpen,
@@ -20,7 +20,7 @@ const Map = ({
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  //const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const sendInitialBorrowerChat = async () => {
     let response = await fetch("/api/sendChat", {
@@ -191,32 +191,7 @@ const Map = ({
               <p>Comments: {selectedBook.comments}</p>
               <button className="btn" onClick={initializeChat}>
                 Chat
-              </button>
-              <button className="btn" onClick={() => setModalIsOpen(true)}>
-                Borrow
-              </button>
-              <Modal
-                isOpen={modalIsOpen}
-                selectedBook={selectedBook}
-                shouldCloseOnOverlayClick={false}
-                onRequestClose={() => setModalIsOpen(false)}
-                style={{
-                  overlay: {
-                    backgroundColor: "grey",
-                  },
-                  content: {
-                    color: "black",
-                  },
-                }}
-              >
-                <BooksToLend
-                  selectedBook={selectedBook}
-                  initializeChat={initializeChat}
-                />
-                <div>
-                  <button onClick={() => setModalIsOpen(false)}>Close</button>
-                </div>
-              </Modal>
+              </button>             
             </div>
           </Popup>
         ) : null}

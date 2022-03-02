@@ -13,7 +13,7 @@ export default function MyRating({ myRating }) {
       {myRating ? (
         <>
           <Typography component="legend">My Rating</Typography>
-          <Rating name="read-only" value={myRating} precision={0.5} readOnly />
+          <Rating name="read-only" value={myRating} precision={0.1} readOnly />
         </>
       ) : (
         <>

@@ -103,7 +103,7 @@ const ChatBox = ({
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
-            {chattingWith && <RatingDialog />}
+            {chattingWith && <RatingDialog chattingWith={chattingWith} />}
             <IconButton
               color="inherit"
               onClick={() => {

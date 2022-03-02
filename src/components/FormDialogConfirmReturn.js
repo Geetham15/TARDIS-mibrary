@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 export default function FormDialogConfirmReturn({
   lentBooksPerUser,
   socket,
-  setLentBooks,
+  loadAllBooks,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -24,16 +24,11 @@ export default function FormDialogConfirmReturn({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    socket.current.emit("confirmReturn", {
-      bookBorrowingId: lentBooksPerUser[0]?.book_borrowing_id,
-      userId: lentBooksPerUser[0]?.bookborrower_id,
-    });
-    setLentBooks((old) => {
-      return old.filter((book) => {
-        return (
-          book.book_borrowing_id !== lentBooksPerUser[0]?.book_borrowing_id
-        );
-      });
+
+    await loadAllBooks();
+
+    socket.current.emit("updateAllBooks", {
+      id: lentBooksPerUser[0]?.bookborrower_id,
     });
     alert(response.message);
   };

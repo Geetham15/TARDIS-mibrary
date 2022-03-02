@@ -8,8 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 export default function FormDialogReturn({
   booksRentedPerUser,
-  setBooksRentedPerUser,
   socket,
+  loadAllBooks,
 }) {
   const [open, setOpen] = useState(false);
   const initiateReturn = async () => {
@@ -23,20 +23,12 @@ export default function FormDialogReturn({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    socket.current.emit("changeRentalStatus", {
-      bookBorrowingId: booksRentedPerUser[0]?.book_borrowing_id,
-      userId: booksRentedPerUser[0]?.bookowner_id,
-      bookStatus: "return",
+    loadAllBooks();
+
+    socket.current.emit("updateAllBooks", {
+      id: booksRentedPerUser[0]?.bookowner_id,
     });
-    setBooksRentedPerUser((old) => {
-      return old.map((book, index) => {
-        if (index === 0) {
-          return { ...book, bookStatus: "return" };
-        } else {
-          return book;
-        }
-      });
-    });
+
     alert(response.message);
   };
 

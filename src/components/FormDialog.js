@@ -9,9 +9,8 @@ import AuthenticationContext from "../AuthenticationContext";
 
 export default function FormDialog({
   pendingRentalsPerUser,
-  setPendingRentalsPerUser,
   socket,
-  setPendingRentals,
+  loadAllBooks,
 }) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
@@ -37,20 +36,11 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    setPendingRentals((old) => {
-      return old.map((book) => {
-        if (
-          book.book_borrowing_id === pendingRentalsPerUser[0]?.bookBorrowingId
-        ) {
-          return { ...book, bookStatus: "reserved" };
-        } else {
-          return book;
-        }
-      });
-    });
-    socket.current.emit("updatePendingStatus", {
-      ...data,
-      bookOwnerId: pendingRentalsPerUser[0]?.bookowner_id,
+
+    await loadAllBooks();
+
+    socket.current.emit("updateAllBooks", {
+      id: pendingRentalsPerUser[0]?.bookowner_id,
     });
     alert(response.message);
   };
@@ -67,16 +57,11 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    socket.current.emit("confirmRental", {
-      bookBorrowingId: pendingRentalsPerUser[0]?.book_borrowing_id,
-      userId: pendingRentalsPerUser[0]?.bookborrower_id,
-    });
-    setPendingRentals((old) => {
-      return old.filter((book) => {
-        return (
-          book.book_borrowing_id !== pendingRentalsPerUser[0]?.book_borrowing_id
-        );
-      });
+
+    await loadAllBooks();
+
+    socket.current.emit("updateAllBooks", {
+      id: pendingRentalsPerUser[0]?.bookborrower_id,
     });
 
     alert(response.message);
@@ -94,15 +79,12 @@ export default function FormDialog({
       body: JSON.stringify(data),
     });
     response = await response.json();
-    setPendingRentalsPerUser((old) => {
-      return old.map((book, index) => {
-        if (index === 0) {
-          return { ...book, bookStatus: "pending" };
-        } else {
-          return book;
-        }
-      });
+    await loadAllBooks();
+
+    socket.current.emit("updateAllBooks", {
+      id: pendingRentalsPerUser[0]?.bookborrower_id,
     });
+
     alert(response.message);
   };
 

@@ -23,6 +23,7 @@ const ChatBox = ({
   chattingWith,
   setNewMessages,
   newMessages,
+  loadAllBooks,
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
@@ -121,6 +122,7 @@ const ChatBox = ({
               lentBooks={lentBooks}
               setLentBooks={setLentBooks}
               booksRented={booksRented}
+              loadAllBooks={loadAllBooks}
             />
           ) : (
             <div

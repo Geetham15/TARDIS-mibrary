@@ -13,13 +13,13 @@ import AddBooks from "../components/AddBooks";
 import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
 import AuthenticationContext from "../AuthenticationContext";
-import Avatar from "../components/userAvatar";
 import {
   columns1,
   columns2,
   columns3,
   columns4,
 } from "../data/tableOptions.js";
+import MyRating from "../components/MyRating.js";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -44,7 +44,7 @@ const UserDashboard = ({
     condition: "gently used",
     isbn: "",
   });
-  console.log("booksRented", booksRented);
+
   async function initiateReturn(selectedRows, displayData) {
     console.log("selectedRows", selectedRows);
     console.log("displayData", displayData);
@@ -73,6 +73,19 @@ const UserDashboard = ({
     }
     return;
   }
+
+  const [myRating, setMyRating] = useState(null);
+
+  useEffect(() => {
+    async function getRating() {
+      let result = await fetch(`/api/getRating/${authContext.userId}`);
+      result = await result.json();
+      console.log(result);
+      setMyRating(result[0][0].value);
+    }
+    getRating();
+  }, []);
+
 
   async function deleteBook(id) {
     console.log(id);
@@ -148,7 +161,10 @@ const UserDashboard = ({
         <Grid container spacing={2}>
           <Grid item xs={12} md={2} sx={{ marginTop: 2 }}>
             <Item>
-              <Avatar />
+              <Typography component="subtitle1" variant="h6">
+                Profile Area
+              </Typography>
+              <MyRating myRating={myRating}></MyRating>
               <ChangePostalCode />
             </Item>
           </Grid>

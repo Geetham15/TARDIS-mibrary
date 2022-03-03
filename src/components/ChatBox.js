@@ -59,7 +59,7 @@ const ChatBox = ({
         return user.toUserId !== id;
       });
     });
-    let response = await fetch("/api/deleteConversation", {
+    let response = await fetch("/api/deletePending", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -69,6 +69,16 @@ const ChatBox = ({
     });
     response = await response.json();
     console.log(response);
+    let response2 = await fetch("/api/deleteConversation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        userId: authContext.userId,
+      }),
+    });
+    response2 = await response2.json();
+    console.log(response2);
   };
   useEffect(() => {
     async function loadUsers() {
@@ -103,7 +113,7 @@ const ChatBox = ({
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
-            {chattingWith && <RatingDialog />}
+            {chattingWith && <RatingDialog chattingWith={chattingWith} />}
             <IconButton
               color="inherit"
               onClick={() => {
@@ -147,7 +157,6 @@ const ChatBox = ({
             </div>
           )}
         </List>
-        <RatingDialog />
       </Box>
     </div>
   );

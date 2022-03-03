@@ -71,6 +71,7 @@ function App() {
   async function loadPendingRentals(id = authContext.userId) {
     let response = await fetch(`/api/getPendingRentals/${id}`);
     response = await response.json();
+    console.log("pending rentals", response);
     setPendingRentals(response);
   }
   async function loadAllBooks(
@@ -93,6 +94,7 @@ function App() {
     }
     if (options.pending) {
       await loadPendingRentals(id);
+      console.log(pendingRentals);
       for (let book of booksRented) {
         if (book.daysLeftToReturn <= 4) {
           setBooksDueSoon(true);
@@ -126,6 +128,7 @@ function App() {
               setChattingWith={setChattingWith}
               setPendingRentals={setPendingRentals}
               socket={socket}
+              loadAllBooks={loadAllBooks}
             />
           }
         />

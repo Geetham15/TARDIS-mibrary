@@ -117,7 +117,7 @@ const UserDashboard = ({
               <Typography component="subtitle1" variant="h6">
                 Profile Area
               </Typography>
-              <MyRating myRating={myRating}></MyRating>
+              <MyRating myRating={myRating} label="Your average rating" />
               <ChangePostalCode />
             </Item>
           </Grid>

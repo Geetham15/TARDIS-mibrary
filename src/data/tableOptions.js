@@ -146,6 +146,26 @@ const columns3 = [
       sort: true,
     },
   },
+  {
+    name: "bookId",
+    label: "Book ID",
+    options: {
+      filter: true,
+      sort: true,
+      display:"excluded",
+      
+    },
+  },
+  {
+    name: "book_borrowing_id",
+    label: "Borrowing ID",
+    options: {
+      filter: true,
+      sort: true,
+      display:"excluded",
+      
+    },
+  },
 ];
 
 const columns4 = [

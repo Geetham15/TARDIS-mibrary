@@ -17,6 +17,7 @@ const Chat = ({
   booksRented,
   loadAllBooks,
   setIsPendingConfirmation,
+  setSnackbarOptions,
 }) => {
   const [toSend, setToSend] = useState("");
   const [previousMessages, setPreviousMessages] = useState([]);
@@ -195,6 +196,7 @@ const Chat = ({
             socket={socket}
             setLentBooks={setLentBooks}
             loadAllBooks={loadAllBooks}
+            setSnackbarOptions={setSnackbarOptions}
           />
         )}
         <form onSubmit={onSubmit}>

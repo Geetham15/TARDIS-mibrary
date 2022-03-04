@@ -1,10 +1,9 @@
 import React from "react";
 import SignUpForm from "../components/forms/SignUpForm";
-import NavBar from "../components/NavBar";
-function Signup() {
+function Signup({ setSnackbarOptions }) {
   return (
     <div>
-      <SignUpForm />
+      <SignUpForm setSnackbarOptions={setSnackbarOptions} />
     </div>
   );
 }

@@ -13,13 +13,13 @@ import AddBooks from "../components/AddBooks";
 import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
 import AuthenticationContext from "../AuthenticationContext";
-import Avatar from "../components/userAvatar";
 import {
   columns1,
   columns2,
   columns3,
   columns4,
 } from "../data/tableOptions.js";
+import MyRating from "../components/MyRating.js";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -37,6 +37,7 @@ const UserDashboard = ({
   setTableDisplay,
   lentBooks,
   pendingRentals,
+  setSnackbarOptions,
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [bookData, setBookData] = useState({
@@ -44,15 +45,20 @@ const UserDashboard = ({
     condition: "gently used",
     isbn: "",
   });
-  console.log("booksRented", booksRented);
+
   async function initiateReturn(selectedRows, displayData) {
     // console.log("selectedRows", selectedRows);
     // console.log("displayData", displayData);
     for (let i = 0; i < selectedRows.data.length; i++) {
       let row = selectedRows.data[i];
       let dataIndex = row.dataIndex;
+<<<<<<< HEAD
       // console.log('dataIndex', dataIndex)
       // console.log('displayData[dataIndex]', displayData[dataIndex])
+=======
+      console.log("dataIndex", dataIndex);
+      console.log("displayData[dataIndex]", displayData[dataIndex]);
+>>>>>>> main
       let bookData = displayData[dataIndex].data;
       let bookBorrowingId = bookData[8];
       // console.log("bookBorrowingId", bookBorrowingId);
@@ -66,13 +72,33 @@ const UserDashboard = ({
       });
       response = await response.json();
       if (response) {
-        alert("Initial Return was successful");
+        setSnackbarOptions({
+          isOpen: true,
+          message: "Initial return was successful.",
+          type: "success",
+        });
       } else {
-        alert("something went wrong");
+        setSnackbarOptions({
+          isOpen: true,
+          message: "Something went wrong.",
+          type: "error",
+        });
       }
     }
     return;
   }
+
+  const [myRating, setMyRating] = useState(null);
+
+  useEffect(() => {
+    async function getRating() {
+      let result = await fetch(`/api/getRating/${authContext.userId}`);
+      result = await result.json();
+      console.log(result);
+      setMyRating(result[0][0].value);
+    }
+    getRating();
+  }, []);
 
   async function deleteBook(id) {
     console.log(id);
@@ -89,9 +115,17 @@ const UserDashboard = ({
     });
     response = await response.json();
     if (response) {
-      alert("Delete was successful");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Delete was successful.",
+        type: "success",
+      });
     } else {
-      alert("something went wrong");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
     }
   }
 
@@ -143,11 +177,14 @@ const UserDashboard = ({
         <Grid container spacing={2}>
           <Grid item xs={12} md={2} sx={{ marginTop: 2 }}>
             <Item>
-              <Avatar />
-              <ChangePostalCode />
+              <Typography component="subtitle1" variant="h6">
+                Profile Area
+              </Typography>
+              <MyRating myRating={myRating} label="Your average rating" />
+              <ChangePostalCode setSnackbarOptions={setSnackbarOptions} />
             </Item>
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={8} sx={{ marginTop: 2 }}>
             <Item>
               <ButtonGroup
                 variant="outlined"
@@ -195,7 +232,6 @@ const UserDashboard = ({
               {tableDisplay === 2 && (
                 <>
                   <Button component={Link}>Books Loaned</Button>{" "}
-                  <Button component={Link}>Return Book</Button>
                   <DataTable
                     columns={columns2}
                     books={lentBooks}
@@ -224,26 +260,6 @@ const UserDashboard = ({
                   />
                 </>
               )}
-              {tableDisplay === 4 && (
-                <>
-                  <Button component={Link}>Pending</Button>
-                  <DataTable
-                    columns={columns4}
-                    books={pendingRentals}
-                    options={options3}
-                  />
-                </>
-              )}
-              {tableDisplay === 4 && (
-                <>
-                  <Button component={Link}>Pending</Button>
-                  <DataTable
-                    columns={columns4}
-                    books={pendingRentals}
-                    options={options3}
-                  />
-                </>
-              )}
             </Item>
           </Grid>
           <Grid item xs={12} md={2} sx={{ paddingRight: 1, marginTop: 2 }}>
@@ -254,6 +270,7 @@ const UserDashboard = ({
                 setBookData={setBookData}
                 setBooks={setBooks}
                 books={books}
+                setSnackbarOptions={setSnackbarOptions}
               />
             </Item>
           </Grid>
@@ -262,5 +279,7 @@ const UserDashboard = ({
     </div>
   );
 };
+
+
 
 export default UserDashboard;

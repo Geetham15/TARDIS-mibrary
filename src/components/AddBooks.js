@@ -1,48 +1,54 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
+import CustomizedSnackBar from "./CustomizedSnackbar";
 
-const AddBooks = ({ bookData, setBookData, setBooks }) => {
+const AddBooks = ({ bookData, setBookData, setBooks, setSnackbarOptions }) => {
   const authContext = useContext(AuthenticationContext);
+
   const searchIsbn = async (e) => {
     e.preventDefault();
-    let response = await fetch(
-      `https://openlibrary.org/isbn/${bookData.isbn}.json`
-    );
-
-    response = await response.json();
-    console.log(response);
-    if (response.error) {
-      alert("Nothing found");
-      setBookData({ ...bookData, isbn: "" });
-      return;
-    }
-    if (response.authors) {
-      let author = await fetch(
-        `https://openlibrary.org${response.authors[0].key}.json`
+    try {
+      let response = await fetch(
+        `https://openlibrary.org/isbn/${bookData.isbn}.json`
       );
-      author = await author.json();
-      console.log(author);
-      response.authors = author.name;
-      if (!author.name) {
-        response.authors = author.personal_name;
-      }
-      console.log(author);
-    } else {
-      response.authors = "";
-    }
+      response = await response.json();
+      console.log(response);
 
-    console.log(response);
-    const { authors, title, physical_format, isbn_13, isbn_10 } = response;
-    setBookData({
-      ...bookData,
-      authors,
-      title,
-      physical_format,
-      isbn_13: isbn_13 ? isbn_13[0] : null,
-      isbn_10: isbn_10 ? isbn_10[0] : null,
-    });
+      if (response.authors) {
+        let author = await fetch(
+          `https://openlibrary.org${response.authors[0].key}.json`
+        );
+        author = await author.json();
+        console.log(author);
+        response.authors = author.name;
+        if (!author.name) {
+          response.authors = author.personal_name;
+        }
+        console.log(author);
+      } else {
+        response.authors = "";
+      }
+
+      console.log(response);
+      const { authors, title, physical_format, isbn_13, isbn_10 } = response;
+      setBookData({
+        ...bookData,
+        authors,
+        title,
+        physical_format,
+        isbn_13: isbn_13 ? isbn_13[0] : null,
+        isbn_10: isbn_10 ? isbn_10[0] : null,
+      });
+    } catch {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "nothing found",
+        type: "warning",
+      });
+      setBookData({ ...bookData, isbn: "" });
+    }
   };
   const handleChange = (e) => {
     const name = e.target.name;

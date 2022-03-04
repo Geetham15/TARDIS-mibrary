@@ -6,10 +6,11 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import List from "@mui/material/List";
+import CloseIcon from "@mui/icons-material/Close";
+import RatingDialog from "./RatingDialog.js";
 
 const ChatBox = ({
   setIsChatOpen,
@@ -25,23 +26,32 @@ const ChatBox = ({
   newMessages,
   loadAllBooks,
   setIsPendingConfirmation,
+  setSnackbarOptions,
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
+
   const deleteConversation = async (id) => {
     for (const book of lentBooks) {
       if (book.bookborrower_id === id) {
-        alert(
-          "You can't delete this conversation because you are currently lending a book to this user."
-        );
+        setSnackbarOptions({
+          isOpen: true,
+          message:
+            "Because you're currently lending to this user, you can't delete this conversation.",
+          type: "error",
+        });
         return;
       }
     }
     for (const book of booksRented) {
       if (book.bookowner_id === id) {
-        alert(
-          "You can't delete this conversation because you are currently renting from this user."
-        );
+        setSnackbarOptions({
+          isOpen: true,
+          message:
+            "Because you're currently renting from this user, you can't delete this conversation.",
+          type: "error",
+        });
+
         return;
       }
     }
@@ -51,12 +61,17 @@ const ChatBox = ({
     if (!confirmation) {
       return;
     }
+    setSnackbarOptions({
+      isOpen: true,
+      message: "Conversation deleted.",
+      type: "success",
+    });
     setUsers((old) => {
       return old.filter((user) => {
         return user.toUserId !== id;
       });
     });
-    let response = await fetch("/api/deleteConversation", {
+    let response = await fetch("/api/deletePending", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -66,6 +81,16 @@ const ChatBox = ({
     });
     response = await response.json();
     console.log(response);
+    let response2 = await fetch("/api/deleteConversation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        userId: authContext.userId,
+      }),
+    });
+    response2 = await response2.json();
+    console.log(response2);
   };
   useEffect(() => {
     async function loadUsers() {
@@ -100,15 +125,16 @@ const ChatBox = ({
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
-            <Button
+            {chattingWith && <RatingDialog chattingWith={chattingWith} />}
+            <IconButton
               color="inherit"
               onClick={() => {
                 setIsChatOpen((old) => !old);
                 setChattingWith(null);
               }}
             >
-              x
-            </Button>
+              <CloseIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
 
@@ -125,6 +151,7 @@ const ChatBox = ({
               booksRented={booksRented}
               loadAllBooks={loadAllBooks}
               setIsPendingConfirmation={setIsPendingConfirmation}
+              setSnackbarOptions={setSnackbarOptions}
             />
           ) : (
             <div

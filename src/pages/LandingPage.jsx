@@ -2,11 +2,13 @@ import React from "react";
 import "./LandingPage.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+
+
 function LandingPage() {
+
     return (
         <>
-        
-        <div class="grid-container">
+         <div class="grid-container">
         
             <div class="header">
                 <h2>
@@ -119,11 +121,16 @@ function LandingPage() {
                         books.
                     </p>
                 </p>
-            </div>
-
-            {/* <Footer/> */}
-        </div>
+            </div> 
+        
+ </div> 
         </>
+
+
+            
+        
+       
+        
    
     );
 }

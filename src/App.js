@@ -14,6 +14,9 @@ import LandingPage from "./pages/LandingPage";
 import ChatBox from "./components/ChatBox";
 import { io } from "socket.io-client";
 import NavBar from "./components/NavBar";
+import CustomizedSnackBar from "./components/CustomizedSnackbar";
+import { flexbox } from "@mui/system";
+import { columns1 } from "./data/tableOptions";
 
 function App() {
   const [bookData, setBookData] = useState([]);
@@ -29,6 +32,12 @@ function App() {
   const [chattingWith, setChattingWith] = useState(null);
   const [newMessages, setNewMessages] = useState({ testing: 0 });
   const [isPendingConfirmation, setIsPendingConfirmation] = useState(false);
+  const [snackbarOptions, setSnackbarOptions] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+  });
+
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
   }, []);
@@ -71,6 +80,7 @@ function App() {
   async function loadPendingRentals(id = authContext.userId) {
     let response = await fetch(`/api/getPendingRentals/${id}`);
     response = await response.json();
+    console.log("pending rentals", response);
     setPendingRentals(response);
   }
   async function loadAllBooks(
@@ -93,6 +103,7 @@ function App() {
     }
     if (options.pending) {
       await loadPendingRentals(id);
+      console.log(pendingRentals);
       for (let book of booksRented) {
         if (book.daysLeftToReturn <= 4) {
           setBooksDueSoon(true);
@@ -108,7 +119,17 @@ function App() {
   }, [authContext.userId]);
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "#ededed",
+        display: "flex",
+        flexFlow: "column",
+        height: "100%",
+        width: "100%",
+        margin: 0,
+        position: "absolute",
+      }}
+    >
       <NavBar
         booksDueSoon={booksDueSoon}
         isPendingConfirmation={isPendingConfirmation}
@@ -126,11 +147,21 @@ function App() {
               setChattingWith={setChattingWith}
               setPendingRentals={setPendingRentals}
               socket={socket}
+              loadAllBooks={loadAllBooks}
+              setSnackbarOptions={setSnackbarOptions}
             />
           }
         />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup" element={<SignUp />} />
+        <Route
+          exact
+          path="/login"
+          element={<Login setSnackbarOptions={setSnackbarOptions} />}
+        />
+        <Route
+          exact
+          path="/signup"
+          element={<SignUp setSnackbarOptions={setSnackbarOptions} />}
+        />
         <Route exact path="/forgotpassword" element={<ForgotPassword />} />
         <Route
           exact
@@ -144,10 +175,10 @@ function App() {
               setTableDisplay={setTableDisplay}
               lentBooks={lentBooks}
               pendingRentals={pendingRentals}
+              setSnackbarOptions={setSnackbarOptions}
             />
           }
         />
-        <Route exact path="/addBooks" element={<AddBooks />} />
 
         <Route exact path="/about" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
@@ -167,6 +198,13 @@ function App() {
           setNewMessages={setNewMessages}
           loadAllBooks={loadAllBooks}
           setIsPendingConfirmation={setIsPendingConfirmation}
+          setSnackbarOptions={setSnackbarOptions}
+        />
+      )}
+      {snackbarOptions.isOpen && (
+        <CustomizedSnackBar
+          snackbarOptions={snackbarOptions}
+          setSnackbarOptions={setSnackbarOptions}
         />
       )}
       <Footer

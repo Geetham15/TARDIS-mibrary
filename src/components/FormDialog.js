@@ -12,6 +12,7 @@ export default function FormDialog({
   socket,
   loadAllBooks,
   setIsPendingConfirmation,
+  setSnackbarOptions,
 }) {
   const [open, setOpen] = useState(false);
   const [currentDateBorrowed, setDateBorrowed] = useState();
@@ -67,6 +68,19 @@ export default function FormDialog({
       },
     });
     console.log(response.message);
+    if (response.success) {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Rental initiated. Awaiting confirmation from lender.",
+        type: "success",
+      });
+    } else {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
+    }
   };
 
   const confirmRental = async () => {
@@ -100,6 +114,19 @@ export default function FormDialog({
     });
 
     console.log(response.message);
+    if (response.success) {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Book successfully lent.",
+        type: "success",
+      });
+    } else {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
+    }
   };
 
   const denyRental = async () => {
@@ -133,6 +160,20 @@ export default function FormDialog({
     });
 
     console.log(response.message);
+    if (response.success) {
+      setSnackbarOptions({
+        isOpen: true,
+        message:
+          "Terms successfully denied. Please ask renter to adjust terms.",
+        type: "success",
+      });
+    } else {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
+    }
   };
 
   const handleClickOpen = () => {
@@ -149,6 +190,7 @@ export default function FormDialog({
         pendingRentalsPerUser[0]?.bookborrower_id === authContext.userId && (
           <Button
             variant="outlined"
+            color="tertiary"
             style={{ width: "100%" }}
             onClick={handleClickOpen}
           >
@@ -159,6 +201,7 @@ export default function FormDialog({
         pendingRentalsPerUser[0]?.bookborrower_id !== authContext.userId && (
           <Button
             variant="outlined"
+            color="tertiary"
             style={{ width: "100%" }}
             onClick={handleClickOpen}
           >
@@ -170,6 +213,7 @@ export default function FormDialog({
         pendingRentalsPerUser[0]?.bookborrower_id === authContext.userId && (
           <Button
             variant="outlined"
+            color="tertiary"
             style={{ width: "100%" }}
             onClick={handleClickOpen}
             disabled
@@ -234,13 +278,16 @@ export default function FormDialog({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose} color="tertiary">
+            Cancel
+          </Button>
           {pendingRentalsPerUser[0]?.bookStatus === "reserved" && (
             <Button
               onClick={() => {
                 denyRental();
                 handleClose();
               }}
+              color="tertiary"
             >
               Deny
             </Button>
@@ -253,6 +300,7 @@ export default function FormDialog({
                 : confirmRental();
               handleClose();
             }}
+            color="tertiary"
           >
             {pendingRentalsPerUser[0]?.bookStatus === "pending"
               ? "Request"

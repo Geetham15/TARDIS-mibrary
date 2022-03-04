@@ -145,6 +145,7 @@ function SignUp({ setSnackbarOptions }) {
             <Button
               type="submit"
               variant="contained"
+              color="secondary"
               style={{ width: 200, marginBottom: 10, marginTop: 10 }}
             >
               Sign up
@@ -154,7 +155,11 @@ function SignUp({ setSnackbarOptions }) {
             <p className="float-left">Already have an account?</p>
           </div>
           <NavLink exact to="/login">
-            <Button variant="outlined" style={{ marginTop: 10 }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ marginTop: 10 }}
+            >
               Log in
             </Button>
           </NavLink>

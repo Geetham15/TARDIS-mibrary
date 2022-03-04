@@ -108,13 +108,12 @@ const ChatBox = ({
           flexGrow: 1,
         }}
       >
-        <AppBar position="static">
+        <AppBar position="static" color="secondary">
           <Toolbar>
             {chattingWith && (
               <IconButton
                 size="large"
                 edge="start"
-                color="inherit"
                 aria-label="menu"
                 sx={{ mr: 2 }}
                 onClick={() => setChattingWith(null)}

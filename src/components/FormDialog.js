@@ -66,7 +66,7 @@ export default function FormDialog({
         pending: true,
       },
     });
-    alert(response.message);
+    console.log(response.message);
   };
 
   const confirmRental = async () => {
@@ -99,7 +99,7 @@ export default function FormDialog({
       },
     });
 
-    alert(response.message);
+    console.log(response.message);
   };
 
   const denyRental = async () => {
@@ -132,7 +132,7 @@ export default function FormDialog({
       },
     });
 
-    alert(response.message);
+    console.log(response.message);
   };
 
   const handleClickOpen = () => {

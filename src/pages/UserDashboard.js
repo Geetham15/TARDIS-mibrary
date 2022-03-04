@@ -13,13 +13,13 @@ import AddBooks from "../components/AddBooks";
 import DataTable from "../components/Dashboard/DataTable";
 import ChangePostalCode from "../components/ChangePostalCode";
 import AuthenticationContext from "../AuthenticationContext";
-import Avatar from "../components/userAvatar";
 import {
   columns1,
   columns2,
   columns3,
   columns4,
 } from "../data/tableOptions.js";
+import MyRating from "../components/MyRating.js";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -37,6 +37,7 @@ const UserDashboard = ({
   setTableDisplay,
   lentBooks,
   pendingRentals,
+  setSnackbarOptions,
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [bookData, setBookData] = useState({
@@ -44,6 +45,55 @@ const UserDashboard = ({
     condition: "gently used",
     isbn: "",
   });
+
+  async function initiateReturn(selectedRows, displayData) {
+    console.log("selectedRows", selectedRows);
+    console.log("displayData", displayData);
+    for (let i = 0; i < selectedRows.data.length; i++) {
+      let row = selectedRows.data[i];
+      let dataIndex = row.dataIndex;
+      console.log("dataIndex", dataIndex);
+      console.log("displayData[dataIndex]", displayData[dataIndex]);
+      let bookData = displayData[dataIndex].data;
+      let bookBorrowingId = bookData[8];
+      console.log("bookBorrowingId", bookBorrowingId);
+      let response = await fetch("/api/initiateReturn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookStatus: "pending",
+          bookBorrowingId: bookBorrowingId,
+        }),
+      });
+      response = await response.json();
+      if (response) {
+        setSnackbarOptions({
+          isOpen: true,
+          message: "Initial return was successful.",
+          type: "success",
+        });
+      } else {
+        setSnackbarOptions({
+          isOpen: true,
+          message: "Something went wrong.",
+          type: "error",
+        });
+      }
+    }
+    return;
+  }
+
+  const [myRating, setMyRating] = useState(null);
+
+  useEffect(() => {
+    async function getRating() {
+      let result = await fetch(`/api/getRating/${authContext.userId}`);
+      result = await result.json();
+      console.log(result);
+      setMyRating(result[0][0].value);
+    }
+    getRating();
+  }, []);
 
   async function deleteBook(id) {
     console.log(id);
@@ -60,9 +110,17 @@ const UserDashboard = ({
     });
     response = await response.json();
     if (response) {
-      alert("Delete was successful");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Delete was successful.",
+        type: "success",
+      });
     } else {
-      alert("something went wrong");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
     }
   }
 
@@ -86,6 +144,12 @@ const UserDashboard = ({
     selectableRows: "none",
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
+    customToolbarSelect: (acceptReturn) => {
+      // console.log(acceptReturn.data);
+      for (let i = 0; i < acceptReturn.data.length; i++) {
+        return <Button>Accept Return</Button>;
+      }
+    },
   };
 
   const options3 = {
@@ -94,7 +158,17 @@ const UserDashboard = ({
     sort: true,
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
-    selectableRows: "none",
+    selectableRows: "single",
+    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
+      console.log("selectedRows:", selectedRows);
+      console.log("displayData:", displayData);
+      console.log("setSelectedRows:", setSelectedRows);
+      return (
+        <Button onClick={() => initiateReturn(selectedRows, displayData)}>
+          Return Book
+        </Button>
+      );
+    },
   };
 
   return (
@@ -103,11 +177,14 @@ const UserDashboard = ({
         <Grid container spacing={2}>
           <Grid item xs={12} md={2} sx={{ marginTop: 2 }}>
             <Item>
-              <Avatar />
-              <ChangePostalCode />
+              <Typography component="subtitle1" variant="h6">
+                Profile Area
+              </Typography>
+              <MyRating myRating={myRating} label="Your average rating" />
+              <ChangePostalCode setSnackbarOptions={setSnackbarOptions} />
             </Item>
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={8} sx={{ marginTop: 2 }}>
             <Item>
               <ButtonGroup
                 variant="outlined"
@@ -165,6 +242,7 @@ const UserDashboard = ({
               {tableDisplay === 3 && (
                 <>
                   <Button component={Link}>Rented</Button>
+
                   <DataTable
                     columns={columns3}
                     books={booksRented}
@@ -192,6 +270,7 @@ const UserDashboard = ({
                 setBookData={setBookData}
                 setBooks={setBooks}
                 books={books}
+                setSnackbarOptions={setSnackbarOptions}
               />
             </Item>
           </Grid>

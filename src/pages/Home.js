@@ -13,10 +13,17 @@ function Home({
   setChattingWith,
   setPendingRentals,
   socket,
+  loadAllBooks,
+  setSnackbarOptions,
 }) {
   const authContext = useContext(AuthenticationContext);
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
       {authContext.username ? (
         <Card
           sx={{
@@ -28,19 +35,24 @@ function Home({
           style={{ marginTop: 20 }}
         >
           <CardContent>
-            <Search bookData={bookData} setBookData={setBookData} />
+            <Search
+              bookData={bookData}
+              setBookData={setBookData}
+              setSnackbarOptions={setSnackbarOptions}
+            />
             <Map
               bookData={bookData}
               setIsChatOpen={setIsChatOpen}
               setChattingWith={setChattingWith}
               setPendingRentals={setPendingRentals}
               socket={socket}
+              loadAllBooks={loadAllBooks}
             />
           </CardContent>
         </Card>
       ) : (
         <>
-          <Login />
+          <Login setSnackbarOptions={setSnackbarOptions} />
         </>
       )}
     </div>

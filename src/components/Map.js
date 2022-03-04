@@ -3,8 +3,6 @@ import ReactMapGL, { Marker, Popup, NavigationControl } from "react-map-gl";
 import { faBook, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthenticationContext from "../AuthenticationContext";
-import Modal from "react-modal";
-import BooksToLend from "./BooksToLend";
 
 const navControlStyle = {
   right: 10,
@@ -17,6 +15,7 @@ const Map = ({
   setChattingWith,
   setPendingRentals,
   socket,
+  loadAllBooks,
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -52,7 +51,7 @@ const Map = ({
     let data = {
       bookowner_id: selectedBook.user_id,
       bookborrower_id: authContext.userId,
-      bookId: selectedBook.id,
+      bookId: selectedBook.bookId,
       dateBorrowed: null,
       dateDueForReturn: null,
       bookStatus: "pending",
@@ -63,6 +62,12 @@ const Map = ({
       body: JSON.stringify(data),
     });
     response = await response.json();
+    await loadAllBooks(authContext.userId, {
+      booksRented: false,
+      booksOwned: false,
+      lentBooks: false,
+      pending: true,
+    });
     socket.current.emit("updateAllBooks", {
       id: selectedBook.user_id,
       options: {
@@ -72,7 +77,7 @@ const Map = ({
         pending: true,
       },
     });
-    alert(response.message);
+    console.log(response.message);
     return response;
   };
 
@@ -83,21 +88,21 @@ const Map = ({
     let response2 = await sendInitialLenderChat();
     console.log(response2);
     let response3 = await initializeTransaction();
-    setPendingRentals((old) => {
-      old.push({
-        bookowner_id: selectedBook.user_id,
-        title: selectedBook.title,
-        authors: selectedBook.authors,
-        condition: selectedBook.condition,
-        bookborrower_id: authContext.userId,
-        bookId: selectedBook.id,
-        dateBorrowed: null,
-        dateDueForReturn: null,
-        bookStatus: "pending",
-        book_borrowing_id: response3.id[0][0].value,
-      });
-      return old;
-    });
+    // setPendingRentals((old) => {
+    //   old.push({
+    //     bookowner_id: selectedBook.user_id,
+    //     title: selectedBook.title,
+    //     authors: selectedBook.authors,
+    //     condition: selectedBook.condition,
+    //     bookborrower_id: authContext.userId,
+    //     bookId: selectedBook.id,
+    //     dateBorrowed: null,
+    //     dateDueForReturn: null,
+    //     bookStatus: "pending",
+    //     book_borrowing_id: response3.id[0][0].value,
+    //   });
+    //   return old;
+    // });
     setChattingWith({
       id: selectedBook.user_id,
       username: selectedBook.userName,
@@ -155,7 +160,6 @@ const Map = ({
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log("bookId", book.id);
                   setSelectedBook(book);
                 }}
               >
@@ -191,7 +195,7 @@ const Map = ({
               <p>Comments: {selectedBook.comments}</p>
               <button className="btn" onClick={initializeChat}>
                 Chat
-              </button>             
+              </button>
             </div>
           </Popup>
         ) : null}

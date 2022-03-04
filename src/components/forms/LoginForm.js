@@ -7,7 +7,7 @@ import "./LoginForm.css";
 import AuthenticationContext from "../../AuthenticationContext";
 import { Button } from "@mui/material";
 
-function LoginForm() {
+function LoginForm({ setSnackbarOptions }) {
   const initialValues = {
     email: "",
     password: "",
@@ -25,12 +25,21 @@ function LoginForm() {
     });
     response = await response.json();
     if (response.message === "success") {
-      await authContext.setLoggedIn();
+      const username = await authContext.setLoggedIn();
       setLoginError("");
       navigate("/");
+      setSnackbarOptions({
+        isOpen: true,
+        message: `Welcome back, ${username}`,
+        type: "success",
+      });
     } else {
       setLoginError("Login Failed!");
-      alert("login failed");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Login failed.",
+        type: "error",
+      });
     }
   };
 

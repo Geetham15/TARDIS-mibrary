@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 
-function SignUp() {
+function SignUp({ setSnackbarOptions }) {
   const initialValues = {
     username: "",
     email: "",
@@ -21,7 +21,11 @@ function SignUp() {
     await new Promise((r) => setTimeout(r, 500));
     let postalCode = values.postalCode.replace(" ", "");
     if (!postalCode.match(/[A-Z][0-9][A-Z][0-9][A-Z][0-9]/)) {
-      alert("please enter a valid postal code");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "please enter a valid postal code",
+        type: "error",
+      });
       return;
     }
     let locationData = await fetch(
@@ -39,10 +43,20 @@ function SignUp() {
       }),
     });
     response = await response.json();
-    alert(response.message);
+    // alert(response.message);
     if (response.success) {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Welcome to MiBrary! Please log in to continue.",
+        type: "success",
+      });
       navigate("/login");
     } else {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong. Please try again.",
+        type: "error",
+      });
       navigate("/signup");
     }
   };

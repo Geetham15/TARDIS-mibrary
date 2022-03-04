@@ -98,7 +98,7 @@ const NavBar = ({ booksDueSoon, setTableDisplay, isPendingConfirmation }) => {
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Typography variant="h4">Mibrary</Typography>
+            <Typography variant="h4">MiBrary</Typography>
             <Typography
               variant="subtitle"
               style={{

@@ -11,6 +11,7 @@ export default function FormDialogConfirmReturn({
   lentBooksPerUser,
   socket,
   loadAllBooks,
+  setSnackbarOptions,
 }) {
   const [open, setOpen] = useState(false);
   const authContext = useContext(AuthenticationContext);
@@ -43,22 +44,34 @@ export default function FormDialogConfirmReturn({
         pending: false,
       },
     });
-    alert(response.message);
+    if (response.success) {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Return confirmed.",
+        type: "success",
+      });
+    } else {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
+    }
   };
 
-  const cancelReturn = async () => {
-    let data = {
-      bookBorrowingId: lentBooksPerUser[0]?.book_borrowing_id,
-      bookStatus: "Lend",
-    };
-    let response = await fetch("/api/cancelReturn", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    response = await response.json();
-    alert(response.message);
-  };
+  // const cancelReturn = async () => {
+  //   let data = {
+  //     bookBorrowingId: lentBooksPerUser[0]?.book_borrowing_id,
+  //     bookStatus: "Lend",
+  //   };
+  //   let response = await fetch("/api/cancelReturn", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(data),
+  //   });
+  //   response = await response.json();
+  //   alert(response.message);
+  // };
 
   const handleClickOpen = () => {
     setOpen(true);

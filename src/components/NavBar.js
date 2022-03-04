@@ -100,12 +100,12 @@ const NavBar = ({ booksDueSoon, setTableDisplay, isPendingConfirmation }) => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Typography variant="h4">MiBrary</Typography>
             <Typography
-              variant="subtitle"
+              variant="subtitle2"
               style={{
                 paddingLeft: 40,
               }}
             >
-              the virtual book exchange app
+              the world is your library
             </Typography>
           </Box>
           {!authContext.userId && (
@@ -152,7 +152,7 @@ const NavBar = ({ booksDueSoon, setTableDisplay, isPendingConfirmation }) => {
           </MustBeLoggedIn>
           <Button
             onClick={() => navigate("/about")}
-            sx={{ my: 2, color: "white", display: "block" }}
+            sx={{ my: 2, display: "block", color: "white" }}
           >
             About
           </Button>

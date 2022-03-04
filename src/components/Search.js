@@ -8,25 +8,25 @@ const Search = ({ bookData, setBookData }) => {
   const authContext = useContext(AuthenticationContext);
   const [entry, setEntry] = useState("");
   const currentLocation = [authContext.latitude, authContext.longitude];
-  const calculateHaversine = (coordinates) => {
-    let lat2 = (coordinates[0] * Math.PI) / 180;
-    let lat1 = (currentLocation[0] * Math.PI) / 180;
-    let long2 = (coordinates[1] * Math.PI) / 180;
-    let long1 = (currentLocation[1] * Math.PI) / 180;
-    let result =
-      2 *
-      6371.009 *
-      Math.asin(
-        Math.sqrt(
-          Math.sin((lat2 - lat1) / 2) * Math.sin((lat2 - lat1) / 2) +
-            Math.cos(lat1) *
-              Math.cos(lat2) *
-              Math.sin((long2 - long1) / 2) *
-              Math.sin((long2 - long1) / 2)
-        )
-      );
-    return result;
-  };
+  // const calculateHaversine = (coordinates) => {
+  //   let lat2 = (coordinates[0] * Math.PI) / 180;
+  //   let lat1 = (currentLocation[0] * Math.PI) / 180;
+  //   let long2 = (coordinates[1] * Math.PI) / 180;
+  //   let long1 = (currentLocation[1] * Math.PI) / 180;
+  //   let result =
+  //     2 *
+  //     6371.009 *
+  //     Math.asin(
+  //       Math.sqrt(
+  //         Math.sin((lat2 - lat1) / 2) * Math.sin((lat2 - lat1) / 2) +
+  //           Math.cos(lat1) *
+  //             Math.cos(lat2) *
+  //             Math.sin((long2 - long1) / 2) *
+  //             Math.sin((long2 - long1) / 2)
+  //       )
+  //     );
+  //   return result;
+  // };
   const onSearch = async (e) => {
     e.preventDefault();
     let response = await fetch(`/api/search/${entry}`);
@@ -53,6 +53,7 @@ const Search = ({ bookData, setBookData }) => {
         id="standard-basic"
         label="What would you like to read?"
         variant="standard"
+        color="secondary"
         value={entry}
         onChange={(e) => setEntry(e.target.value)}
         style={{ width: "100%" }}
@@ -60,7 +61,7 @@ const Search = ({ bookData, setBookData }) => {
         inputProps={{ style: { fontSize: 24 } }}
       />
       <Button
-        color="primary"
+        color="secondary"
         type="submit"
         variant="contained"
         style={{ width: "100%" }}

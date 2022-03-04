@@ -86,6 +86,7 @@ export default function FormDialogConfirmReturn({
       {lentBooksPerUser !== [] && lentBooksPerUser[0]?.bookStatus === "return" && (
         <Button
           variant="outlined"
+          color="tertiary"
           style={{ width: "100%" }}
           onClick={handleClickOpen}
         >
@@ -133,13 +134,16 @@ export default function FormDialogConfirmReturn({
           <p>{lentBooksPerUser[0]?.dateDueForReturn}</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose} color="tertiary">
+            Cancel
+          </Button>
 
           <Button
             onClick={() => {
               confirmReturn();
               handleClose();
             }}
+            color="tertiary"
           >
             Confirm Return
           </Button>

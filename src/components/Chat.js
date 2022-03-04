@@ -179,6 +179,7 @@ const Chat = ({
             setPendingRentals={setPendingRentals}
             loadAllBooks={loadAllBooks}
             setIsPendingConfirmation={setIsPendingConfirmation}
+            setSnackbarOptions={setSnackbarOptions}
           />
         )}
         {booksRentedPerUser.length !== 0 && (
@@ -187,6 +188,7 @@ const Chat = ({
             setBooksRentedPerUser={setBooksRentedPerUser}
             socket={socket}
             loadAllBooks={loadAllBooks}
+            setSnackbarOptions={setSnackbarOptions}
           />
         )}
         {lentBooksPerUser.length !== 0 && (

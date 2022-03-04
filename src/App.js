@@ -121,7 +121,7 @@ function App() {
   return (
     <div
       style={{
-        backgroundColor: "#ededed",
+        backgroundColor: "#e2f8ff", //#ededed
         display: "flex",
         flexFlow: "column",
         height: "100%",

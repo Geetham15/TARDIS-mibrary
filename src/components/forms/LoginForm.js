@@ -91,6 +91,7 @@ function LoginForm({ setSnackbarOptions }) {
           <Button
             type="submit"
             variant="contained"
+            color="secondary"
             style={{ marginBottom: 20, width: 200, marginTop: 20 }}
           >
             Log in
@@ -100,6 +101,7 @@ function LoginForm({ setSnackbarOptions }) {
             <Button
               type="button"
               variant="outlined"
+              color="secondary"
               style={{ marginTop: 20, width: 200 }}
             >
               Sign up

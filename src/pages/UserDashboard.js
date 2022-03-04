@@ -192,6 +192,7 @@ const UserDashboard = ({
               >
                 <Button
                   variant={tableDisplay === 1 ? "contained" : "outlined"}
+                  color="secondary"
                   onClick={() => setTableDisplay(1)}
                 >
                   Owned
@@ -199,18 +200,21 @@ const UserDashboard = ({
                 <Button
                   variant={tableDisplay === 2 ? "contained" : "outlined"}
                   onClick={() => setTableDisplay(2)}
+                  color="secondary"
                 >
                   Loaned
                 </Button>
                 <Button
                   variant={tableDisplay === 3 ? "contained" : "outlined"}
                   onClick={() => setTableDisplay(3)}
+                  color="secondary"
                 >
                   Rented
                 </Button>
                 <Button
                   variant={tableDisplay === 4 ? "contained" : "outlined"}
                   onClick={() => setTableDisplay(4)}
+                  color="secondary"
                 >
                   Pending
                 </Button>
@@ -220,7 +224,9 @@ const UserDashboard = ({
               {" "}
               {tableDisplay === 1 && (
                 <>
-                  <Button component={Link}>Books Owned</Button>{" "}
+                  <Button color="tertiary" component={Link}>
+                    Books Owned
+                  </Button>{" "}
                   <DataTable
                     books={books}
                     columns={columns1}
@@ -231,7 +237,9 @@ const UserDashboard = ({
               )}
               {tableDisplay === 2 && (
                 <>
-                  <Button component={Link}>Books Loaned</Button>{" "}
+                  <Button color="tertiary" component={Link}>
+                    Books Loaned
+                  </Button>{" "}
                   <DataTable
                     columns={columns2}
                     books={lentBooks}
@@ -241,7 +249,9 @@ const UserDashboard = ({
               )}
               {tableDisplay === 3 && (
                 <>
-                  <Button component={Link}>Rented</Button>
+                  <Button color="tertiary" component={Link}>
+                    Rented
+                  </Button>
 
                   <DataTable
                     columns={columns3}
@@ -252,7 +262,9 @@ const UserDashboard = ({
               )}
               {tableDisplay === 4 && (
                 <>
-                  <Button component={Link}>Pending</Button>
+                  <Button color="tertiary" component={Link}>
+                    Pending Rentals & Loans
+                  </Button>
                   <DataTable
                     columns={columns4}
                     books={pendingRentals}
@@ -264,7 +276,9 @@ const UserDashboard = ({
           </Grid>
           <Grid item xs={12} md={2} sx={{ paddingRight: 1, marginTop: 2 }}>
             <Item>
-              <Button component={Link}>Add book</Button>
+              <Typography component="subtitle1" variant="h6">
+                Add Book
+              </Typography>
               <AddBooks
                 bookData={bookData}
                 setBookData={setBookData}

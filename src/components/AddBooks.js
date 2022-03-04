@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import AuthenticationContext from "../AuthenticationContext";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
-import CustomizedSnackBar from "./CustomizedSnackbar";
 
 const AddBooks = ({ bookData, setBookData, setBooks, setSnackbarOptions }) => {
   const authContext = useContext(AuthenticationContext);
@@ -96,14 +95,20 @@ const AddBooks = ({ bookData, setBookData, setBooks, setSnackbarOptions }) => {
           type="text"
           value={bookData.isbn}
           name="isbn"
+          color="tertiary"
           onChange={handleChange}
           placeholder="enter ISBN here"
           style={{ marginBottom: 20, width: "100%" }}
         />
-        <Button type="submit" variant="outlined">
+        <Button type="submit" variant="outlined" color="secondary">
           Search
         </Button>
-        <Button type="reset" variant="text" onClick={clearContents}>
+        <Button
+          type="reset"
+          variant="text"
+          color="secondary"
+          onClick={clearContents}
+        >
           Clear
         </Button>
       </form>
@@ -176,7 +181,7 @@ const AddBooks = ({ bookData, setBookData, setBooks, setSnackbarOptions }) => {
               onChange={handleRadioChange}
             />
           </div>
-          <Button type="submit" variant="contained">
+          <Button color="secondary" type="submit" variant="contained">
             Add to owned books
           </Button>
         </form>

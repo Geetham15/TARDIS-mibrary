@@ -3,6 +3,7 @@ import ReactMapGL, { Marker, Popup, NavigationControl } from "react-map-gl";
 import { faBook, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthenticationContext from "../AuthenticationContext";
+import { Button } from "@mui/material";
 
 const navControlStyle = {
   right: 10,
@@ -19,7 +20,6 @@ const Map = ({
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
-  //const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const sendInitialBorrowerChat = async () => {
     let response = await fetch("/api/sendChat", {
@@ -144,7 +144,7 @@ const Map = ({
         mapboxApiAccessToken={
           "pk.eyJ1IjoiZ2VldGhhbTE1IiwiYSI6ImNreW45NnhlaTM0aDkyd2xrcjY1NDZtcXcifQ.yezSoNTMB6pFsqwXSQBlng"
         }
-        mapStyle="mapbox://styles/mapbox/streets-v11"
+        mapStyle="mapbox://styles/mapbox/navigation-day-v1"
         onViewportChange={(viewport) => {
           setViewport(viewport);
         }}
@@ -189,13 +189,34 @@ const Map = ({
             }}
           >
             <div>
-              <p>Title: {selectedBook.title}</p>
-              <p>Author: {selectedBook.authors}</p>
-              <p>Condition: {selectedBook.condition}</p>
-              <p>Comments: {selectedBook.comments}</p>
-              <button className="btn" onClick={initializeChat}>
+              <p>
+                <strong>Title:</strong>
+              </p>
+              <p>{selectedBook.title}</p>
+              <p>
+                <strong>Author:</strong>
+              </p>
+              <p>{selectedBook.authors}</p>
+              <p>
+                <strong>Condition:</strong>
+              </p>
+              <p>{selectedBook.condition}</p>
+              {selectedBook.comments && (
+                <div>
+                  <p>
+                    <strong>Comments:</strong>
+                  </p>
+                  <p>{selectedBook.comments}</p>
+                </div>
+              )}
+
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={initializeChat}
+              >
                 Chat
-              </button>
+              </Button>
             </div>
           </Popup>
         ) : null}

@@ -125,9 +125,15 @@ function LandingPage() {
         
  </div> 
         </>
+<<<<<<< HEAD
    );
 
            
+=======
+
+
+             {/* <Footer/> */}
+>>>>>>> main
         
        
         

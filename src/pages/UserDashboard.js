@@ -53,6 +53,7 @@ const UserDashboard = ({
       let row = selectedRows.data[i];
       let dataIndex = row.dataIndex;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       // console.log('dataIndex', dataIndex)
       // console.log('displayData[dataIndex]', displayData[dataIndex])
@@ -63,6 +64,10 @@ const UserDashboard = ({
       console.log("dataIndex", dataIndex);
       console.log("displayData[dataIndex]", displayData[dataIndex]);
 
+=======
+      console.log("dataIndex", dataIndex);
+      console.log("displayData[dataIndex]", displayData[dataIndex]);
+>>>>>>> main
 =======
       console.log("dataIndex", dataIndex);
       console.log("displayData[dataIndex]", displayData[dataIndex]);
@@ -246,7 +251,13 @@ const UserDashboard = ({
               {tableDisplay === 2 && (
                 <>
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <Button component={Link}>Books Loaned</Button>{" "}
+=======
+                  <Button color="tertiary" component={Link}>
+                    Books Loaned
+                  </Button>{" "}
+>>>>>>> main
 =======
                   <Button color="tertiary" component={Link}>
                     Books Loaned
@@ -275,7 +286,13 @@ const UserDashboard = ({
               {tableDisplay === 4 && (
                 <>
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <Button component={Link}>Pending</Button>
+=======
+                  <Button color="tertiary" component={Link}>
+                    Pending Rentals & Loans
+                  </Button>
+>>>>>>> main
 =======
                   <Button color="tertiary" component={Link}>
                     Pending Rentals & Loans

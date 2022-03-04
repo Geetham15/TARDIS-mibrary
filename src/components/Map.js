@@ -4,6 +4,10 @@ import { faBook, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthenticationContext from "../AuthenticationContext";
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import { Button } from "@mui/material";
+>>>>>>> main
 =======
 import { Button } from "@mui/material";
 >>>>>>> main
@@ -220,7 +224,11 @@ const Map = ({
               >
                 Chat
 <<<<<<< HEAD
+<<<<<<< HEAD
               </button>
+=======
+              </Button>
+>>>>>>> main
 =======
               </Button>
 >>>>>>> main

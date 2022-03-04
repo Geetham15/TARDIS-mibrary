@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import AuthenticationContext from "../AuthenticationContext.js";
 import { Button, TextField } from "@mui/material";
 
-const ChangePostalCode = () => {
+const ChangePostalCode = ({ setSnackbarOptions }) => {
   const [postalCode, setPostalCode] = useState("");
   const authContext = useContext(AuthenticationContext);
   const changePostalCode = async (e) => {
@@ -10,7 +10,11 @@ const ChangePostalCode = () => {
     newPostalCode = newPostalCode.replace(" ", "");
     e.preventDefault();
     if (!newPostalCode.match(/[A-Z][0-9][A-Z][0-9][A-Z][0-9]/)) {
-      alert("please enter a valid postal code");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "please enter a valid postal code",
+        type: "error",
+      });
       return;
     }
     let locationData = await fetch(
@@ -18,7 +22,11 @@ const ChangePostalCode = () => {
     );
     locationData = await locationData.json();
     if (locationData.status === "ZERO_RESULTS") {
-      alert("Sorry, that postal code wasn't found.");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Sorry, that postal code wasn't found.",
+        type: "error",
+      });
       return;
     }
     locationData = locationData.results[0].geometry.location;
@@ -32,7 +40,12 @@ const ChangePostalCode = () => {
       }),
     });
     response = await response.json();
-    alert(response.message);
+    // alert(response.message);
+    setSnackbarOptions({
+      isOpen: true,
+      message: "Postal code updated.",
+      type: "success",
+    });
     authContext.setLatitude(locationData.lat);
     authContext.setLongitude(locationData.lng);
     setPostalCode("");

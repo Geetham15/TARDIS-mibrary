@@ -77,7 +77,7 @@ const Map = ({
         pending: true,
       },
     });
-    alert(response.message);
+    console.log(response.message);
     return response;
   };
 
@@ -88,21 +88,21 @@ const Map = ({
     let response2 = await sendInitialLenderChat();
     console.log(response2);
     let response3 = await initializeTransaction();
-    setPendingRentals((old) => {
-      old.push({
-        bookowner_id: selectedBook.user_id,
-        title: selectedBook.title,
-        authors: selectedBook.authors,
-        condition: selectedBook.condition,
-        bookborrower_id: authContext.userId,
-        bookId: selectedBook.id,
-        dateBorrowed: null,
-        dateDueForReturn: null,
-        bookStatus: "pending",
-        book_borrowing_id: response3.id[0][0].value,
-      });
-      return old;
-    });
+    // setPendingRentals((old) => {
+    //   old.push({
+    //     bookowner_id: selectedBook.user_id,
+    //     title: selectedBook.title,
+    //     authors: selectedBook.authors,
+    //     condition: selectedBook.condition,
+    //     bookborrower_id: authContext.userId,
+    //     bookId: selectedBook.id,
+    //     dateBorrowed: null,
+    //     dateDueForReturn: null,
+    //     bookStatus: "pending",
+    //     book_borrowing_id: response3.id[0][0].value,
+    //   });
+    //   return old;
+    // });
     setChattingWith({
       id: selectedBook.user_id,
       username: selectedBook.userName,

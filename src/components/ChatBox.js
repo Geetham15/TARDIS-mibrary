@@ -10,7 +10,6 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import List from "@mui/material/List";
 import CloseIcon from "@mui/icons-material/Close";
-
 import RatingDialog from "./RatingDialog.js";
 
 const ChatBox = ({
@@ -27,6 +26,7 @@ const ChatBox = ({
   newMessages,
   loadAllBooks,
   setIsPendingConfirmation,
+  setSnackbarOptions,
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
@@ -34,17 +34,24 @@ const ChatBox = ({
   const deleteConversation = async (id) => {
     for (const book of lentBooks) {
       if (book.bookborrower_id === id) {
-        alert(
-          "You can't delete this conversation because you are currently lending a book to this user."
-        );
+        setSnackbarOptions({
+          isOpen: true,
+          message:
+            "Because you're currently lending to this user, you can't delete this conversation.",
+          type: "error",
+        });
         return;
       }
     }
     for (const book of booksRented) {
       if (book.bookowner_id === id) {
-        alert(
-          "You can't delete this conversation because you are currently renting from this user."
-        );
+        setSnackbarOptions({
+          isOpen: true,
+          message:
+            "Because you're currently renting from this user, you can't delete this conversation.",
+          type: "error",
+        });
+
         return;
       }
     }
@@ -54,6 +61,11 @@ const ChatBox = ({
     if (!confirmation) {
       return;
     }
+    setSnackbarOptions({
+      isOpen: true,
+      message: "Conversation deleted.",
+      type: "success",
+    });
     setUsers((old) => {
       return old.filter((user) => {
         return user.toUserId !== id;
@@ -139,6 +151,7 @@ const ChatBox = ({
               booksRented={booksRented}
               loadAllBooks={loadAllBooks}
               setIsPendingConfirmation={setIsPendingConfirmation}
+              setSnackbarOptions={setSnackbarOptions}
             />
           ) : (
             <div

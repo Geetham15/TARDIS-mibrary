@@ -26,6 +26,7 @@ const AuthenticationProvider = ({ children }) => {
     setUserId(response.userId);
     setLatitude(response.latitude);
     setLongitude(response.longitude);
+    return response.username;
   }
   useEffect(() => {
     setLoggedIn();

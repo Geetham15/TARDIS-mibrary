@@ -52,13 +52,16 @@ const UserDashboard = ({
     for (let i = 0; i < selectedRows.data.length; i++) {
       let row = selectedRows.data[i];
       let dataIndex = row.dataIndex;
-<<<<<<< HEAD
+
       // console.log('dataIndex', dataIndex)
       // console.log('displayData[dataIndex]', displayData[dataIndex])
-=======
+
       console.log("dataIndex", dataIndex);
       console.log("displayData[dataIndex]", displayData[dataIndex]);
->>>>>>> main
+
+      console.log("dataIndex", dataIndex);
+      console.log("displayData[dataIndex]", displayData[dataIndex]);
+
       let bookData = displayData[dataIndex].data;
       let bookBorrowingId = bookData[8];
       // console.log("bookBorrowingId", bookBorrowingId);

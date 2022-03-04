@@ -6,7 +6,6 @@ import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserDashboard from "./pages/UserDashboard";
-import AddBooks from "./components/AddBooks";
 import NotFound from "./pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import AuthenticationContext from "./AuthenticationContext";
@@ -15,8 +14,6 @@ import ChatBox from "./components/ChatBox";
 import { io } from "socket.io-client";
 import NavBar from "./components/NavBar";
 import CustomizedSnackBar from "./components/CustomizedSnackbar";
-import { flexbox } from "@mui/system";
-import { columns1 } from "./data/tableOptions";
 
 function App() {
   const [bookData, setBookData] = useState([]);
@@ -43,8 +40,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    socket.current.on("updateAllBooks", ({ id, options }) => {
+    socket.current.on("updateAllBooks", ({ id, options, message, type }) => {
       loadAllBooks(id, options);
+      setSnackbarOptions({
+        isOpen: true,
+        message,
+        type,
+      });
     });
   }, []);
 

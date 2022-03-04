@@ -66,6 +66,8 @@ export default function FormDialog({
         lentBooks: false,
         pending: true,
       },
+      message: `${authContext.username} is requesting to rent ${pendingRentalsPerUser[0]?.title} from you.`,
+      type: "info",
     });
     console.log(response.message);
     if (response.success) {
@@ -111,6 +113,8 @@ export default function FormDialog({
         lentBooks: false,
         pending: true,
       },
+      message: `${authContext.username} confirmed your rental of ${pendingRentalsPerUser[0]?.title}.`,
+      type: "info",
     });
 
     console.log(response.message);
@@ -157,6 +161,8 @@ export default function FormDialog({
         lentBooks: false,
         pending: true,
       },
+      message: `${authContext.username} denied your request to borrow ${pendingRentalsPerUser[0]?.title}.`,
+      type: "warning",
     });
 
     console.log(response.message);

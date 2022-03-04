@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import List from "@mui/material/List";
 import CloseIcon from "@mui/icons-material/Close";
+import StarIcon from "@mui/icons-material/Star";
 import RatingDialog from "./RatingDialog.js";
 
 const ChatBox = ({
@@ -30,6 +31,7 @@ const ChatBox = ({
 }) => {
   const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
+  const [isRateUserOpen, setIsRateUserOpen] = useState(false);
 
   const deleteConversation = async (id) => {
     for (const book of lentBooks) {
@@ -124,7 +126,11 @@ const ChatBox = ({
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
-            {chattingWith && <RatingDialog chattingWith={chattingWith} />}
+            {chattingWith && (
+              <IconButton onClick={() => setIsRateUserOpen(true)}>
+                <StarIcon />
+              </IconButton>
+            )}
             <IconButton
               color="inherit"
               onClick={() => {
@@ -169,6 +175,13 @@ const ChatBox = ({
             </div>
           )}
         </List>
+        {chattingWith && (
+          <RatingDialog
+            chattingWith={chattingWith}
+            isRateUserOpen={isRateUserOpen}
+            setIsRateUserOpen={setIsRateUserOpen}
+          />
+        )}
       </Box>
     </div>
   );

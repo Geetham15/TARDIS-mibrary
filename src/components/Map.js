@@ -76,6 +76,8 @@ const Map = ({
         lentBooks: false,
         pending: true,
       },
+      message: `${authContext.username} opened a chat with you to discuss ${selectedBook.title}.`,
+      type: "info",
     });
     console.log(response.message);
     return response;

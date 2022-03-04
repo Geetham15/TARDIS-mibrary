@@ -10,7 +10,19 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#003B6F", //#00f8c0
+    },
+    secondary: {
+      main: "#016F95", //#ff84a7
+    },
+    tertiary: {
+      main: "#052859", //#0021a4
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>

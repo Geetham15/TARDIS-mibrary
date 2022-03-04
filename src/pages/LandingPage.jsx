@@ -125,14 +125,14 @@ function LandingPage() {
         
  </div> 
         </>
+   );
 
-
-             {/* <Footer/> */}
+           
         
        
         
    
-    );
+ 
 }
 
 export default LandingPage;

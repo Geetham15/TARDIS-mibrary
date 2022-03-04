@@ -52,18 +52,19 @@ const ChangePostalCode = ({ setSnackbarOptions }) => {
   };
   return (
     <div>
-      <Button>Change postal code</Button>
+      <Button color="secondary">Change postal code</Button>
       <form onSubmit={changePostalCode}>
         <TextField
           label="new postal code"
           id="postalCode"
           type="text"
+          color="tertiary"
           placeholder="A1A 1A1"
           value={postalCode}
           onChange={(e) => setPostalCode(e.target.value)}
           style={{ width: "100%", marginBottom: 20 }}
         />
-        <Button type="submit" variant="outlined">
+        <Button type="submit" variant="outlined" color="secondary">
           Submit
         </Button>
       </form>

@@ -11,6 +11,7 @@ export default function FormDialogReturn({
   booksRentedPerUser,
   socket,
   loadAllBooks,
+  setSnackbarOptions,
 }) {
   const [open, setOpen] = useState(false);
   const authContext = useContext(AuthenticationContext);
@@ -42,7 +43,19 @@ export default function FormDialogReturn({
       },
     });
 
-    alert(response.message);
+    if (response.success) {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Return initiated. Wait for confirmation from lender.",
+        type: "success",
+      });
+    } else {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
+    }
   };
 
   const handleClickOpen = () => {
@@ -58,6 +71,7 @@ export default function FormDialogReturn({
       {booksRentedPerUser[0]?.bookStatus === "Lend" && (
         <Button
           variant="outlined"
+          color="tertiary"
           style={{ width: "100%" }}
           onClick={handleClickOpen}
         >
@@ -68,6 +82,7 @@ export default function FormDialogReturn({
       {booksRentedPerUser[0]?.bookStatus === "return" && (
         <Button
           variant="outlined"
+          color="tertiary"
           style={{ width: "100%" }}
           onClick={handleClickOpen}
           disabled
@@ -116,13 +131,16 @@ export default function FormDialogReturn({
           <p>{booksRentedPerUser[0]?.dateDueForReturn}</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose} color="tertiary">
+            Cancel
+          </Button>
 
           <Button
             onClick={() => {
               initiateReturn();
               handleClose();
             }}
+            color="tertiary"
           >
             Return
           </Button>

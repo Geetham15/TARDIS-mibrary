@@ -28,8 +28,9 @@ const ChatBox = ({
   loadAllBooks,
   setIsPendingConfirmation,
   setSnackbarOptions,
+  users,
+  setUsers,
 }) => {
-  const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
   const [isRateUserOpen, setIsRateUserOpen] = useState(false);
 
@@ -67,6 +68,12 @@ const ChatBox = ({
         return user.toUserId !== id;
       });
     });
+    setPendingRentals((old) => {
+      return old.filter((rental) => {
+        console.log(rental);
+        return rental.bookborrower_id !== id && rental.bookowner_id !== id;
+      });
+    });
     let response = await fetch("/api/deletePending", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -86,16 +93,12 @@ const ChatBox = ({
       }),
     });
     response2 = await response2.json();
+    socket.current.emit("deleteConversation", {
+      id,
+      otherId: authContext.userId,
+    });
     console.log(response2);
   };
-  useEffect(() => {
-    async function loadUsers() {
-      let response = await fetch(`/api/loadUsers/${authContext.userId}`);
-      response = await response.json();
-      setUsers(response);
-    }
-    loadUsers();
-  }, []);
 
   return (
     <div className="chatBox">
@@ -169,7 +172,7 @@ const ChatBox = ({
             </div>
           )}
         </List>
-        {chattingWith && (
+        {chattingWith && isRateUserOpen && (
           <RatingDialog
             chattingWith={chattingWith}
             isRateUserOpen={isRateUserOpen}

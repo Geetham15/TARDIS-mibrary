@@ -1,5 +1,5 @@
 import ChatUsers from "./ChatUsers.js";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Chat from "./Chat.js";
 import AuthenticationContext from "../AuthenticationContext.js";
 import AppBar from "@mui/material/AppBar";
@@ -56,12 +56,6 @@ const ChatBox = ({
 
         return;
       }
-    }
-    const confirmation = window.confirm(
-      "Are you sure you want to end this chat?"
-    );
-    if (!confirmation) {
-      return;
     }
     setSnackbarOptions({
       isOpen: true,

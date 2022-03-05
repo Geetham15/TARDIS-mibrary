@@ -41,6 +41,8 @@ export default function FormDialogReturn({
         lentBooks: true,
         pending: false,
       },
+      message: `${authContext.username} is attempting to return ${booksRentedPerUser[0]?.title} to you.`,
+      type: "info",
     });
 
     if (response.success) {

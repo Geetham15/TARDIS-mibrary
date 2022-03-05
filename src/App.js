@@ -6,7 +6,6 @@ import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserDashboard from "./pages/UserDashboard";
-import AddBooks from "./components/AddBooks";
 import NotFound from "./pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import AuthenticationContext from "./AuthenticationContext";
@@ -15,8 +14,6 @@ import ChatBox from "./components/ChatBox";
 import { io } from "socket.io-client";
 import NavBar from "./components/NavBar";
 import CustomizedSnackBar from "./components/CustomizedSnackbar";
-import { flexbox } from "@mui/system";
-import { columns1 } from "./data/tableOptions";
 
 function App() {
   const [bookData, setBookData] = useState([]);
@@ -37,25 +34,49 @@ function App() {
     message: "",
     type: "error",
   });
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
   }, []);
 
   useEffect(() => {
-    socket.current.on("updateAllBooks", ({ id, options }) => {
+    socket.current.on("updateAllBooks", ({ id, options, message, type }) => {
+      setSnackbarOptions({
+        isOpen: true,
+        message,
+        type,
+      });
       loadAllBooks(id, options);
+    });
+    socket.current.on("initiateChat", ({ toUserId, username }) => {
+      setUsers((old) => {
+        old.push({ id: toUserId, toUserId, username });
+        return old;
+      });
+    });
+    socket.current.on("deleteConversation", ({ otherId }) => {
+      setUsers((old) => {
+        return old.filter((user) => {
+          return user.toUserId !== otherId;
+        });
+      });
+      setPendingRentals((old) => {
+        return old.filter((rental) => {
+          return (
+            rental.bookborrower_id !== otherId &&
+            rental.bookowner_id !== otherId
+          );
+        });
+      });
     });
   }, []);
 
-  useEffect(() => {
-    if (authContext.userId) {
-      socket.current.emit("addUser", authContext.userId);
-      socket.current.on("getUsers", (users) => {
-        //console.log(users);
-      });
-    }
-  }, [authContext.userId]);
+  async function loadUsers(id = authContext.userId) {
+    let response = await fetch(`/api/loadUsers/${id}`);
+    response = await response.json();
+    setUsers(response);
+  }
 
   async function getBooksRented(id = authContext.userId) {
     let dueBookList = await fetch(`/api/getBooksRented/${id}`);
@@ -112,9 +133,18 @@ function App() {
     }
   }
 
+  const loadAllInitialData = async () => {
+    await loadAllBooks();
+    await loadUsers();
+  };
+
   useEffect(() => {
     if (authContext.userId) {
-      loadAllBooks();
+      loadAllInitialData();
+      socket.current.emit("addUser", authContext.userId);
+      socket.current.on("getUsers", (users) => {
+        //console.log(users);
+      });
     }
   }, [authContext.userId]);
 
@@ -149,6 +179,7 @@ function App() {
               socket={socket}
               loadAllBooks={loadAllBooks}
               setSnackbarOptions={setSnackbarOptions}
+              setUsers={setUsers}
             />
           }
         />
@@ -199,6 +230,8 @@ function App() {
           loadAllBooks={loadAllBooks}
           setIsPendingConfirmation={setIsPendingConfirmation}
           setSnackbarOptions={setSnackbarOptions}
+          users={users}
+          setUsers={setUsers}
         />
       )}
       {snackbarOptions.isOpen && (

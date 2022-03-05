@@ -14,9 +14,9 @@ const Map = ({
   bookData,
   setIsChatOpen,
   setChattingWith,
-  setPendingRentals,
   socket,
   loadAllBooks,
+  setUsers,
 }) => {
   const authContext = useContext(AuthenticationContext);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -68,6 +68,11 @@ const Map = ({
       lentBooks: false,
       pending: true,
     });
+    socket.current.emit("initiateChat", {
+      id: selectedBook.user_id,
+      toUserId: authContext.userId,
+      username: authContext.username,
+    });
     socket.current.emit("updateAllBooks", {
       id: selectedBook.user_id,
       options: {
@@ -76,7 +81,10 @@ const Map = ({
         lentBooks: false,
         pending: true,
       },
+      message: `${authContext.username} opened a chat with you to discuss ${selectedBook.title}.`,
+      type: "info",
     });
+
     console.log(response.message);
     return response;
   };
@@ -88,25 +96,18 @@ const Map = ({
     let response2 = await sendInitialLenderChat();
     console.log(response2);
     let response3 = await initializeTransaction();
-    // setPendingRentals((old) => {
-    //   old.push({
-    //     bookowner_id: selectedBook.user_id,
-    //     title: selectedBook.title,
-    //     authors: selectedBook.authors,
-    //     condition: selectedBook.condition,
-    //     bookborrower_id: authContext.userId,
-    //     bookId: selectedBook.id,
-    //     dateBorrowed: null,
-    //     dateDueForReturn: null,
-    //     bookStatus: "pending",
-    //     book_borrowing_id: response3.id[0][0].value,
-    //   });
-    //   return old;
-    // });
-    setChattingWith({
-      id: selectedBook.user_id,
-      username: selectedBook.userName,
+    console.log(response3);
+
+    setUsers((old) => {
+      const newUser = {
+        id: selectedBook.user_id,
+        username: selectedBook.username,
+        toUserId: selectedBook.user_id,
+      };
+      setChattingWith(newUser);
+      return [...old, newUser];
     });
+
     setIsChatOpen(true);
   };
 

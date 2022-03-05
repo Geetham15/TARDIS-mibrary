@@ -6,19 +6,18 @@ import RateUser from "./RateUser.js";
 import { DialogContent, Typography } from "@mui/material";
 import { DialogContentText } from "@mui/material";
 import { DialogActions } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import { IconButton } from "@mui/material";
 import AuthenticationContext from "../AuthenticationContext.js";
 import MyRating from "./MyRating.js";
 
-export default function RatingDialog({ chattingWith }) {
+export default function RatingDialog({
+  chattingWith,
+  isRateUserOpen,
+  setIsRateUserOpen,
+}) {
   const handleClose = (value) => {
-    setOpen(false);
+    setIsRateUserOpen(false);
   };
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const [open, setOpen] = useState(false);
+
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [userAverageRating, setUserAverageRating] = useState(null);
@@ -51,10 +50,7 @@ export default function RatingDialog({ chattingWith }) {
 
   return (
     <div>
-      <IconButton onClick={handleClickOpen}>
-        <StarIcon />
-      </IconButton>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={isRateUserOpen} onClose={handleClose}>
         <DialogTitle>Rate user</DialogTitle>
         <DialogContent>
           <Typography>User's average rating:</Typography>

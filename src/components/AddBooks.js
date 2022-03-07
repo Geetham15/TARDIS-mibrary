@@ -86,7 +86,11 @@ const AddBooks = ({ bookData, setBookData, setBooks, setSnackbarOptions }) => {
     let bookList = await fetchBook.json();
     setBooks(bookList);
     clearContents();
-    alert(response.title + " added to library");
+    setSnackbarOptions({
+      isOpen: true,
+      message: `${response.title} added to library.`,
+      type: "success",
+    });
   };
   return (
     <div>

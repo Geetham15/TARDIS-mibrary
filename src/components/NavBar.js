@@ -19,7 +19,12 @@ import PendingIcon from "@mui/icons-material/Pending";
 
 import { useNavigate } from "react-router-dom";
 
-const NavBar = ({ booksDueSoon, setTableDisplay, isPendingConfirmation }) => {
+const NavBar = ({
+  booksDueSoon,
+  setTableDisplay,
+  isPendingConfirmation,
+  setBookData,
+}) => {
   const authContext = useContext(AuthenticationContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -184,22 +189,22 @@ const NavBar = ({ booksDueSoon, setTableDisplay, isPendingConfirmation }) => {
                 onClose={handleCloseUserMenu}
                 MenuListProps={{ "aria-labelledby": "basic-button" }}
               >
-                <MenuItem
+                {/* <MenuItem
                   onClick={() => {
                     navigate("/profile");
                     handleCloseUserMenu();
                   }}
                 >
                   Profile
-                </MenuItem>
-                <MenuItem
+                </MenuItem> */}
+                {/* <MenuItem
                   onClick={() => {
                     navigate("/account");
                     handleCloseUserMenu();
                   }}
                 >
                   Account
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem
                   onClick={() => {
                     navigate("/userDashboard");
@@ -208,10 +213,16 @@ const NavBar = ({ booksDueSoon, setTableDisplay, isPendingConfirmation }) => {
                 >
                   Dashboard
                 </MenuItem>
-                <MenuItem onClick={authContext.logOut}>Log out</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setBookData([]);
+                    authContext.logOut();
+                  }}
+                >
+                  Log out
+                </MenuItem>
               </Menu>
             </Box>
-            {/* {authContext.username && <p>Welcome {authContext.username}</p>} */}
           </MustBeLoggedIn>
         </Toolbar>
       </Container>

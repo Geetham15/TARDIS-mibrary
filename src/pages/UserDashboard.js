@@ -158,7 +158,7 @@ const UserDashboard = ({
     sort: true,
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
-    selectableRows: "single",
+    selectableRows: "none",
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
       console.log("selectedRows:", selectedRows);
       console.log("displayData:", displayData);

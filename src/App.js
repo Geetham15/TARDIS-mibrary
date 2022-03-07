@@ -164,6 +164,7 @@ function App() {
         booksDueSoon={booksDueSoon}
         isPendingConfirmation={isPendingConfirmation}
         setTableDisplay={setTableDisplay}
+        setBookData={setBookData}
       />
       <Routes>
         <Route

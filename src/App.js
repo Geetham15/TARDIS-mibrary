@@ -51,8 +51,12 @@ function App() {
     });
     socket.current.on("initiateChat", ({ toUserId, username }) => {
       setUsers((old) => {
-        old.push({ id: toUserId, toUserId, username });
-        return old;
+        const newObject = {
+          id: toUserId,
+          toUserId,
+          username,
+        };
+        return [...old, newObject];
       });
     });
     socket.current.on("deleteConversation", ({ otherId }) => {

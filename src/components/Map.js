@@ -3,14 +3,11 @@ import ReactMapGL, { Marker, Popup, NavigationControl } from "react-map-gl";
 import { faBook, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthenticationContext from "../AuthenticationContext";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 import { Button } from "@mui/material";
->>>>>>> main
-=======
-import { Button } from "@mui/material";
->>>>>>> main
+
+
+
 
 const navControlStyle = {
   right: 10,
@@ -223,15 +220,15 @@ const Map = ({
                 onClick={initializeChat}
               >
                 Chat
-<<<<<<< HEAD
-<<<<<<< HEAD
-              </button>
-=======
+
+
               </Button>
->>>>>>> main
-=======
-              </Button>
->>>>>>> main
+
+              {/* </Button>
+
+
+              </Button> */}
+
             </div>
           </Popup>
         ) : null}

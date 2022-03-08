@@ -18,12 +18,14 @@ function Home({
 }) {
   const authContext = useContext(AuthenticationContext);
   return (
+  
     <div
       style={{
         display: "flex",
         justifyContent: "center",
       }}
     >
+    
       {authContext.username ? (
         <Card
           sx={{

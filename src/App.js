@@ -17,6 +17,7 @@ import NavBar from "./components/NavBar";
 import CustomizedSnackBar from "./components/CustomizedSnackbar";
 import { flexbox } from "@mui/system";
 import { columns1 } from "./data/tableOptions";
+import About from "./pages/About";
 
 function App() {
   const [bookData, setBookData] = useState([]);
@@ -180,7 +181,7 @@ function App() {
           }
         />
 
-        <Route exact path="/about" element={<LandingPage />} />
+        <Route exact path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {isChatOpen && (

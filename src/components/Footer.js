@@ -26,10 +26,10 @@ function Footer({ setIsChatOpen, socket }) {
 
   return (
     <div>
-      <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
+      <AppBar position="static" color="primary" sx={{ top: "auto", bottom: 0 }}>
         <Toolbar className=" p-5 mr-4 items-center flex justify-between  ">
           <Typography variant="subtitle" position="static" >
-            <h3 className="text-center">2022 © MiBrary by Team T.A.R.D.I.S (To Achieve Really Darn Interesting Software) All Right Reserved</h3>
+            <h3 className="text-center">2022 © MiBrary by Team T.A.R.D.I.S (Totally Awesome Revolutionary Developers Innovating Software) All Right Reserved</h3>
           </Typography>
 
           <MustBeLoggedIn>

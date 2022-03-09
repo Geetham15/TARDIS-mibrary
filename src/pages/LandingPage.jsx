@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -54,14 +55,14 @@ function LandingPage() {
                         <br/>
             </Item> 
           </Grid>
-          <Grid item xs={6}>
-            <Item><h1 className="text-center"><strong>Not Ideal solution</strong></h1><br/>
+          <Grid item xs={8}>
+            <h1 className="text-center"><strong>Not Ideal solution</strong></h1><br/>
             <p>
                         You may have seen or even used the community book
-                        sharing boxes</p> <br/> <p>where people place books they no longer
+                        sharing boxes</p>  <p>where people place books they no longer
                         need for anyone interested to take home.</p>
                     
-<br/>
+
                    
                     <p>
                         While the community book box is an excellent idea </p><br/> <p>It
@@ -85,7 +86,7 @@ function LandingPage() {
                     
                    
                     
-            </Item>
+   
           </Grid>
           <Grid item xs={2}>
 

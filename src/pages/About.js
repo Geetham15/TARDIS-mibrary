@@ -28,6 +28,9 @@ const Problem = () => {
       >
         Want to read a book but can't find it in the public library or local
         bookstore? All you want to do is borrow and read it, not purchase it.
+      </Typography>
+      <br />
+      <Typography sx={{ textAlign: "left", lineHeight: "200%" }}>
         Looking for a classic novel that is no longer in print? Surely, someone
         near you must have it. But how would you go about looking for it?
       </Typography>
@@ -117,7 +120,9 @@ export default function About() {
                 {page === 1 && <ImperfectSolution />}
                 {page === 2 && <Solution />}
               </Item>
-              <CardActions>
+              <CardActions
+                sx={{ display: "flex", flexDirection: "row-reverse" }}
+              >
                 <Button onClick={changePage}>Next</Button>
               </CardActions>
             </Item>

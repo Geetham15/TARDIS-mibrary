@@ -15,6 +15,7 @@ function Home({
   socket,
   loadAllBooks,
   setSnackbarOptions,
+  setUsers,
 }) {
   const authContext = useContext(AuthenticationContext);
   return (
@@ -49,6 +50,7 @@ function Home({
               setPendingRentals={setPendingRentals}
               socket={socket}
               loadAllBooks={loadAllBooks}
+              setUsers={setUsers}
             />
           </CardContent>
         </Card>

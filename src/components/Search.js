@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
-const Search = ({ bookData, setBookData }) => {
+const Search = ({ setBookData, setSnackbarOptions }) => {
   const authContext = useContext(AuthenticationContext);
   const [entry, setEntry] = useState("");
   const currentLocation = [authContext.latitude, authContext.longitude];
@@ -36,7 +36,11 @@ const Search = ({ bookData, setBookData }) => {
       setBookData(response);
     } else {
       setBookData(null);
-      alert("nothing found");
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Nothing found",
+        type: "warning",
+      });
     }
   };
   return (

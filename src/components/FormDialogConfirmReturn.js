@@ -43,6 +43,8 @@ export default function FormDialogConfirmReturn({
         lentBooks: false,
         pending: false,
       },
+      message: `${authContext.username} has confirmed that you returned ${lentBooksPerUser[0]?.title}.`,
+      type: "success",
     });
     if (response.success) {
       setSnackbarOptions({

@@ -170,7 +170,7 @@ const UserDashboard = ({
     sort: true,
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
-    selectableRows: "single",
+    selectableRows: "none",
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
       console.log("selectedRows:", selectedRows);
       console.log("displayData:", displayData);
@@ -188,11 +188,18 @@ const UserDashboard = ({
       <Box sx={{ flexGrow: 2, marginBottom: 10 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={2} sx={{ marginTop: 2 }}>
-            <Item>
+            <Item sx={{ marginLeft: 1 }}>
               <Typography component="subtitle1" variant="h6">
                 Profile Area
               </Typography>
+              <br />
+              <br />
+              <Typography align="left" component="subtitle1">
+                <strong>username:</strong> {authContext.username}
+              </Typography>
               <MyRating myRating={myRating} label="Your average rating" />
+            </Item>
+            <Item sx={{ marginTop: 2, marginLeft: 1 }}>
               <ChangePostalCode setSnackbarOptions={setSnackbarOptions} />
             </Item>
           </Grid>

@@ -5,6 +5,8 @@ import Avatar from "@mui/material/Avatar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import { Divider, Badge } from "@mui/material";
+import AlertDialog from "./AlertDialog.js";
+import { useState } from "react";
 
 const ChatUsers = ({
   users,
@@ -13,6 +15,7 @@ const ChatUsers = ({
   newMessages,
   setNewMessages,
 }) => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   return (
     <div>
       {users.map((user) => {
@@ -23,7 +26,7 @@ const ChatUsers = ({
                 <IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => deleteConversation(user.id)}
+                  onClick={() => setIsAlertOpen(true)}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -49,6 +52,12 @@ const ChatUsers = ({
               />
             </ListItem>
             <Divider />
+            <AlertDialog
+              isAlertOpen={isAlertOpen}
+              setIsAlertOpen={setIsAlertOpen}
+              userId={user.id}
+              deleteConversation={deleteConversation}
+            />
           </div>
         );
       })}

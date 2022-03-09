@@ -1,5 +1,5 @@
 import ChatUsers from "./ChatUsers.js";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Chat from "./Chat.js";
 import AuthenticationContext from "../AuthenticationContext.js";
 import AppBar from "@mui/material/AppBar";
@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import List from "@mui/material/List";
 import CloseIcon from "@mui/icons-material/Close";
+import StarIcon from "@mui/icons-material/Star";
 import RatingDialog from "./RatingDialog.js";
 
 const ChatBox = ({
@@ -27,9 +28,11 @@ const ChatBox = ({
   loadAllBooks,
   setIsPendingConfirmation,
   setSnackbarOptions,
+  users,
+  setUsers,
 }) => {
-  const [users, setUsers] = useState([]);
   const authContext = useContext(AuthenticationContext);
+  const [isRateUserOpen, setIsRateUserOpen] = useState(false);
 
   const deleteConversation = async (id) => {
     for (const book of lentBooks) {
@@ -55,12 +58,6 @@ const ChatBox = ({
         return;
       }
     }
-    const confirmation = window.confirm(
-      "Are you sure you want to end this chat?"
-    );
-    if (!confirmation) {
-      return;
-    }
     setSnackbarOptions({
       isOpen: true,
       message: "Conversation deleted.",
@@ -69,6 +66,12 @@ const ChatBox = ({
     setUsers((old) => {
       return old.filter((user) => {
         return user.toUserId !== id;
+      });
+    });
+    setPendingRentals((old) => {
+      return old.filter((rental) => {
+        console.log(rental);
+        return rental.bookborrower_id !== id && rental.bookowner_id !== id;
       });
     });
     let response = await fetch("/api/deletePending", {
@@ -90,16 +93,12 @@ const ChatBox = ({
       }),
     });
     response2 = await response2.json();
+    socket.current.emit("deleteConversation", {
+      id,
+      otherId: authContext.userId,
+    });
     console.log(response2);
   };
-  useEffect(() => {
-    async function loadUsers() {
-      let response = await fetch(`/api/loadUsers/${authContext.userId}`);
-      response = await response.json();
-      setUsers(response);
-    }
-    loadUsers();
-  }, []);
 
   return (
     <div className="chatBox">
@@ -124,7 +123,11 @@ const ChatBox = ({
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {chattingWith ? chattingWith.username : "Chat"}
             </Typography>
-            {chattingWith && <RatingDialog chattingWith={chattingWith} />}
+            {chattingWith && (
+              <IconButton onClick={() => setIsRateUserOpen(true)}>
+                <StarIcon />
+              </IconButton>
+            )}
             <IconButton
               color="inherit"
               onClick={() => {
@@ -169,6 +172,13 @@ const ChatBox = ({
             </div>
           )}
         </List>
+        {chattingWith && isRateUserOpen && (
+          <RatingDialog
+            chattingWith={chattingWith}
+            isRateUserOpen={isRateUserOpen}
+            setIsRateUserOpen={setIsRateUserOpen}
+          />
+        )}
       </Box>
     </div>
   );

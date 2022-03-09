@@ -40,12 +40,20 @@ const ChangePostalCode = ({ setSnackbarOptions }) => {
       }),
     });
     response = await response.json();
-    // alert(response.message);
-    setSnackbarOptions({
-      isOpen: true,
-      message: "Postal code updated.",
-      type: "success",
-    });
+    if (response.success) {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Postal code updated.",
+        type: "success",
+      });
+    } else {
+      setSnackbarOptions({
+        isOpen: true,
+        message: "Something went wrong.",
+        type: "error",
+      });
+    }
+
     authContext.setLatitude(locationData.lat);
     authContext.setLongitude(locationData.lng);
     setPostalCode("");

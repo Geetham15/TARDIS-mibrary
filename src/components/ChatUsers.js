@@ -33,10 +33,7 @@ const ChatUsers = ({
               }
             >
               <ListItemAvatar>
-                <Badge
-                  badgeContent={newMessages[user.id] || 0}
-                  color="secondary"
-                >
+                <Badge badgeContent={0} color="secondary">
                   <Avatar>{user.username[0].toUpperCase()}</Avatar>
                 </Badge>
               </ListItemAvatar>

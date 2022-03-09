@@ -15,6 +15,13 @@ import { io } from "socket.io-client";
 import NavBar from "./components/NavBar";
 import CustomizedSnackBar from "./components/CustomizedSnackbar";
 
+import { flexbox } from "@mui/system";
+import { columns1 } from "./data/tableOptions";
+import About from "./pages/About";
+import TeamProfile from "./pages/TeamProfile";
+
+
+
 function App() {
   const [bookData, setBookData] = useState([]);
   const [books, setBooks] = useState([]);
@@ -216,7 +223,9 @@ function App() {
           }
         />
 
-        <Route exact path="/about" element={<LandingPage />} />
+        <Route exact path="/about" element={<About />} />
+
+        <Route exact path="/team" element={<TeamProfile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {isChatOpen && (

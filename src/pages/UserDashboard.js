@@ -47,16 +47,33 @@ const UserDashboard = ({
   });
 
   async function initiateReturn(selectedRows, displayData) {
-    console.log("selectedRows", selectedRows);
-    console.log("displayData", displayData);
+    // console.log("selectedRows", selectedRows);
+    // console.log("displayData", displayData);
     for (let i = 0; i < selectedRows.data.length; i++) {
       let row = selectedRows.data[i];
       let dataIndex = row.dataIndex;
+
+
+      // console.log('dataIndex', dataIndex)
+      // console.log('displayData[dataIndex]', displayData[dataIndex])
+
       console.log("dataIndex", dataIndex);
       console.log("displayData[dataIndex]", displayData[dataIndex]);
+
+      console.log("dataIndex", dataIndex);
+      console.log("displayData[dataIndex]", displayData[dataIndex]);
+
+
+      console.log("dataIndex", dataIndex);
+      console.log("displayData[dataIndex]", displayData[dataIndex]);
+
+
+      console.log("dataIndex", dataIndex);
+      console.log("displayData[dataIndex]", displayData[dataIndex]);
+
       let bookData = displayData[dataIndex].data;
       let bookBorrowingId = bookData[8];
-      console.log("bookBorrowingId", bookBorrowingId);
+      // console.log("bookBorrowingId", bookBorrowingId);
       let response = await fetch("/api/initiateReturn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -144,12 +161,7 @@ const UserDashboard = ({
     selectableRows: "none",
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10],
-    customToolbarSelect: (acceptReturn) => {
-      // console.log(acceptReturn.data);
-      for (let i = 0; i < acceptReturn.data.length; i++) {
-        return <Button>Accept Return</Button>;
-      }
-    },
+    
   };
 
   const options3 = {
@@ -244,9 +256,18 @@ const UserDashboard = ({
               )}
               {tableDisplay === 2 && (
                 <>
+
+                  <Button component={Link}>Books Loaned</Button>{" "}
+
                   <Button color="tertiary" component={Link}>
                     Books Loaned
                   </Button>{" "}
+
+
+                  <Button color="tertiary" component={Link}>
+                    Books Loaned
+                  </Button>{" "}
+
                   <DataTable
                     columns={columns2}
                     books={lentBooks}
@@ -269,9 +290,17 @@ const UserDashboard = ({
               )}
               {tableDisplay === 4 && (
                 <>
+
+                  <Button component={Link}>Pending</Button>
+
                   <Button color="tertiary" component={Link}>
                     Pending Rentals & Loans
                   </Button>
+
+                  <Button color="tertiary" component={Link}>
+                    Pending Rentals & Loans
+                  </Button>
+
                   <DataTable
                     columns={columns4}
                     books={pendingRentals}
@@ -300,5 +329,7 @@ const UserDashboard = ({
     </div>
   );
 };
+
+
 
 export default UserDashboard;

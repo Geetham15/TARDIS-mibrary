@@ -14,33 +14,30 @@ const Item = styled(Paper)(({ theme }) => ({
 function teamProfile() {
   return (
     <>
-    <div>
+    
       <h1 className="text-5xl text-center pt-4">Team T.A.R.D.I.S</h1>
       <h3 className="text-2xl text-center pt-4">(Totally Awesome Revolutionary Developers Innovating Software)</h3>
-    </div>
-    <Box sx={{ flexGrow: 1, mx:5 }}>
-    <Grid container spacing={2}>
-    <Grid item xs={4} className="text-center mt-2"></Grid>
-        <Grid item xs={4} className="text-center ">
+    
+   
+    
+      <Box sx={{ flexGrow: 1, mx:3, my:15, px:1 , py:1}}>
+        <Grid container spacing={2}>
+        <Grid item xs={1} className="text-center "></Grid>
+        <Grid item xs={2} className="text-center ">
             <Item >Team Lead: Chris Desmarais
 </Item>
             <Item> 
               <img src="./images/Chris_Portrait.png"  />
               <Item>
               <h3 ><strong>Senior developer at DuckLabs</strong></h3>
-                <p>Chris enjoys helping new developers take flight</p>
+                <p>Chris enjoys helping new developers take flight
+                </p><br/>
                 
               </Item>
             </Item>
-            <Grid item xs={4} className="text-center"></Grid>
+            <Grid item xs={2} className="text-center"></Grid>
           </Grid>
-    </Grid>
-    </Box>
-    
-      <Box sx={{ flexGrow: 1, mx:5, my:5, }}>
-        <Grid container spacing={2}>
-        
-         <Grid item xs={3} className="text-center">
+         <Grid item xs={2} className="text-center">
             <Item >Geetha Muniswamy</Item>
             <Item> 
               <img src="./images/Geetha_noBg.png" />
@@ -56,10 +53,10 @@ function teamProfile() {
             </Item>
           </Grid>
 
-          <Grid item xs={3} className="text-center">
+          <Grid item xs={2} className="text-center">
             <Item className="text-center">Koltan Huget</Item>
             <Item>
-              <img src="./images/Koltan_no_bg.png" />
+              <img src="./images/Koltan_no_bg.png" className="pt-1"  />
               <Item>
               <h3 ><strong>Chemical Engineer</strong></h3>
                 <p>Former engineer
@@ -72,7 +69,7 @@ function teamProfile() {
             </Item>
           </Grid>
 
-          <Grid item xs={3} className="text-center">
+          <Grid item xs={2} className="text-center">
             <Item >John Alai</Item>
             <Item>
               <img src="./images/John_no_bg.png" />
@@ -89,7 +86,7 @@ function teamProfile() {
             </Item>
           </Grid>
 
-          <Grid item xs={3}className="text-center">
+          <Grid item xs={2}className="text-center">
             <Item className="text-center">Clayton Balzer</Item>
             <Item>
               <img src="./images/Clayton_noBg.png" />
